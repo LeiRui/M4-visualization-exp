@@ -1,24 +1,23 @@
 # Experiment Guidance
 
 ## On BallSpeed Dataset
-Before running `run-BallSpeed-exp.sh`, prepare the workspace as follows 
-(or update the corresponding paths in the `run-BallSpeed-exp.sh`):
+Before running `run-BallSpeed-exp.sh`, update the HOME_PATH in it and prepare the workspace as follows.
 ```
-/data3/raw_data/rl/BallSpeed
+$HOME_PATH/BallSpeed
 ---- BallSpeed.csv
 ---- OverlapGenerator.class
 ---- OverlapGenerator.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
-/data3/ruilei/rl/iotdb-engine-example.properties
-/data3/ruilei/rl/tool.sh
-/data3/ruilei/rl/ProcessResult.class
-/data3/ruilei/rl/ProcessResult.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/SumResultUnify.class
-/data3/ruilei/rl/SumResultUnify.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/BallSpeed_testspace
+$HOME_PATH/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
+$HOME_PATH/iotdb-engine-example.properties
+$HOME_PATH/tool.sh
+$HOME_PATH/ProcessResult.class
+$HOME_PATH/ProcessResult.java (before javac, remove package header in the source code)
+$HOME_PATH/SumResultUnify.class
+$HOME_PATH/SumResultUnify.java (before javac, remove package header in the source code)
+$HOME_PATH/BallSpeed_testspace
 ---- WriteBallSpeed-0.12.4.jar
 ---- QueryBallSpeed-0.12.4.jar
----- query_experiment.sh [Remember to update the path of the query jar used in it]
+---- query_experiment.sh [Remember to update the HOME_PATH in it]
 ```
 
 Then you can run `run-BallSpeed-exp.sh` to perform the experiments.
@@ -33,24 +32,23 @@ FOR EXP5: BallSpeed_testspace/exp5.csv
 ```
 
 ## On MF03 Dataset
-Before running `run-MF03-exp.sh`, prepare the workspace as follows 
-(or update the corresponding paths in the `run-MF03-exp.sh`):
+Before running `run-MF03-exp.sh`, update the HOME_PATH in it and prepare the workspace as follows.
 ```
-/data3/raw_data/rl/MF03
+$HOME_PATH/MF03
 ---- MF03.csv
 ---- OverlapGenerator.class
 ---- OverlapGenerator.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
-/data3/ruilei/rl/iotdb-engine-example.properties
-/data3/ruilei/rl/tool.sh
-/data3/ruilei/rl/ProcessResult.class
-/data3/ruilei/rl/ProcessResult.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/SumResultUnify.class
-/data3/ruilei/rl/SumResultUnify.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/MF03_testspace
+$HOME_PATH/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
+$HOME_PATH/iotdb-engine-example.properties
+$HOME_PATH/tool.sh
+$HOME_PATH/ProcessResult.class
+$HOME_PATH/ProcessResult.java (before javac, remove package header in the source code)
+$HOME_PATH/SumResultUnify.class
+$HOME_PATH/SumResultUnify.java (before javac, remove package header in the source code)
+$HOME_PATH/MF03_testspace
 ---- WriteMF03-0.12.4.jar
 ---- QueryMF03-0.12.4.jar
----- query_experiment.sh [Remember to update the path of the query jar used in it]
+---- query_experiment.sh [Remember to update the HOME_PATH in it]
 ```
 
 Then you can run `run-MF03-exp.sh` to perform the experiments.
@@ -65,24 +63,23 @@ FOR EXP5: MF03_testspace/exp5.csv
 ```
 
 ## On KOB Dataset
-Before running `run-KOB-exp.sh`, prepare the workspace as follows 
-(or update the corresponding paths in the `run-KOB-exp.sh`):
+Before running `run-KOB-exp.sh`, update the HOME_PATH in it and prepare the workspace as follows.
 ```
-/data3/raw_data/rl/KOB
+$HOME_PATH/KOB
 ---- KOB.csv
 ---- OverlapGenerator.class
 ---- OverlapGenerator.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
-/data3/ruilei/rl/iotdb-engine-example.properties
-/data3/ruilei/rl/tool.sh
-/data3/ruilei/rl/ProcessResult.class
-/data3/ruilei/rl/ProcessResult.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/SumResultUnify.class
-/data3/ruilei/rl/SumResultUnify.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/KOB_testspace
+$HOME_PATH/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
+$HOME_PATH/iotdb-engine-example.properties
+$HOME_PATH/tool.sh
+$HOME_PATH/ProcessResult.class
+$HOME_PATH/ProcessResult.java (before javac, remove package header in the source code)
+$HOME_PATH/SumResultUnify.class
+$HOME_PATH/SumResultUnify.java (before javac, remove package header in the source code)
+$HOME_PATH/KOB_testspace
 ---- WriteKOB-0.12.4.jar
 ---- QueryKOB-0.12.4.jar
----- query_experiment.sh [Remember to update the path of the query jar used in it]
+---- query_experiment.sh [Remember to update the HOME_PATH in it]
 ```
 
 Then you can run `run-KOB-exp.sh` to perform the experiments.
@@ -97,24 +94,23 @@ FOR EXP5: KOB_testspace/exp5.csv
 ```
 
 ## On RcvTime Dataset
-Before running `run-RcvTime-exp.sh`, prepare the workspace as follows 
-(or update the corresponding paths in the `run-RcvTime-exp.sh`):
+Before running `run-RcvTime-exp.sh`, update the HOME_PATH in it and prepare the workspace as follows.
 ```
-/data3/raw_data/rl/RcvTime
+$HOME_PATH/RcvTime
 ---- RcvTime.csv
 ---- OverlapGenerator.class
 ---- OverlapGenerator.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
-/data3/ruilei/rl/iotdb-engine-example.properties
-/data3/ruilei/rl/tool.sh
-/data3/ruilei/rl/ProcessResult.class
-/data3/ruilei/rl/ProcessResult.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/SumResultUnify.class
-/data3/ruilei/rl/SumResultUnify.java (before javac, remove package header in the source code)
-/data3/ruilei/rl/RcvTime_testspace
+$HOME_PATH/iotdb-server-0.12.4 (`chmod +x *` on the bash files in the sbin directory)
+$HOME_PATH/iotdb-engine-example.properties
+$HOME_PATH/tool.sh
+$HOME_PATH/ProcessResult.class
+$HOME_PATH/ProcessResult.java (before javac, remove package header in the source code)
+$HOME_PATH/SumResultUnify.class
+$HOME_PATH/SumResultUnify.java (before javac, remove package header in the source code)
+$HOME_PATH/RcvTime_testspace
 ---- WriteRcvTime-0.12.4.jar
 ---- QueryRcvTime-0.12.4.jar
----- query_experiment.sh [Remember to update the path of the query jar used in it]
+---- query_experiment.sh [Remember to update the HOME_PATH in it]
 ```
 
 Then you can run `run-RcvTime-exp.sh` to perform the experiments.
