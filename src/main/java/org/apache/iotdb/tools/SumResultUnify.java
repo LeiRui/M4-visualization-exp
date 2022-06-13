@@ -1,4 +1,4 @@
-package main.java.org.apache.iotdb.tools;
+package org.apache.iotdb.tools;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,9 +22,18 @@ public class SumResultUnify {
     String macLine;
     String cpvLine;
     String appendLine;
+    boolean isHeader = true;
     while ((mocLine = mocReader.readLine()) != null) {
       macLine = macReader.readLine();
       cpvLine = cpvReader.readLine();
+
+      if (isHeader) {
+        mocLine = "MOC_" + mocLine;
+        macLine = "MAC_" + macLine;
+        cpvLine = "CPV_" + cpvLine;
+        isHeader = false;
+      }
+
       appendLine = mocLine + "," + macLine + "," + cpvLine;
       printWriter.println(appendLine);
     }

@@ -1,6 +1,10 @@
-package main.java.org.apache.iotdb.tools;
+package org.apache.iotdb.tools;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ProcessResult {
 
@@ -12,7 +16,14 @@ public class ProcessResult {
 
     BufferedReader reader = new BufferedReader(new FileReader(inFilePath));
     FileWriter writer = new FileWriter(outFilePath);
+
     FileWriter sumWriter = new FileWriter(sumOutFilePath, true);
+    File file = new File(sumOutFilePath);
+    if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
+      sumWriter.write(
+          "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\n");
+    }
+
     String readLine = null;
     boolean firstTime = true;
     int metaNum = 0, dataNum = 0, readMemChunkNum = 0;

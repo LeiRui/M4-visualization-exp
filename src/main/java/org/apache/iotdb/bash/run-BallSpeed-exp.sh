@@ -142,6 +142,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 ############################
 # run write_data.sh
 ############################
+echo "Writing O_10_10_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -157,10 +159,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_0_0 with varied w"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
 mkdir vary_w
 cd vary_w
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -192,6 +197,7 @@ java ProcessResult result_12.txt result_12.out ../sumResultMOC.csv
 ./../../../query_experiment.sh 617426057627 8000 2 >> result_13.txt
 java ProcessResult result_13.txt result_13.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -224,6 +230,7 @@ java ProcessResult result_12.txt result_12.out ../sumResultMAC.csv
 ./../../../query_experiment.sh 617426057627 8000 1 >> result_13.txt
 java ProcessResult result_13.txt result_13.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -263,10 +270,13 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 ############################
 # [EXP2]
 ############################
+echo "Querying O_10_10_D_0_0 with varied tqe"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
 mkdir vary_tqe
 cd vary_tqe
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -284,6 +294,7 @@ java ProcessResult result_5.txt result_5.out ../sumResultMOC.csv
 ./../../../query_experiment.sh 617426057627 100 2 >> result_6.txt
 java ProcessResult result_6.txt result_6.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -302,6 +313,7 @@ java ProcessResult result_5.txt result_5.out ../sumResultMAC.csv
 ./../../../query_experiment.sh 617426057627 100 1 >> result_6.txt
 java ProcessResult result_6.txt result_6.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -382,6 +394,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_0_0_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -397,10 +411,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_0_0_D_0_0"
+
 cd $HOME_PATH/BallSpeed_testspace/O_0_0_D_0_0
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -408,6 +425,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -416,6 +434,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -463,6 +482,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_30_10_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -478,10 +499,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_30_10_D_0_0"
+
 cd $HOME_PATH/BallSpeed_testspace/O_30_10_D_0_0
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -489,6 +513,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -497,6 +522,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -544,6 +570,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_50_10_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -559,10 +587,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_50_10_D_0_0"
+
 cd $HOME_PATH/BallSpeed_testspace/O_50_10_D_0_0
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -570,6 +601,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -578,6 +610,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -591,7 +624,7 @@ cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
 ############################
-# O_50_10_D_0_0
+# O_70_10_D_0_0
 ############################
 
 cd $HOME_PATH/BallSpeed_testspace
@@ -625,6 +658,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_70_10_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -640,10 +675,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_70_10_D_0_0"
+
 cd $HOME_PATH/BallSpeed_testspace/O_70_10_D_0_0
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -651,6 +689,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -659,6 +698,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -706,6 +746,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_90_10_D_0_0"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -721,10 +763,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_90_10_D_0_0"
+
 cd $HOME_PATH/BallSpeed_testspace/O_90_10_D_0_0
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -732,6 +777,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -740,6 +786,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -795,6 +842,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_9_10"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -810,10 +859,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_9_10"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_9_10
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -821,6 +873,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -829,6 +882,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -876,6 +930,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_29_10"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -891,10 +947,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_29_10"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_29_10
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -902,6 +961,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -910,6 +970,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -957,6 +1018,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_49_10"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -972,10 +1035,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_49_10"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_10
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -983,6 +1049,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -991,6 +1058,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1038,6 +1106,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_69_10"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1053,10 +1123,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_69_10"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_69_10
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1064,6 +1137,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1072,6 +1146,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1119,6 +1194,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_89_10"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1134,10 +1211,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_89_10"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_89_10
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1145,6 +1225,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1153,6 +1234,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1205,6 +1287,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_49_30"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1220,10 +1304,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_49_30"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_30
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1231,6 +1318,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1239,6 +1327,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1285,6 +1374,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_49_50"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1300,10 +1391,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_49_50"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_50
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1311,6 +1405,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1319,6 +1414,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1332,7 +1428,7 @@ cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
 ############################
-# O_10_10_D_9_50
+# O_10_10_D_49_70
 ############################
 cd $HOME_PATH/BallSpeed_testspace
 mkdir O_10_10_D_49_70
@@ -1365,6 +1461,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_49_70"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1380,10 +1478,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_49_70"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_70
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1391,6 +1492,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1399,6 +1501,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1445,6 +1548,8 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 # run write_data.sh
 # java -jar $HOME_PATH/BallSpeed_testspace/WriteBallSpeed-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
 ############################
+echo "Writing O_10_10_D_49_90"
+
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
@@ -1460,10 +1565,13 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # run change_interval_experiments.sh for each approach
 # ./../../../query_experiment.sh tqe w approach
 ############################
+echo "Querying O_10_10_D_49_90"
+
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_90
 mkdir fix
 cd fix
 
+echo "moc"
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -1471,6 +1579,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 2 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
+echo "mac"
 cd ..
 mkdir mac
 cd mac
@@ -1479,6 +1588,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 ./../../../query_experiment.sh 617426057627 100 1 >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
+echo "cpv"
 cd ..
 mkdir cpv
 cd cpv
@@ -1493,6 +1603,10 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 
 #########################
 # sum results
+# [EXP1 EXP2]
+# ---- O_10_10_D_0_0
+# ---- ---- vary_w
+# ---- ---- vary_tqe
 # [EXP3]
 # ---- O_0_0_D_0_0
 # ---- O_30_10_D_0_0
@@ -1511,6 +1625,16 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 # ---- O_10_10_D_49_70
 # ---- O_10_10_D_49_90
 #########################
+# [EXP1]
+cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
+cd vary_w
+cat result.csv >$HOME_PATH/BallSpeed_testspace/exp1.csv
+
+# [EXP2]
+cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
+cd vary_tqe
+cat result.csv >$HOME_PATH/BallSpeed_testspace/exp2.csv
+
 # [EXP3]
 cd $HOME_PATH/BallSpeed_testspace/O_0_0_D_0_0
 cd fix
