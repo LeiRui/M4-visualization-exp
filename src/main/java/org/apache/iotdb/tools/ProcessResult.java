@@ -17,11 +17,11 @@ public class ProcessResult {
     BufferedReader reader = new BufferedReader(new FileReader(inFilePath));
     FileWriter writer = new FileWriter(outFilePath);
 
-    FileWriter sumWriter = new FileWriter(sumOutFilePath, true);
+    FileWriter sumWriter = new FileWriter(sumOutFilePath, true); // append
     File file = new File(sumOutFilePath);
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
       sumWriter.write(
-          "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\n");
+          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total\n");
     }
 
     String readLine = null;
