@@ -41,6 +41,11 @@ public class GenerateZhongcheDataset {
       while ((line = reader.readLine()) != null) {
         splits = line.split(",");
 
+        if (splits[index].toLowerCase().equals("null")) {
+          continue;
+        }
+        double value = Double.parseDouble(splits[index]);
+
         long timestamp;
         try {
           timestamp = dateFormat.parse(splits[0]).getTime();
@@ -48,7 +53,6 @@ public class GenerateZhongcheDataset {
           timestamp = Long.parseLong(splits[0]);
         }
 
-        double value = Double.parseDouble(splits[index]);
         writer.print(timestamp);
         writer.print(",");
         writer.print(value);
