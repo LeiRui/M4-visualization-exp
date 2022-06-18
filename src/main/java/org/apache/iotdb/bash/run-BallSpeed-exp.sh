@@ -1560,6 +1560,8 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 #########################
 # export results
 #########################
+HOME_PATH=/data/rl/v2
+
 # [EXP1]
 # w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
 # query range: totalRange
@@ -1569,6 +1571,21 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
 cd vary_w
 cat result.csv >$HOME_PATH/BallSpeed_testspace/exp1.csv
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/BallSpeed_testspace/exp1.csv
+line=2
+pointNum=1200000
+chunkSize=1000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+do
+  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
+  c=$((echo scale=3 ; echo ${pointNum}/${chunkSize}/$w) | bc )
+  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/BallSpeed_testspace/exp1.csv
+  let line+=1
+done
 
 # [EXP2]
 # w: 100
@@ -1583,6 +1600,24 @@ cat result.csv >$HOME_PATH/BallSpeed_testspace/exp1.csv
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_0_0
 cd vary_tqe
 cat result.csv >$HOME_PATH/BallSpeed_testspace/exp2.csv
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp2, estimated chunks per interval=k
+sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/BallSpeed_testspace/exp2.csv
+line=2
+pointNum=1200000
+chunkSize=1000
+totalRange=617426057627
+w=100
+for k in 0.2 0.5 1 2.5 5 12
+do
+  #let range=${k}*${w}*${totalRange}*${chunkSize}/${pointNum} # note bash only does the integer division
+  range=$((echo scale=3 ; echo ${k}*${w}*${totalRange}*${chunkSize}/${pointNum}) | bc )
+  sed -i -e ${line}"s/^/${range},${k},/" $HOME_PATH/BallSpeed_testspace/exp2.csv
+  let line+=1
+done
+
 
 # [EXP3]
 # w: 100
@@ -1615,6 +1650,22 @@ cd $HOME_PATH/BallSpeed_testspace/O_90_10_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/BallSpeed_testspace/exp3.csv
 
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp3, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/overlap percentage,estimated chunks per interval,/' $HOME_PATH/BallSpeed_testspace/exp3.csv
+line=2
+pointNum=1200000
+chunkSize=1000
+w=100
+for op in 0 10 30 50 70 90
+do
+  c=$((echo scale=3 ; echo ${pointNum}/${chunkSize}/$w) | bc )
+  sed -i -e ${line}"s/^/${op},${c},/" $HOME_PATH/BallSpeed_testspace/exp3.csv
+  let line+=1
+done
+
 # [EXP4]
 # w: 100
 # query range: totalRange
@@ -1641,6 +1692,21 @@ cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_89_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/BallSpeed_testspace/exp4.csv
 
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp4, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/delete percentage,estimated chunks per interval,/' $HOME_PATH/BallSpeed_testspace/exp4.csv
+line=2
+pointNum=1200000
+chunkSize=1000
+w=100
+for dp in 0 9 29 49 69 89
+do
+  c=$((echo scale=3 ; echo ${pointNum}/${chunkSize}/$w) | bc )
+  sed -i -e ${line}"s/^/${dp},${c},/" $HOME_PATH/BallSpeed_testspace/exp4.csv
+  let line+=1
+done
+
 # [EXP5]
 # w: 100
 # query range: totalRange
@@ -1666,3 +1732,18 @@ sed -n '2,2p' result.csv >>$HOME_PATH/BallSpeed_testspace/exp5.csv
 cd $HOME_PATH/BallSpeed_testspace/O_10_10_D_49_90
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/BallSpeed_testspace/exp5.csv
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp4, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/delete time range,estimated chunks per interval,/' $HOME_PATH/BallSpeed_testspace/exp5.csv
+line=2
+pointNum=1200000
+chunkSize=1000
+w=100
+for dr in 10 30 50 70 90
+do
+  c=$((echo scale=3 ; echo ${pointNum}/${chunkSize}/$w) | bc )
+  sed -i -e ${line}"s/^/${dr},${c},/" $HOME_PATH/BallSpeed_testspace/exp5.csv
+  let line+=1
+done
