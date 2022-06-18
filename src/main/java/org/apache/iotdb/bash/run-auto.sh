@@ -11,17 +11,17 @@ TIMESTAMP_PRECISION="ns"
 ############################
 # generate out-of-order source data.
 # Vary overlap percentage: 0%,10%,30%,50%,70%,90%
-# Usage: java OverlapGenerator inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
 # overlapPercentage: [0,100]
 # overlapDepth: [0,50]
 ############################
 cd $HOME_PATH/${DATASET}
-cp ${DATASET}.csv ${DATASET}-O_0_10
-java OverlapGenerator ${DATASET}.csv ${DATASET}-O_10_10 0 1 10 10
-java OverlapGenerator ${DATASET}.csv ${DATASET}-O_30_10 0 1 30 10
-java OverlapGenerator ${DATASET}.csv ${DATASET}-O_50_10 0 1 50 10
-java OverlapGenerator ${DATASET}.csv ${DATASET}-O_70_10 0 1 70 10
-java OverlapGenerator ${DATASET}.csv ${DATASET}-O_90_10 0 1 90 10
+cp ${DATASET}.csv ${DATASET}-O_0
+# Usage: java OverlapGenerator inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
+java OverlapGenerator ${DATASET}.csv ${DATASET}-O_10 0 1 10 10
+java OverlapGenerator ${DATASET}.csv ${DATASET}-O_30 0 1 30 10
+java OverlapGenerator ${DATASET}.csv ${DATASET}-O_50 0 1 50 10
+java OverlapGenerator ${DATASET}.csv ${DATASET}-O_70 0 1 70 10
+java OverlapGenerator ${DATASET}.csv ${DATASET}-O_90 0 1 90 10
 
 ############################
 # Experimental parameter design:
@@ -68,17 +68,17 @@ java OverlapGenerator ${DATASET}.csv ${DATASET}-O_90_10 0 1 90 10
 
 
 ############################
-# O_10_10_D_0_0
+# O_10_D_0_0
 ############################
 
 cd $HOME_PATH/${DATASET}_testspace
-mkdir O_10_10_D_0_0
-cd O_10_10_D_0_0
+mkdir O_10_D_0_0
+cd O_10_D_0_0
 
 # prepare IoTDB config properties
-./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_O_10_10_D_0_0/system ../../iotdb-engine-example.properties
-./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_O_10_10_D_0_0/data ../../iotdb-engine-example.properties
-./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_O_10_10_D_0_0/wal ../../iotdb-engine-example.properties
+./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
+./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
+./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
 ./../../tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
 ./../../tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
 ./../../tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
@@ -97,13 +97,13 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
 # write data
-echo "Writing O_10_10_D_0_0"
+echo "Writing O_10_D_0_0"
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh &
 sleep 5s
 # Usage: java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
-java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10_10 0 0 0 1
+java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10 0 0 0 1
 sleep 5s
 ./stop-server.sh
 sleep 5s
@@ -111,8 +111,8 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 
 # query data
-echo "Querying O_10_10_D_0_0 with varied w"
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_0_0
+echo "Querying O_10_D_0_0 with varied w"
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
 cd vary_w
 
@@ -180,9 +180,9 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 # (4) delete percentage: 0%
 # (5) delete time range: 0
 ############################
-echo "Querying O_10_10_D_0_0 with varied tqe"
+echo "Querying O_10_D_0_0 with varied tqe"
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_tqe
 cd vary_tqe
 
@@ -246,15 +246,15 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 
 
 ############################
-# O_0_10_D_0_0
-# O_30_10_D_0_0
-# O_50_10_D_0_0
-# O_70_10_D_0_0
-# O_90_10_D_0_0
+# O_0_D_0_0
+# O_30_D_0_0
+# O_50_D_0_0
+# O_70_D_0_0
+# O_90_D_0_0
 ############################
 for overlap_percentage in 0 30 50 70 90
 do
-  workspace="O_${overlap_percentage}_10_D_0_0"
+  workspace="O_${overlap_percentage}_D_0_0"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
@@ -286,7 +286,7 @@ do
   ./start-server.sh &
   sleep 5s
   # Usage: java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
-  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_${overlap_percentage}_10 0 0 0 1
+  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_${overlap_percentage} 0 0 0 1
   sleep 5s
   ./stop-server.sh
   sleep 5s
@@ -335,15 +335,15 @@ done
 
 
 ############################
-# O_10_10_D_9_10
-# O_10_10_D_29_10
-# O_10_10_D_49_10
-# O_10_10_D_69_10
-# O_10_10_D_89_10
+# O_10_D_9_10
+# O_10_D_29_10
+# O_10_D_49_10
+# O_10_D_69_10
+# O_10_D_89_10
 ############################
 for delete_percentage in 9 29 49 69 89
 do
-  workspace="O_10_10_D_${delete_percentage}_10"
+  workspace="O_10_D_${delete_percentage}_10"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
@@ -375,7 +375,7 @@ do
   ./start-server.sh &
   sleep 5s
   # Usage: java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
-  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10_10 ${delete_percentage} 10 0 1
+  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10 ${delete_percentage} 10 0 1
   sleep 5s
   ./stop-server.sh
   sleep 5s
@@ -423,14 +423,14 @@ do
 done
 
 ############################
-# O_10_10_D_49_30
-# O_10_10_D_49_50
-# O_10_10_D_49_70
-# O_10_10_D_49_90
+# O_10_D_49_30
+# O_10_D_49_50
+# O_10_D_49_70
+# O_10_D_49_90
 ############################
 for delete_range in 30 50 70 90
 do
-  workspace="O_10_10_D_49_${delete_range}"
+  workspace="O_10_D_49_${delete_range}"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
@@ -462,7 +462,7 @@ do
   ./start-server.sh &
   sleep 5s
   # Usage: java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar filePath deleteFreq deleteLen timeIdx valueIdx
-  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10_10 49 ${delete_range} 0 1
+  java -jar $HOME_PATH/${DATASET}_testspace/Write${DATASET}-0.12.4.jar $HOME_PATH/${DATASET}/${DATASET}-O_10 49 ${delete_range} 0 1
   sleep 5s
   ./stop-server.sh
   sleep 5s
@@ -519,7 +519,7 @@ done
 # overlap percentage: 10%
 # delete percentage: 0%
 # delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 cd vary_w
 cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
 
@@ -548,7 +548,7 @@ done
 # overlap percentage: 10%
 # delete percentage: 0%
 # delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 cd vary_tqe
 cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
 
@@ -576,7 +576,7 @@ done
 # overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
 # delete percentage: 0%
 # delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_0_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
 cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
 
@@ -584,20 +584,20 @@ cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
 # ATTENTION: 这里日后改成自动判断取出那一行参数是100的，而不是写死的行数
 sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp3.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_30_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_30_D_0_0
 cd fix
 # cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_50_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_50_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_70_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_70_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_90_10_D_0_0
+cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
@@ -623,7 +623,7 @@ done
 # overlap percentage: 10%
 # delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
 # delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_29_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
 cd fix
 sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
 
@@ -631,23 +631,23 @@ sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复�
 # ATTENTION: 这里日后改成自动判断取出那一行参数是100的，而不是写死的行数
 sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_9_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_9_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_29_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_69_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_69_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_89_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_89_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
@@ -672,23 +672,23 @@ done
 # overlap percentage: 10%
 # delete percentage: 49%
 # delete time range: 10%, 30%, 50%, 70%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_10
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #带表头
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_30
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_30
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_50
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_50
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_70
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_70
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_10_D_49_90
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_90
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 

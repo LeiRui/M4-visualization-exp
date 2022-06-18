@@ -61,7 +61,7 @@ public class WriteBallSpeed {
         0L); // NOTE UPDATE VALUE DATATYPE!
     session.executeNonQueryStatement("flush");
 
-    long minTime = -1;
+//    long minTime = -1; // NOTE: this process has been moved to ExtractBallSpeedData
     File f = new File(filePath);
     String line = null;
     BufferedReader reader = new BufferedReader(new FileReader(f));
@@ -71,13 +71,13 @@ public class WriteBallSpeed {
     while ((line = reader.readLine()) != null) {
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]);
-      if (minTime == -1) {
-        minTime = timestamp; // assume first timestamp is never disordered. is global minimal.
-        timestamp = 0;
-      } else {
-        timestamp = timestamp - minTime;
-      }
-      timestamp = (long) (timestamp / 1000); // turn to ns. original time unit is ps. IoTDB only ns.
+//      if (minTime == -1) { // NOTE: this process has been moved to ExtractBallSpeedData
+//        minTime = timestamp; // assume first timestamp is never disordered. is global minimal.
+//        timestamp = 0;
+//      } else {
+//        timestamp = timestamp - minTime;
+//      }
+//      timestamp = (long) (timestamp / 1000); // turn to ns. original time unit is ps. IoTDB only ns.
       long value = Long.parseLong(split[valueIdx]);
       session.insertRecord(
           device,
