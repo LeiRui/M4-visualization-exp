@@ -708,3 +708,5 @@ do
   sed -i -e ${line}"s/^/${dr},${c},/" $HOME_PATH/${DATASET}_testspace/exp5.csv
   let line+=1
 done
+
+echo "ALL FINISHED!"
