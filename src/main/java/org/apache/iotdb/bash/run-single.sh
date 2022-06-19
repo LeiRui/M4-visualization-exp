@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo 3 |sudo tee /proc/sys/vm/drop_caches
-free -m
-
 # generate HOME_PATH workspace by running prepare.sh first
 HOME_PATH=/data/rl/v4
 
@@ -14,8 +11,8 @@ DATA_TYPE=long # long or double
 TIMESTAMP_PRECISION=ns
 DATA_MIN_TIME=0  # in the corresponding timestamp precision
 DATA_MAX_TIME=617426057626  # in the corresponding timestamp precision
-let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
 TOTAL_POINT_NUMBER=1200000
+let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
 
 # iotdb config info
 IOTDB_CHUNK_POINT_SIZE=1000
@@ -69,6 +66,8 @@ FIX_DELETE_RANGE=10
 # (4) delete percentage: 49%
 # (5) delete time range: 10%, 30%, 50%, 70%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
 ############################
+echo 3 |sudo tee /proc/sys/vm/drop_caches
+free -m
 echo "Begin experiment!"
 
 ############################

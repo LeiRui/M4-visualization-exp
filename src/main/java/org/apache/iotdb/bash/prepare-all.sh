@@ -7,37 +7,48 @@ find $M4_VISUALIZATION_EXP -type f -iname "*.sh" -exec chmod +x {} \;
 
 #====prepare general environment====
 cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/WriteData-*.jar .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/QueryData-*.jar .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/query_experiment.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment.sh
 scp -r $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/iotdb-server-0.12.4 .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/iotdb-engine-example.properties .
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/ProcessResult.java .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/SumResultUnify.java .
 # remove the line starting with "package" in the java file
 sed '/^package/d' ProcessResult.java > ProcessResult2.java
 rm ProcessResult.java
 mv ProcessResult2.java ProcessResult.java
-# then javac it 
+# then javac it
 javac ProcessResult.java
 # remove the line starting with "package" in the java file
 sed '/^package/d' SumResultUnify.java > SumResultUnify2.java
 rm SumResultUnify.java
 mv SumResultUnify2.java SumResultUnify.java
-# then javac it 
+# then javac it
 javac SumResultUnify.java
+
+#====prepare run bash for each dataset====
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single.sh
+$HOME_PATH/tool.sh DATASET BallSpeed run-single.sh
+$HOME_PATH/tool.sh DEVICE "root.game" run-single.sh
+$HOME_PATH/tool.sh MEASUREMENT "s6" run-single.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-single.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-single.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 617426057626 run-single.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1200000 run-single.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
+cp run-single.sh run-BallSpeed.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed" "KOB" "MF03" "RcvTime");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-${value}-exp.sh .
-# update paths in the bash
-./tool.sh HOME_PATH $HOME_PATH run-${value}-exp.sh
-
 cd $HOME_PATH
 mkdir $value
 cd $value
@@ -47,21 +58,13 @@ cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/OverlapGenerator.j
 sed '/^package/d' OverlapGenerator.java > OverlapGenerator2.java
 rm OverlapGenerator.java
 mv OverlapGenerator2.java OverlapGenerator.java
-# then javac it 
+# then javac it
 javac OverlapGenerator.java
 
 echo "prepare ${value}_testspace directory, this is for write and query";
 cd $HOME_PATH
 mkdir ${value}_testspace
-cd ${value}_testspace
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/Write${value}-*.jar .
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/Query${value}-*.jar .
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/query_experiment.sh .
-# update paths in the bash
-./../tool.sh HOME_PATH $HOME_PATH query_experiment.sh
-./../tool.sh JAR_RELATIVE_PATH ${value}_testspace/Query${value}-*.jar query_experiment.sh
 
 done;
 
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
-
