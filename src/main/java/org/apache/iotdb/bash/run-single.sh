@@ -36,11 +36,9 @@ FIX_DELETE_RANGE=10
 #
 # [EXP2] Varying query time range
 # (1) w: 100
-# (2) query range: k*w*totalRange/(pointNum/chunkSize).
-# - target estimated chunks per interval = k
-# - range = k*w*totalRange/(pointNum/chunkSize)
-# - kMax=(pointNum/chunkSize)/w, that is, range=totalRange.
-# - E.g. k=0.2,0.5,1,2.5,5,12
+# (2) query range: 1%,5%,10%,20%,40%,60%,80%,100% of totalRange
+# - corresponding estimated chunks per interval = 1%,5%,10%,20%,40%,60%,80%,100% of kmax
+# - kMax=(pointNum/chunkSize)/w, when range = 100% of totalRange.
 # (3) overlap percentage: 10%
 # (4) delete percentage: 0%
 # (5) delete time range: 0
@@ -188,11 +186,9 @@ java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.cs
 ############################
 # [EXP2] Varying query time range
 # (1) w: 100
-# (2) query range: k*w*totalRange/(pointNum/chunkSize).
-# - target estimated chunks per interval = k
-# - range = k*w*totalRange/(pointNum/chunkSize)
-# - kMax=(pointNum/chunkSize)/w, that is, range=totalRange.
-# - E.g. k=0.2,0.5,1,2.5,5,12
+# (2) query range: 1%,5%,10%,20%,40%,60%,80%,100% of totalRange
+# - corresponding estimated chunks per interval = 1%,5%,10%,20%,40%,60%,80%,100% of kmax
+# - kMax=(pointNum/chunkSize)/w, when range = 100% of totalRange.
 # (3) overlap percentage: 10%
 # (4) delete percentage: 0%
 # (5) delete time range: 0
@@ -209,11 +205,11 @@ cd moc
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-w=100
-for k in 0.2 0.5 1 2.5 5 12 #TODO: parameterize this
+for per in 1 5 10 20 40 60 80 # 100% is already done in exp1
 do
-  echo "k=$k"
-  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
+  #  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} moc >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
@@ -227,11 +223,10 @@ cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-w=100
-for k in 0.2 0.5 1 2.5 5 12
+for per in 1 5 10 20 40 60 80 # 100% is already done in exp1
 do
-  echo "k=$k"
-  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} mac >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
@@ -245,11 +240,10 @@ cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-w=100
-for k in 0.2 0.5 1 2.5 5 12
+for per in 1 5 10 20 40 60 80 # 100% is already done in exp1
 do
-  echo "k=$k"
-  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} cpv >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV.csv
@@ -567,16 +561,21 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 cd vary_tqe
 cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
 
+# TODO: 把exp1里FIX_W的那一行结果追加到exp2.csv最后一行，且不要前两列
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # 不要前两列
+rm tmp
+
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
 # for exp2, estimated chunks per interval=k
 sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
 line=2
-w=100
-for k in 0.2 0.5 1 2.5 5 12
+for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
 do
-  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
-  sed -i -e ${line}"s/^/${range},${k},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
+  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
   let line+=1
 done
 
@@ -591,7 +590,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
 cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
 
-# 把exp1.csv里的w=100那一行复制到exp3.csv里作为overlap percentage 10%的结果
+# 把exp1.csv里的w=FIX_W那一行复制到exp3.csv里作为overlap percentage 10%的结果
 # sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
 sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
 cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # 不要前两列
@@ -637,7 +636,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
 cd fix
 sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
 
-# 把exp1.csv里的w=100那一行复制到exp4.csv里作为delete percentage 10%的结果
+# 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 10%的结果
 # sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
 sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
 cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # 不要前两列
