@@ -18,12 +18,12 @@ public class WriteData {
    */
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, IOException {
-    String measurement = args[0];
-    System.out.println("measurement=" + measurement);
-    String device = args[1];
-    System.out.println("device=" + device);
+    String device = args[0];
+    System.out.println("[WriteData] device=" + device);
+    String measurement = args[1];
+    System.out.println("[WriteData] measurement=" + measurement);
     String dataType = args[2]; // long or double
-    System.out.println("dataType=" + dataType);
+    System.out.println("[WriteData] dataType=" + dataType);
     TSDataType tsDataType;
     if (dataType.toLowerCase().equals("long")) {
       tsDataType = TSDataType.INT64;
@@ -34,39 +34,39 @@ public class WriteData {
     }
 
     String timestamp_precision = args[3]; // ns, us, ms
-    System.out.println("timestamp_precision=" + timestamp_precision);
+    System.out.println("[WriteData] timestamp_precision=" + timestamp_precision);
     if (!timestamp_precision.toLowerCase().equals("ns") && !timestamp_precision.toLowerCase()
         .equals("us") && !timestamp_precision.toLowerCase().equals("ms")) {
       throw new IOException("timestamp_precision only accepts ns,us,ms.");
     }
 
     long total_time_length = Long.parseLong(args[4]); // in corresponding timestamp precision
-    System.out.println("total_time_length=" + total_time_length);
+    System.out.println("[WriteData] total_time_length=" + total_time_length);
     int total_point_number = Integer.parseInt(args[5]);
-    System.out.println("total_point_number=" + total_point_number);
+    System.out.println("[WriteData] total_point_number=" + total_point_number);
     int iotdb_chunk_point_size = Integer.parseInt(args[6]);
-    System.out.println("iotdb_chunk_point_size=" + iotdb_chunk_point_size);
+    System.out.println("[WriteData] iotdb_chunk_point_size=" + iotdb_chunk_point_size);
 
     long chunkAvgTimeLen =
         (long) Math
             .ceil(total_time_length / Math.ceil(total_point_number * 1.0 / iotdb_chunk_point_size));
-    System.out.println("derived estimated chunkAvgTimeLen =" + chunkAvgTimeLen);
+    System.out.println("[WriteData] derived estimated chunkAvgTimeLen =" + chunkAvgTimeLen);
 
     // 乱序数据源
     String filePath = args[7];
-    System.out.println("filePath=" + filePath);
+    System.out.println("[WriteData] filePath=" + filePath);
     // delete percentage
     int deletePercentage = Integer.parseInt(args[8]); // 0 means no deletes. 0-100
-    System.out.println("deletePercentage=" + deletePercentage);
+    System.out.println("[WriteData] deletePercentage=" + deletePercentage);
     // 每次删除的时间长度，用chunkAvgTimeLen的百分比表示
     int deleteLenPercentage = Integer.parseInt(args[9]); // 0-100
-    System.out.println("deleteLenPercentage=" + deleteLenPercentage);
+    System.out.println("[WriteData] deleteLenPercentage=" + deleteLenPercentage);
     // 时间戳idx，从0开始
     int timeIdx = Integer.parseInt(args[10]);
-    System.out.println("timeIdx=" + timeIdx);
+    System.out.println("[WriteData] timeIdx=" + timeIdx);
     // 值idx，从0开始
     int valueIdx = Integer.parseInt(args[11]);
-    System.out.println("valueIdx=" + valueIdx);
+    System.out.println("[WriteData] valueIdx=" + valueIdx);
 
     if (deletePercentage < 0 || deletePercentage > 100) {
       throw new IOException("WRONG deletePercentage!");

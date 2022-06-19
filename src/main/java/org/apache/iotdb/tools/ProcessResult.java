@@ -8,6 +8,12 @@ import java.io.IOException;
 
 public class ProcessResult {
 
+  /**
+   * select min_time(s6), max_time(s6), first_value(s6), last_value(s6), min_value(s6),
+   * max_value(s6) from root.game group by ([0, 617426057627), 617426057627ns)     meta IO: 14674123
+   *         meta num:      1        data IO:       0        data num:      0 readMemChunk IO:
+   * 0        readMemChunk num:      0        total:         46054921
+   */
   public static void main(String[] args) throws IOException {
 
     String inFilePath = args[0];
