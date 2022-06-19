@@ -25,6 +25,7 @@ public class QueryData {
 
   public static Session session;
 
+  // Usage: java -jar QueryData-0.12.4.jar device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, TException, IOException {
     String device = args[0];
@@ -48,10 +49,10 @@ public class QueryData {
 
     // [tqs,tqe) range length, i.e., tqe-tqs
     long range = Long.parseLong(args[5]);
-    System.out.println("[QueryData] range=" + range);
+    System.out.println("[QueryData] query range=" + range);
     // w数量
-    int intervalNum = Integer.parseInt(args[6]);
-    System.out.println("[QueryData] intervalNum=" + intervalNum);
+    int w = Integer.parseInt(args[6]);
+    System.out.println("[QueryData] w=" + w);
     // 选择查询执行算法: 1: MAC, 2: MOC, 3: CPV
     int approach = Integer.parseInt(args[7]);
     if (approach != 1 && approach != 2 && approach != 3) {
@@ -81,14 +82,14 @@ public class QueryData {
     long interval;
     if (range >= (dataMaxTime - dataMinTime)) {
       minTime = dataMinTime;
-      interval = (long) Math.ceil((double) (dataMaxTime - dataMinTime) / intervalNum);
+      interval = (long) Math.ceil((double) (dataMaxTime - dataMinTime) / w);
     } else {
       // randomize between [dataMinTime, dataMaxTime-range]
       minTime =
           (long) Math.ceil(dataMinTime + Math.random() * (dataMaxTime - range - dataMinTime + 1));
-      interval = (long) Math.ceil((double) range / intervalNum);
+      interval = (long) Math.ceil((double) range / w);
     }
-    maxTime = minTime + interval * intervalNum;
+    maxTime = minTime + interval * w;
 
     session = new Session("127.0.0.1", 6667, "root", "root");
     session.open(false);
@@ -103,7 +104,7 @@ public class QueryData {
     if (approach == 1) {
       // MAC UDF
       sql =
-          String.format(queryFormat_UDF, measurement, device, minTime, maxTime, intervalNum); // MAC
+          String.format(queryFormat_UDF, measurement, device, minTime, maxTime, w); // MAC
     } else {
       // MOC and CPV sql use the same sql queryFormat.
       sql =

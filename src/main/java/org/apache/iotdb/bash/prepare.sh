@@ -1,5 +1,5 @@
 M4_VISUALIZATION_EXP=/data/rl/M4-visualization-exp
-HOME_PATH=/data/rl/v2
+HOME_PATH=/data/rl/v4
 
 mkdir -p $HOME_PATH
 
