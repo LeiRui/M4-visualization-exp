@@ -53,28 +53,19 @@ public class QueryData {
     // w数量
     int w = Integer.parseInt(args[6]);
     System.out.println("[QueryData] w=" + w);
-    // 选择查询执行算法: 1: MAC, 2: MOC, 3: CPV
-    int approach = Integer.parseInt(args[7]);
-    if (approach != 1 && approach != 2 && approach != 3) {
-      throw new TException("Wrong input parameter approach!");
-    }
-    if (approach == 1) {
-      System.out.println("[QueryData] approach=MAC");
-    } else if (approach == 2) {
-      System.out.println("[QueryData] approach=MOC");
-    } else {
-      System.out.println("[QueryData] approach=CPV");
-    }
 
-    if (approach != 1) {
-      // Set the server parameter in iotdb-engine.properties: enable_CPV=true for CPV, enable_CPV=false for MOC.
-      if (approach == 2) { // MOC
-        System.out.println(
-            "MAKE SURE you have set the enable_CPV as false in `iotdb-engine.properties` for MOC!");
-      } else { // CPV
-        System.out.println(
-            "MAKE SURE you have set the enable_CPV as true in `iotdb-engine.properties` for CPV!");
-      }
+    // 选择查询执行算法: 1: MAC, 2: MOC, 3: CPV
+    String approach = args[7].toLowerCase();
+    if (!approach.equals("mac") && !approach.equals("moc") && !approach.equals("cpv")) {
+      throw new IOException("Approach wrong. Only accepts mac/moc/cpv");
+    }
+    System.out.println("[QueryData] approach=" + approach);
+    if (approach.equals("moc")) {
+      System.out.println(
+          "MAKE SURE you have set the enable_CPV as false in `iotdb-engine.properties` for MOC!");
+    } else if (approach.equals("cpv")) {
+      System.out.println(
+          "MAKE SURE you have set the enable_CPV as true in `iotdb-engine.properties` for CPV!");
     }
 
     long minTime;
@@ -101,7 +92,7 @@ public class QueryData {
     session.setFetchSize(1000000);
 
     String sql;
-    if (approach == 1) {
+    if (approach.equals("mac")) {
       // MAC UDF
       sql =
           String.format(queryFormat_UDF, measurement, device, minTime, maxTime, w); // MAC
@@ -133,7 +124,8 @@ public class QueryData {
 //    session.executeNonQueryStatement("clear cache");
     dataSet = session.executeFinish();
     String info = dataSet.getFinishResult();
-    System.out.println(info); // don't add more string to this output, as ProcessResult code depends on this.
+    System.out.println(
+        info); // don't add more string to this output, as ProcessResult code depends on this.
     System.out.println("[QueryData] query result line number=" + c);
     dataSet.closeOperationHandle();
     session.close();
