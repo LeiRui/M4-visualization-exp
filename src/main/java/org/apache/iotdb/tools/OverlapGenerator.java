@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 
 /**
  * 每次快要写到iotdb chunk size还剩下OD%个点的时候，OP%的概率决定要不要乱序. 如果要乱序，方法是剩下的这OD%个点，和接下来再OD%个点，合在一起2*OD%个点随机打乱然后再写。
- * 0<=OP<=100 0<=OD<=50.
- * Usage: java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
+ * 0<=OP<=100 0<=OD<=50. Usage: java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath
+ * timeIdx valueIdx overlapPercentage overlapDepth
  */
 public class OverlapGenerator {
 
@@ -23,14 +22,10 @@ public class OverlapGenerator {
     int iotdb_chunk_point_size = Integer.parseInt(args[0]);
 
     String dataType = args[1]; // long or double
-    TSDataType tsDataType;
-    if (dataType.toLowerCase().equals("long")) {
-      tsDataType = TSDataType.INT64;
-    } else if (dataType.toLowerCase().equals("double")) {
-      tsDataType = TSDataType.DOUBLE;
-    } else {
+    if (!dataType.toLowerCase().equals("long") && !dataType.toLowerCase().equals("double")) {
       throw new IOException("Data type only accepts long or double.");
     }
+    dataType = dataType.toLowerCase();
 
     String inPath = args[2];
     String outPath = args[3];
@@ -57,7 +52,7 @@ public class OverlapGenerator {
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]); // time
 //      long value = Long.parseLong(split[valueIdx]); // value
-      Object value = parseValue(split[valueIdx], tsDataType);
+      Object value = parseValue(split[valueIdx], dataType);
 
       // note the first timestamp is never disordered. is global minimal.
       printWriter.print(timestamp);
@@ -80,7 +75,7 @@ public class OverlapGenerator {
               split = line.split(",");
               timestampArray[n] = Long.parseLong(split[timeIdx]);
 //              valueArray[n] = Long.parseLong(split[valueIdx]);
-              valueArray[n] = parseValue(split[valueIdx], tsDataType);
+              valueArray[n] = parseValue(split[valueIdx], dataType);
               idx.add(n);
               n++;
             }
@@ -100,7 +95,7 @@ public class OverlapGenerator {
               split = line.split(",");
               timestamp = Long.parseLong(split[timeIdx]); // time
 //              value = Long.parseLong(split[valueIdx]); // value
-              value = parseValue(split[valueIdx], tsDataType);
+              value = parseValue(split[valueIdx], dataType);
               printWriter.print(timestamp);
               printWriter.print(",");
               printWriter.print(value);
@@ -117,13 +112,13 @@ public class OverlapGenerator {
     printWriter.close();
   }
 
-  public static Object parseValue(String value, TSDataType tsDataType) throws IOException {
-    if (tsDataType == TSDataType.INT64) {
+  public static Object parseValue(String value, String dataType) throws IOException {
+    if (dataType.toLowerCase().equals("long")) {
       return Long.parseLong(value);
-    } else if (tsDataType == TSDataType.DOUBLE) {
+    } else if (dataType.toLowerCase().equals("double")) {
       return Double.parseDouble(value);
     } else {
-      throw new IOException("data type wrong");
+      throw new IOException("Data type only accepts long or double.");
     }
   }
 }

@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.iotdb</groupId>
-  <artifactId>WriteRcvTime</artifactId>
-  <version>1.0</version>
+  <artifactId>QueryData</artifactId>
+  <version>0.12.4</version>
   <name>M4</name>
 
   <properties>
@@ -59,12 +59,20 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>org.apache.iotdb.jarCode.WriteRcvTime</mainClass>
+                  <mainClass>org.apache.iotdb.jarCode.QueryData</mainClass>
                 </transformer>
               </transformers>
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
