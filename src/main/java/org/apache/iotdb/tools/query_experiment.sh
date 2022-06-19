@@ -8,7 +8,7 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 cd $IOTDB_SBIN_HOME
 a=5
 for((i=0;i<a;i++)) do
-    ./start-server.sh &
+    ./start-server.sh /dev/null 2>&1 &
     sleep 10s
     java -jar $QUERY_JAR_PATH $1 $2 $3 $4 $5 $6 $7 $8
     ./stop-server.sh
