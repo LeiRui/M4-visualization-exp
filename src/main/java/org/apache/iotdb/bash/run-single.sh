@@ -93,24 +93,24 @@ mkdir O_10_D_0_0
 cd O_10_D_0_0
 
 # prepare IoTDB config properties
-./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
-./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
-./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
-./../../tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-./../../tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-./../../tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-./../../tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-./../../tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-./../../tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-./../../tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-./../../tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-./../../tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
 
 # properties for cpv
-./../../tool.sh enable_CPV true ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
 # properties for moc
-./../../tool.sh enable_CPV false ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
 # write data
@@ -143,7 +143,7 @@ for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w moc >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w moc >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
   let i+=1
 done
@@ -159,7 +159,7 @@ for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w mac >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w mac >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
   let i+=1
 done
@@ -175,7 +175,7 @@ for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w cpv >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w cpv >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV.csv
   let i+=1
 done
@@ -215,7 +215,7 @@ do
   echo "k=$k"
   range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} moc >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} moc >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
   let i+=1
 done
@@ -233,7 +233,7 @@ do
   echo "k=$k"
   range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} mac >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} mac >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
   let i+=1
 done
@@ -251,7 +251,7 @@ do
   echo "k=$k"
   range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} cpv >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} cpv >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV.csv
   let i+=1
 done
@@ -277,23 +277,23 @@ do
   cd ${workspace}
 
   # prepare IoTDB config properties
-  ./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
-  ./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
-  ./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
-  ./../../tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-  ./../../tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-  ./../../tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-  ./../../tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-  ./../../tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   # properties for cpv
-  ./../../tool.sh enable_CPV true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
   # properties for moc
-  ./../../tool.sh enable_CPV false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
   # write data
@@ -321,7 +321,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
@@ -331,7 +331,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
@@ -341,7 +341,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
@@ -366,23 +366,23 @@ do
   cd ${workspace}
 
   # prepare IoTDB config properties
-  ./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
-  ./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
-  ./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
-  ./../../tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-  ./../../tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-  ./../../tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-  ./../../tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-  ./../../tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   # properties for cpv
-  ./../../tool.sh enable_CPV true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
   # properties for moc
-  ./../../tool.sh enable_CPV false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
   # write data
@@ -410,7 +410,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
@@ -420,7 +420,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
@@ -430,7 +430,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
@@ -453,23 +453,23 @@ do
   cd ${workspace}
 
   # prepare IoTDB config properties
-  ./../../tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
-  ./../../tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
-  ./../../tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
-  ./../../tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-  ./../../tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-  ./../../tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-  ./../../tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-  ./../../tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-  ./../../tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   # properties for cpv
-  ./../../tool.sh enable_CPV true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
   # properties for moc
-  ./../../tool.sh enable_CPV false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
   # write data
@@ -497,7 +497,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
@@ -507,7 +507,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
@@ -517,7 +517,7 @@ do
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  ./../../../query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
