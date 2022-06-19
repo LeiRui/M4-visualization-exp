@@ -592,8 +592,10 @@ cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
 
 # 把exp1.csv里的w=100那一行复制到exp3.csv里作为overlap percentage 10%的结果
-# TODO: 这里日后改成自动判断取出那一行w=100的，而不是写死的行数
-sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp3.csv
+# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # 不要前两列
+rm tmp
 
 cd $HOME_PATH/${DATASET}_testspace/O_30_D_0_0
 cd fix
@@ -636,8 +638,10 @@ cd fix
 sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
 
 # 把exp1.csv里的w=100那一行复制到exp4.csv里作为delete percentage 10%的结果
-# TODO: 这里日后改成自动判断取出那一行参数是100的，而不是写死的行数
-sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
+# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # 不要前两列
+rm tmp
 
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_9_10
 cd fix
