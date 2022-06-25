@@ -19,7 +19,9 @@ public class GenerateZhongcheDataset {
         "yyyy-MM-dd'T'HH:mm:ss.SSS"); // 2020-06-09T23:51:07.194+08:00
 
     String dataDir = args[0]; // E.g., /disk/zc_csv
+    System.out.println("dataDir=" + dataDir);
     String targetSensorName = args[1]; // E.g., ZT765, ZT17
+    System.out.println("targetSensorName=" + targetSensorName);
 
     PrintWriter writer = new PrintWriter(targetSensorName + ".csv");
     writer.println("Time,root.group_69.1701." + targetSensorName); // header
@@ -34,6 +36,7 @@ public class GenerateZhongcheDataset {
     long tmax = -1;
     long lastTimestamp = -1;
     List<Long> lastTimestamps = new ArrayList<>();
+
     for (File f : res) {
       BufferedReader reader = new BufferedReader(new FileReader(f));
       String line;
@@ -68,6 +71,9 @@ public class GenerateZhongcheDataset {
         if (t1 < 0) {
           t1 = timestamp; // the global first timestamp
         } else if (t2 < 0) {
+          if (timestamp <= t1) { //disorder
+            continue;
+          }
           t2 = timestamp; // the global second timestamp
         } else if (delta < 0) {
           delta = t2 - t1;
@@ -77,6 +83,9 @@ public class GenerateZhongcheDataset {
           ta = timestamp; // the local first timestamp
         }
         if (tmax < 0) { // the first file does not need shifting timestamps
+          if (timestamp <= lastTimestamp) {
+            continue;
+          }
           writer.print(timestamp);
           writer.print(",");
           writer.print(value);
@@ -84,6 +93,9 @@ public class GenerateZhongcheDataset {
           lastTimestamp = timestamp;
         } else {
           long newTimestamp = timestamp + (tmax + delta - ta);
+          if (newTimestamp <= lastTimestamp) {
+            continue;
+          }
           writer.print(newTimestamp);
           writer.print(",");
           writer.print(value);
