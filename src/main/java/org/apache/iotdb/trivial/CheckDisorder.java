@@ -1,4 +1,4 @@
-package org.apache.iotdb.jarCode;
+package org.apache.iotdb.trivial;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tmp {
+public class CheckDisorder {
 
   // to check disorder
   public static void main(String[] args) throws Exception {
