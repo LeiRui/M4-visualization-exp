@@ -175,8 +175,9 @@ public class WriteData {
                       lastDeleteMinTime + Math.random() * (rightBound - lastDeleteMinTime + 1));
           long deleteEndTime = deleteStartTime + deleteLen - 1;
 
-          deleteStartTimes.add(deleteStartTime);
-          deleteEndTimes.add(deleteEndTime);
+          session.deleteData(deletePaths, deleteStartTime, deleteEndTime);
+//          deleteStartTimes.add(deleteStartTime);
+//          deleteEndTimes.add(deleteEndTime);
           System.out.println("[[[[delete]]]]]" + deleteStartTime + "," + deleteEndTime);
 
           lastDeleteMinTime = Long.MAX_VALUE;
@@ -185,9 +186,9 @@ public class WriteData {
       }
     }
 
-    for (int i = 0; i < deleteStartTimes.size(); i++) {
-      session.deleteData(deletePaths, deleteStartTimes.get(i), deleteEndTimes.get(i));
-    }
+//    for (int i = 0; i < deleteStartTimes.size(); i++) {
+//      session.deleteData(deletePaths, deleteStartTimes.get(i), deleteEndTimes.get(i));
+//    }
 
     session.executeNonQueryStatement("flush");
     session.close();
