@@ -11,6 +11,9 @@ import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
+import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
+import org.apache.iotdb.tsfile.write.record.Tablet;
+import org.apache.iotdb.tsfile.write.schema.MeasurementSchema;
 
 public class WriteData {
 
@@ -70,6 +73,10 @@ public class WriteData {
     int valueIdx = Integer.parseInt(args[11]);
     System.out.println("[WriteData] valueIdx=" + valueIdx);
 
+    // 控制insertTablet的tablet内行数
+    int fixedBatchInsertSize = Integer.parseInt(args[12]);
+    System.out.println("[WriteData] fixedBatchInsertSize=" + fixedBatchInsertSize);
+
     if (deletePercentage < 0 || deletePercentage > 100) {
       throw new IOException("WRONG deletePercentage!");
     }
@@ -119,30 +126,45 @@ public class WriteData {
     File f = new File(filePath);
     String line = null;
     BufferedReader reader = new BufferedReader(new FileReader(f));
+
     long lastDeleteMinTime = Long.MAX_VALUE;
     long lastDeleteMaxTime = Long.MIN_VALUE;
-    int cnt = 0;
+    int cnt4Delete = 0;  // count the number of inserts between two deletes, used to satisfy the specified delete percentage
+    List<Long> deleteStartTimes = new ArrayList<>();
+    List<Long> deleteEndTimes = new ArrayList<>();
+
+    int cnt4BatchInsert = 0;
+    List<Long> timestamps = new ArrayList<>();
+    List<Object> values = new ArrayList<>();
+
     while ((line = reader.readLine()) != null) {
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]);
-      session.insertRecord(
-          device,
-          timestamp,
-          Collections.singletonList(measurement),
-          Collections.singletonList(tsDataType),
-          parseValue(split[valueIdx], tsDataType));
-      cnt++;
+      Object value = parseValue(split[valueIdx], tsDataType);
 
+      // for inserts
+      cnt4BatchInsert++;
+      timestamps.add(timestamp);
+      values.add(value);
+      if (cnt4BatchInsert >= fixedBatchInsertSize) {
+        // insert Tablet
+        Tablet tablet = convertToTablet(timestamps, values, device, measurement, tsDataType);
+        session.insertTablet(tablet);
+        tablet.reset();
+        cnt4BatchInsert = 0;
+      }
+
+      // for deletes
+      cnt4Delete++;
       if (timestamp > lastDeleteMaxTime) {
         lastDeleteMaxTime = timestamp;
       }
       if (timestamp < lastDeleteMinTime) {
         lastDeleteMinTime = timestamp;
       }
-
       if (deletePercentage != 0) {
-        if (cnt >= deletePeriod) {
-          cnt = 0;
+        if (cnt4Delete >= deletePeriod) {
+          cnt4Delete = 0;
           // randomize deleteStartTime in [lastMinTime, max(lastMaxTime-deleteLen,lastMinTime+1)]
           long rightBound = Math.max(lastDeleteMaxTime - deleteLen, lastDeleteMinTime + 1);
           long deleteStartTime =
@@ -150,13 +172,19 @@ public class WriteData {
                   Math.ceil(
                       lastDeleteMinTime + Math.random() * (rightBound - lastDeleteMinTime + 1));
           long deleteEndTime = deleteStartTime + deleteLen - 1;
-          session.deleteData(deletePaths, deleteStartTime, deleteEndTime);
+
+          deleteStartTimes.add(deleteStartTime);
+          deleteEndTimes.add(deleteEndTime);
           System.out.println("[[[[delete]]]]]" + deleteStartTime + "," + deleteEndTime);
 
           lastDeleteMinTime = Long.MAX_VALUE;
           lastDeleteMaxTime = Long.MIN_VALUE;
         }
       }
+    }
+
+    for (int i = 0; i < deleteStartTimes.size(); i++) {
+      session.deleteData(deletePaths, deleteStartTimes.get(i), deleteEndTimes.get(i));
     }
 
     session.executeNonQueryStatement("flush");
@@ -172,4 +200,29 @@ public class WriteData {
       throw new IOException("data type wrong");
     }
   }
+
+  public static Tablet convertToTablet(List<Long> timestamps, List<Object> values, String device,
+      String measurement, TSDataType tsDataType) throws IOException {
+    List<MeasurementSchema> schemaList = new ArrayList<>();
+    schemaList.add(new MeasurementSchema(measurement, tsDataType, toTsEncoding(tsDataType)));
+    Tablet tablet = new Tablet(device, schemaList, timestamps.size());
+    for (int i = 0; i < timestamps.size(); i++) {
+      int rowIndex = tablet.rowSize++;
+      tablet.addTimestamp(rowIndex, timestamps.get(i));
+      tablet.addValue(measurement, rowIndex, values.get(i));
+    }
+    return tablet;
+  }
+
+  private static TSEncoding toTsEncoding(TSDataType tsDataType) throws IOException {
+    if (tsDataType == TSDataType.INT64) {
+      return TSEncoding.RLE;
+    } else if (tsDataType == TSDataType.DOUBLE) {
+      return TSEncoding.GORILLA;
+    } else {
+      throw new IOException("Data type only accepts long or double.");
+    }
+  }
+
+
 }
