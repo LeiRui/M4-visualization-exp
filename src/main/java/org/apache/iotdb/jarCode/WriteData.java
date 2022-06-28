@@ -151,6 +151,8 @@ public class WriteData {
         Tablet tablet = convertToTablet(timestamps, values, device, measurement, tsDataType);
         session.insertTablet(tablet);
         tablet.reset();
+        timestamps = new ArrayList<>();
+        values = new ArrayList<>();
         cnt4BatchInsert = 0;
       }
 
