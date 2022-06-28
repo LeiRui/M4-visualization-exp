@@ -183,6 +183,32 @@ cd ..
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
+#########################
+# export results
+#########################
+# [EXP1]
+# w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
+# query range: totalRange
+# overlap percentage: 10%
+# delete percentage: 0%
+# delete time range: 0
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+cd vary_w
+cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
+line=2
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+do
+  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
+  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
+  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/exp1.csv
+  let line+=1
+done
+
 ############################
 # [EXP2] Varying query time range
 # (1) w: 100
@@ -255,6 +281,40 @@ cd ..
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
+#########################
+# export results
+#########################
+# [EXP2]
+# w: 100
+# query range: k*w*totalRange/(pointNum/chunkSize).
+# - target estimated chunks per interval = k
+# - range = k*w*totalRange/(pointNum/chunkSize)
+# - kMax=(pointNum/chunkSize)/w, that is, range=totalRange.
+# - E.g. k=0.2,0.5,1,2.5,5,12
+# overlap percentage: 10%
+# delete percentage: 0%
+# delete time range: 0
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+cd vary_tqe
+cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
+
+# 把exp1里FIX_W的那一行结果追加到exp2.csv最后一行，且不要前两列
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # 不要前两列
+rm tmp
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp2, estimated chunks per interval=k
+sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
+line=2
+for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
+do
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
+  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
+  let line+=1
+done
 
 ############################
 # O_0_D_0_0
@@ -344,6 +404,54 @@ do
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
+#########################
+# export results
+#########################
+# [EXP3]
+# w: 100
+# query range: totalRange
+# overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
+# delete percentage: 0%
+# delete time range: 0
+cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
+cd fix
+cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
+
+# 把exp1.csv里的w=FIX_W那一行复制到exp3.csv里作为overlap percentage 10%的结果
+# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # 不要前两列
+rm tmp
+
+cd $HOME_PATH/${DATASET}_testspace/O_30_D_0_0
+cd fix
+# cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_50_D_0_0
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_70_D_0_0
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
+
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp3, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/overlap percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp3.csv
+line=2
+for op in 0 10 30 50 70 90
+do
+  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
+  sed -i -e ${line}"s/^/${op},${c},/" $HOME_PATH/${DATASET}_testspace/exp3.csv
+  let line+=1
+done
 
 ############################
 # O_10_D_9_10
@@ -431,6 +539,57 @@ do
   cd ..
   cp $HOME_PATH/SumResultUnify.* .
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+done
+
+#########################
+# export results
+#########################
+# [EXP4]
+# w: 100
+# query range: totalRange
+# overlap percentage: 10%
+# delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
+# delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
+cd fix
+sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
+
+# 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 10%的结果
+# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # 不要前两列
+rm tmp
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_9_10
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_69_10
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_89_10
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
+
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp4, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/delete percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp4.csv
+line=2
+for dp in 0 9 29 49 69 89
+do
+  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
+  sed -i -e ${line}"s/^/${dp},${c},/" $HOME_PATH/${DATASET}_testspace/exp4.csv
+  let line+=1
 done
 
 ############################
@@ -523,157 +682,6 @@ done
 #########################
 # export results
 #########################
-
-# [EXP1]
-# w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
-# query range: totalRange
-# overlap percentage: 10%
-# delete percentage: 0%
-# delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-cd vary_w
-cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
-
-# add varied parameter value and the corresponding estimated chunks per interval for each line
-# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
-line=2
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
-do
-  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
-  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
-  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/exp1.csv
-  let line+=1
-done
-
-# [EXP2]
-# w: 100
-# query range: k*w*totalRange/(pointNum/chunkSize).
-# - target estimated chunks per interval = k
-# - range = k*w*totalRange/(pointNum/chunkSize)
-# - kMax=(pointNum/chunkSize)/w, that is, range=totalRange.
-# - E.g. k=0.2,0.5,1,2.5,5,12
-# overlap percentage: 10%
-# delete percentage: 0%
-# delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-cd vary_tqe
-cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
-
-# TODO: 把exp1里FIX_W的那一行结果追加到exp2.csv最后一行，且不要前两列
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # 不要前两列
-rm tmp
-
-# add varied parameter value and the corresponding estimated chunks per interval for each line
-# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp2, estimated chunks per interval=k
-sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
-line=2
-for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
-do
-  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
-  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
-  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
-  let line+=1
-done
-
-
-# [EXP3]
-# w: 100
-# query range: totalRange
-# overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
-# delete percentage: 0%
-# delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
-cd fix
-cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
-
-# 把exp1.csv里的w=FIX_W那一行复制到exp3.csv里作为overlap percentage 10%的结果
-# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # 不要前两列
-rm tmp
-
-cd $HOME_PATH/${DATASET}_testspace/O_30_D_0_0
-cd fix
-# cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_50_D_0_0
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_70_D_0_0
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-
-
-# add varied parameter value and the corresponding estimated chunks per interval for each line
-# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp3, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/overlap percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp3.csv
-line=2
-for op in 0 10 30 50 70 90
-do
-  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
-  sed -i -e ${line}"s/^/${op},${c},/" $HOME_PATH/${DATASET}_testspace/exp3.csv
-  let line+=1
-done
-
-# [EXP4]
-# w: 100
-# query range: totalRange
-# overlap percentage: 10%
-# delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
-# delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
-cd fix
-sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
-
-# 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 10%的结果
-# sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # 不要前两列
-rm tmp
-
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_9_10
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_69_10
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
-
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_89_10
-cd fix
-sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
-
-# add varied parameter value and the corresponding estimated chunks per interval for each line
-# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp4, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/delete percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp4.csv
-line=2
-for dp in 0 9 29 49 69 89
-do
-  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
-  sed -i -e ${line}"s/^/${dp},${c},/" $HOME_PATH/${DATASET}_testspace/exp4.csv
-  let line+=1
-done
-
 # [EXP5]
 # w: 100
 # query range: totalRange
@@ -711,6 +719,8 @@ do
   sed -i -e ${line}"s/^/${dr},${c},/" $HOME_PATH/${DATASET}_testspace/exp5.csv
   let line+=1
 done
+
+
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
