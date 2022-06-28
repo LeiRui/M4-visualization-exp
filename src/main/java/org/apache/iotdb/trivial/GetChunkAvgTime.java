@@ -12,7 +12,7 @@ public class GetChunkAvgTime {
     long sum = 0;
     int cnt = 0;
     while ((line = reader.readLine()) != null) {
-      if (line.contains("time range:")) {
+      if (line.contains("time range:")) { // [Chunk] of s6, numOfPoints:100, time range:[0,50687600], tsDataType:INT64,
         line = line.substring(line.indexOf("[", line.indexOf("[") + 1) + 1);
         line = line.substring(0, line.indexOf("]"));
         System.out.println(line);
