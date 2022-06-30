@@ -85,7 +85,7 @@ cp run-single.sh run-KOB.sh
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single.sh
-$HOME_PATH/tool.sh DATASET MF03 run-single.sh
+$HOME_PATH/tool.sh DATASET RcvTime run-single.sh
 $HOME_PATH/tool.sh DEVICE "root.sg1" run-single.sh
 $HOME_PATH/tool.sh MEASUREMENT "RcvTime" run-single.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-single.sh
