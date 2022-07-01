@@ -64,28 +64,8 @@ FIX_DELETE_RANGE=10
 # (4) delete percentage: 49%
 # (5) delete time range: 10%, 30%, 50%, 70%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
 ############################
-echo 3 |sudo tee /proc/sys/vm/drop_caches
-
-ps -ef|grep 'java'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'iotdb'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'dev/null'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'RcvTime'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'BallSpeed'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'MF03'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'KOB'|awk '{print $2}'|xargs kill -9
-
-ps -ef|grep 'influx'|awk '{print $2}'|xargs kill -9
-
-echo 3 |sudo tee /proc/sys/vm/drop_caches
-
+echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
-
 echo "Begin experiment!"
 
 ############################
