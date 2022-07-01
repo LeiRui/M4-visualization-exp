@@ -173,7 +173,7 @@ cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -189,7 +189,7 @@ cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -221,7 +221,7 @@ cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
 # for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
