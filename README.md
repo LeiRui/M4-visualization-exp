@@ -10,5 +10,5 @@
 
 3. Run `prepare-all.sh`, and the directory at `HOME_PATH` will be ready for experiments.
 
-4. Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-datasetName.sh /dev/null 2>&1 &`, where `datasetName` is `BallSpeed`/`MF03`/`KOB`/`RcvTime`. After running the corresponding experiment, the experimental results (exp1/2/3/4/5.csv) are in `datasetName_testspace`.
+4. Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-datasetName.sh /dev/null 2>&1 &`, where `datasetName` is `BallSpeed`/`MF03`/`KOB`/`RcvTime`. After running the corresponding experiment, the experimental results (exp1.csv for varying the number of time spans, exp2.csv for varying query time range, exp3.csv for varying chunk overlap percentage, exp4.csv for varying delete percentage, exp5.csv for varying delete time range) are in `datasetName_testspace`.
 
