@@ -2,7 +2,7 @@
 
 1. Download this `M4-visualization-exp` directory using `git clone https://github.com/LeiRui/M4-visualization-exp.git`
 
-2. Enter the directory `src/main/java/org/apache/iotdb/bash` in this `M4-visualization-exp` directory, and update `prepare-all.sh`:
+2. Enter the directory `src/main/java/org/apache/iotdb/bash` in this `M4-visualization-exp` directory, and update `prepare-all.sh` as follows:
 
     - update `M4_VISUALIZATION_EXP` as the downloaded path of this `M4-visualization-exp` directory.
 
