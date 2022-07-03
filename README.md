@@ -10,7 +10,7 @@
 
 3. Run `prepare-all.sh`, and the directory at `HOME_PATH` will be ready for experiments.
 
-4. Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-[datasetName].sh /dev/null 2>&1 &`, where `[datasetName]` is replaced as `BallSpeed`/`MF03`/`KOB`/`RcvTime`.
+4. Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-[datasetName].sh /dev/null 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`KOB`/`RcvTime`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
 5. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results (`exp1.csv` for varying the number of time spans, `exp2.csv` for varying query time range, `exp3.csv` for varying chunk overlap percentage, `exp4.csv` for varying delete percentage, `exp5.csv` for varying delete time range) are in `datasetName_testspace`.
