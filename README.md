@@ -8,7 +8,7 @@
 
     - update `HOME_PATH` as an empty directory where you want the experiments to be executed.
 
-3. Run `prepare-all.sh`, and the directory at `HOME_PATH` will be ready for experiments.
+3. Run `prepare-all.sh` and then the directory at `HOME_PATH` will be ready for experiments.
 
 4. Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-[datasetName].sh /dev/null 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`KOB`/`RcvTime`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
