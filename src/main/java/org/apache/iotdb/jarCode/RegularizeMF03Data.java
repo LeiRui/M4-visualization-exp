@@ -12,7 +12,7 @@ public class RegularizeMF03Data {
   // turn ns to ms
   public static void main(String[] args) throws IOException {
     String inPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\MF03.csv";
-    String outPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\MF03_2.csv";
+    String outPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\MF03_3.csv";
 
     FileWriter fileWriter = new FileWriter(outPath);
     PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -25,9 +25,9 @@ public class RegularizeMF03Data {
     while ((line = reader.readLine()) != null) {
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[0]); // ns
-      // turn ns to ms
-      long tmp = (long) Math.floor(timestamp / 1000000.0);
-      timestamp = tmp * 1000000; // ms
+      // turn ns to us
+      long tmp = (long) Math.floor(timestamp / 1000.0); // us
+      timestamp = tmp * 1000; // us
 
       long value = Long.parseLong(split[1]);
       if (timestamp > lastTimestamp) {

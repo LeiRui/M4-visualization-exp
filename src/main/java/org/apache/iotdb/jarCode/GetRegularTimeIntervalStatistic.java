@@ -13,8 +13,8 @@ import java.util.TreeMap;
 public class GetRegularTimeIntervalStatistic {
 
   public static void main(String[] args) throws IOException {
-    String inPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\RcvTime.csv";
-    String outPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\RcvTime_timeIntervalCountFreq.csv";
+    String inPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\MF03_3.csv";
+    String outPath = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\MF03_3_timeIntervalCountFreq.csv";
 
     File f = new File(inPath);
     String line;
