@@ -71,6 +71,20 @@ cp run-single.sh run-MF03.sh
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single.sh
+$HOME_PATH/tool.sh DATASET MF03_2 run-single.sh
+$HOME_PATH/tool.sh DEVICE "root.debs2012" run-single.sh
+$HOME_PATH/tool.sh MEASUREMENT "mf03" run-single.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-single.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329955200008000000 run-single.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1329965999991000000 run-single.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1076102 run-single.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+cp run-single.sh run-MF03_2.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single.sh
 $HOME_PATH/tool.sh DATASET KOB run-single.sh
 $HOME_PATH/tool.sh DEVICE "root.kobelco.trans.03.1090001603.2401604" run-single.sh
 $HOME_PATH/tool.sh MEASUREMENT "KOB_0002_00_67" run-single.sh
@@ -111,7 +125,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
 cp run-single.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed" "KOB" "MF03" "RcvTime" "KOB_2");
+datasetArray=("BallSpeed" "KOB" "MF03" "RcvTime" "KOB_2" "MF03_2");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
