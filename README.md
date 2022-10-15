@@ -20,4 +20,4 @@ The running logs are saved in nohup.out, which can be checked by the command: `t
     - `exp4.csv` for varying delete percentage, 
     - `exp5.csv` for varying delete time range.
 
-Starting from 0, the 15th column is the M4 aggregation query execution time of M4-UDF, and the 22th column is the M4 aggregation query execution time of M4-LSM.
+In these csv, counting from 0, the 15th column is the M4 aggregation query execution time of M4-UDF, and the 22th column is the M4 aggregation query execution time of M4-LSM.
