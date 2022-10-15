@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 每次快要写到iotdb chunk size还剩下OD%个点的时候，OP%的概率决定要不要乱序. 如果要乱序，方法是剩下的这OD%个点，和接下来再OD%个点，合在一起2*OD%个点随机打乱然后再写。
  * 0<=OP<=100 0<=OD<=50. Usage: java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath
  * timeIdx valueIdx overlapPercentage overlapDepth
  */
@@ -37,7 +36,7 @@ public class OverlapGenerator {
     if (overlapPercentage < 0 || overlapPercentage > 100) {
       throw new IOException("WRONG overlapPercentage");
     }
-    if (overlapDepth > 50 || overlapDepth < 0) { // 暂时只实现最多相邻两个chunk重叠，重叠深度从0到50%
+    if (overlapDepth > 50 || overlapDepth < 0) {
       throw new IOException("WRONG pointNum");
     }
     int pointNum = (int) Math.floor(iotdb_chunk_point_size * (overlapDepth / 100.0));
