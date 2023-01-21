@@ -71,15 +71,29 @@ public class WriteData {
     System.out.println("[WriteData] valueIdx=" + valueIdx);
 
     if (deletePercentage < 0 || deletePercentage > 100) {
-      throw new IOException("WRONG deletePercentage!");
+      throw new IOException("WRONG deletePercentage! deletePercentage should be within [0,100]");
     }
     if (deleteLenPercentage < 0 || deleteLenPercentage > 100) {
-      throw new IOException("WRONG deleteLenPercentage!");
+      throw new IOException(
+          "WRONG deleteLenPercentage! deleteLenPercentage should be within [0,100]");
+    }
+    if (deletePercentage > 0 && deleteLenPercentage == 0) {
+      throw new IOException(
+          "WRONG deleteLenPercentage! when deletePercentage>0, so should deleteLenPercentage");
     }
 
-    int deletePeriod =
-        (int) Math.floor(100 * 1.0 / deletePercentage
-            * iotdb_chunk_point_size); // use period to control percentage
+    int deletePeriod = Integer.MAX_VALUE;
+    if (deletePercentage > 0) {
+      // insert a delete when every 100/deletePercentage chunks are inserted,
+      // thus to meet the deletePercentage target.
+      // using the number of chunks inserted as deletePercentage baseline is to
+      // avoid the delete operation being handled in memory.
+      deletePeriod =
+          (int) Math.floor(100 * 1.0 / deletePercentage
+              * iotdb_chunk_point_size);
+    }
+
+    // the delete time range length is deleteLenPercentage of chunkAvgTimeLen
     long deleteLen = (long) Math.floor(chunkAvgTimeLen * deleteLenPercentage * 1.0 / 100);
 
     List<String> deletePaths = new ArrayList<>();
@@ -140,7 +154,7 @@ public class WriteData {
         lastDeleteMinTime = timestamp;
       }
 
-      if (deletePercentage != 0) {
+      if (deletePercentage > 0) {
         if (cnt >= deletePeriod) {
           cnt = 0;
           // randomize deleteStartTime in [lastMinTime, max(lastMaxTime-deleteLen,lastMinTime+1)]

@@ -35,7 +35,7 @@ FIX_DELETE_RANGE=10
 # (5) delete time range: 0
 #
 # [EXP2] Varying query time range
-# (1) w: 100
+# (1) w: 1000
 # (2) query range: 1%,5%,10%,20%,40%,60%,80%,100% of totalRange
 # - corresponding estimated chunks per interval = 1%,5%,10%,20%,40%,60%,80%,100% of kmax
 # - kMax=(pointNum/chunkSize)/w, when range = 100% of totalRange.
@@ -44,21 +44,21 @@ FIX_DELETE_RANGE=10
 # (5) delete time range: 0
 #
 # [EXP3] Varying chunk overlap percentage
-# (1) w: 100
+# (1) w: 1000
 # (2) query range: totalRange
 # (3) overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
 # (4) delete percentage: 0%
 # (5) delete time range: 0
 #
 # [EXP4] Varying delete percentage
-# (1) w: 100
+# (1) w: 1000
 # (2) query range: totalRange
 # (3) overlap percentage: 10%
 # (4) delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
 # (5) delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
 #
 # [EXP5] Varying delete time range
-# (1) w: 100
+# (1) w: 1000
 # (2) query range: totalRange
 # (3) overlap percentage: 10%
 # (4) delete percentage: 49%
@@ -183,9 +183,7 @@ cd ..
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
-#########################
 # export results
-#########################
 # [EXP1]
 # w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
 # query range: totalRange
@@ -281,9 +279,7 @@ cd ..
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
-#########################
 # export results
-#########################
 # [EXP2]
 # w: 100
 # query range: k*w*totalRange/(pointNum/chunkSize).
@@ -299,8 +295,9 @@ cd vary_tqe
 cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
 
 # 把exp1里FIX_W的那一行结果追加到exp2.csv最后一行，且不要前两列
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # 不要前两列
+# append the line starting with FIX_W and without the first two columns in exp1.csv to exp2.csv
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # the line starting with FIX_W
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # without the first two columns
 rm tmp
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
@@ -317,12 +314,18 @@ do
 done
 
 ############################
+# [EXP3] Varying chunk overlap percentage
+# (1) w: 1000
+# (2) query range: totalRange
+# (3) overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
+# (4) delete percentage: 0%
+# (5) delete time range: 0
+############################
 # O_0_D_0_0
 # O_30_D_0_0
 # O_50_D_0_0
 # O_70_D_0_0
 # O_90_D_0_0
-############################
 for overlap_percentage in 0 30 50 70 90
 do
   workspace="O_${overlap_percentage}_D_0_0"
@@ -404,42 +407,47 @@ do
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-#########################
 # export results
-#########################
 # [EXP3]
 # w: 100
 # query range: totalRange
 # overlap percentage: 0%, 10%, 30%, 50%, 70%, 90%
 # delete percentage: 0%
 # delete time range: 0
+
+# overlap percentage 0% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
 cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv #带表头
 
+# overlap percentage 10% exp result
 # 把exp1.csv里的w=FIX_W那一行复制到exp3.csv里作为overlap percentage 10%的结果
+# append the line starting with FIX_W and without the first two columns in exp1.csv to exp3.csv
 # sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # 不要前两列
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # the line starting with FIX_W
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp3.csv # without the first two columns
 rm tmp
 
+# overlap percentage 30% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_30_D_0_0
 cd fix
 # cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
+# overlap percentage 50% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_50_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
+# overlap percentage 70% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_70_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
 
+# overlap percentage 90% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp3.csv
-
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
@@ -454,12 +462,18 @@ do
 done
 
 ############################
+# [EXP4] Varying delete percentage
+# (1) w: 1000
+# (2) query range: totalRange
+# (3) overlap percentage: 10%
+# (4) delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
+# (5) delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
+############################
 # O_10_D_9_10
 # O_10_D_29_10
 # O_10_D_49_10
 # O_10_D_69_10
 # O_10_D_89_10
-############################
 for delete_percentage in 9 29 49 69 89
 do
   workspace="O_10_D_${delete_percentage}_10"
@@ -541,41 +555,48 @@ do
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-#########################
 # export results
-#########################
 # [EXP4]
 # w: 100
 # query range: totalRange
 # overlap percentage: 10%
 # delete percentage: 0%, 9%, 29%, 49%, 69%, 89%
 # delete time range: 10% of chunk time interval, that is 0.1*totalRange/(pointNum/chunkSize)
+
+# only copy the header
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
 cd fix
 sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
 
+# delete percentage 0% exp result
 # 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 10%的结果
+# append the line starting with FIX_W and without the first two columns in exp1.csv to exp4.csv
 # sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
-sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # 这里日后改成自动判断取出那一行w=FIX_W的，而不是写死的行数
-cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # 不要前两列
+sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # the line starting with FIX_W
+cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp4.csv # without the first two columns
 rm tmp
 
+# delete percentage 9% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_9_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
+# delete percentage 29% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_29_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
+# delete percentage 49% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
+# delete percentage 69% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_69_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
 
+# delete percentage 89% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_89_10
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv
@@ -593,11 +614,17 @@ do
 done
 
 ############################
+# [EXP5] Varying delete time range
+# (1) w: 1000
+# (2) query range: totalRange
+# (3) overlap percentage: 10%
+# (4) delete percentage: 49%
+# (5) delete time range: 10%, 30%, 50%, 70%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
+############################
 # O_10_D_49_30
 # O_10_D_49_50
 # O_10_D_49_70
 # O_10_D_49_90
-############################
 for delete_range in 30 50 70 90
 do
   workspace="O_10_D_49_${delete_range}"
@@ -679,31 +706,35 @@ do
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-#########################
 # export results
-#########################
 # [EXP5]
 # w: 100
 # query range: totalRange
 # overlap percentage: 10%
 # delete percentage: 49%
 # delete time range: 10%, 30%, 50%, 70%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
+
+# delete time range 10% exp result (already done in exp4)
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
 cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #带表头
 
+# delete time range 30% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_30
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
+# delete time range 50% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_50
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
+# delete time range 70% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_70
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
+# delete time range 90% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_90
 cd fix
 sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
