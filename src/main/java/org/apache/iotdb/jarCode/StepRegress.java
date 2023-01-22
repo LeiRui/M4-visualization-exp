@@ -1,6 +1,7 @@
 package org.apache.iotdb.jarCode;
 
 import java.io.IOException;
+import java.util.Arrays;
 import org.eclipse.collections.impl.list.mutable.primitive.DoubleArrayList;
 import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 import org.eclipse.collections.impl.list.mutable.primitive.LongArrayList;
@@ -106,6 +107,21 @@ public class StepRegress {
           segmentIntercepts.add(
               intercept); // TODO debug if the first status is actually level works
         }
+        // deal with the last interval to make sure the last point is hit
+        // TODO create examples to debug this
+        if (i == intervals.size() - 1) {
+          // 3) to determine the intercept, let the level function run through (timestamps.getLast(),timestamps.size())
+          double intercept = timestamps.size(); // b2i=pos
+          // 4) to determine the segment key, let the level function and the previous tilt function intersect
+          // Note that here is overwrite instead of add.
+          // Note taht here is not getLast
+          segmentKeys.set(segmentKeys.size() - 1,
+              (intercept - segmentIntercepts.get(segmentIntercepts.size() - 2))
+                  / slope); // x2i=(b2i-b2i-1)/K TODO debug here not getLast!
+          // then add intercept to segmentIntercepts, do not change the order of codes here
+          // Note that here is overwrite instead of add.
+          segmentIntercepts.set(segmentIntercepts.size() - 1, intercept);
+        }
       } else {
         intervalsType.add(IntervalType.tilt.ordinal());
         if (previousIntervalType == IntervalType.level) { // else do nothing, still tilt
@@ -119,6 +135,84 @@ public class StepRegress {
           segmentIntercepts.add(intercept);
           // remember to update tiltLatestSegmentID
           tiltLatestSegmentID += 2;
+        }
+        // deal with the last interval to make sure the last point is hit
+        // TODO create examples to debug this
+        if (i == intervals.size() - 1) {
+          if (segmentIntercepts.size() == 1) { // all TTTTTT, only one segment info
+            // remove all segment info, and directly connect the first and the last point
+            this.slope =
+                (timestamps.size() - 1.0) / (timestamps.getLast() - timestamps.getFirst());
+            this.segmentKeys = new DoubleArrayList();
+            this.segmentIntercepts = new DoubleArrayList();
+            this.segmentKeys.add(timestamps.get(0)); // t1
+            this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
+          } else {
+            // 3) to determine the intercept, let the tilt function run through (timestamps.getLast(),timestamps.size())
+            double intercept = timestamps.size() - slope * timestamps.getLast(); // b2i+1=pos-K*t
+            // 4) to determine the segment key, let the level function and the previous tilt function intersect
+            // Note that here is overwrite instead of add.
+            // Note taht here is not getLast
+            segmentKeys.set(segmentKeys.size() - 1,
+                (segmentIntercepts.get(segmentIntercepts.size() - 2) - intercept)
+                    / slope); // x2i+1=(b2i-b2i+1)/K TODO debug here not getLast!
+            // then add intercept to segmentIntercepts, do not change the order of codes here
+            // Note that here is overwrite instead of add.
+            segmentIntercepts.set(segmentIntercepts.size() - 1, intercept);
+
+            // now check to remove possible disorders
+            // search from back to front to find the first tilt intercept that is equal to or larger than the current intercept
+            int start = segmentIntercepts.size() - 3; // TODO debug
+            // TODO consider only one T
+            boolean equals = false;
+            for (; start >= 0; start -= 2) {
+              // note the step is 2, only tilt intercept, no level intercept
+              if (segmentIntercepts.get(start) == intercept) {
+                equals = true;
+                break;
+              }
+              if (segmentIntercepts.get(start) > intercept) {
+                equals = false;
+                break;
+              }
+            }
+            if (start < 0) { // TODO bug consider when start<0, i.e., not found: connecting directly
+              // remove all segment info, and directly connect the first and the last point
+              this.slope =
+                  (timestamps.size() - 1.0) / (timestamps.getLast() - timestamps.getFirst());
+              this.segmentKeys = new DoubleArrayList();
+              this.segmentIntercepts = new DoubleArrayList();
+              this.segmentKeys.add(timestamps.get(0)); // t1
+              this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
+            } else if (start < segmentIntercepts.size() - 3) {
+              if (!equals) {
+                // remove all segment information after start+1 id, i.e., remove from start+2~end
+                // note that the level after start tilt is kept since equals=false.
+                segmentIntercepts = DoubleArrayList.newListWith(
+                    Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 2));
+                segmentKeys = DoubleArrayList.newListWith(
+                    Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 2));
+
+                // Add new segment info for TL&T
+                // 4) to determine the segment key, let the level function and the previous tilt function intersect
+                // Note that here is add and getLast again!
+                segmentKeys.add(
+                    (segmentIntercepts.getLast() - intercept) / slope); // x2i+1=(b2i-b2i+1)/K
+                // then add intercept to segmentIntercepts, do not change the order of codes here
+                // Note that here is add and getLast again!
+                segmentIntercepts.add(intercept);
+              } else {
+                // remove all segment information after start id, i.e., remove from start+1~end
+                // note that the level after start tilt is NOT kept since equal==true
+                segmentIntercepts = DoubleArrayList.newListWith(
+                    Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 1));
+                segmentKeys = DoubleArrayList.newListWith(
+                    Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 1));
+                // TODO debug the first status is level, b1
+              }
+            }
+            // otherwise start==segmentIntercepts.size()-3 means result is already ready, no disorder to handle
+          }
         }
       }
     }

@@ -10,9 +10,14 @@ public class StepRegressExample {
 
   public static void main(String[] args) throws Exception {
     // read data into memory, assuming that the data is small enough to fit in memory
-    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\KOB.csv";
-    int start = (4232 - 1) * 100 + 1;
-    int end = start + 100;
+    // read csvData from row start(inclusive) to end(exclusive), counting from 1
+//    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\KOB.csv";
+//    int start = (4232 - 1) * 100 + 1;
+//    int end = start + 100;
+
+    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
+    int start = 1;
+    int end = 3;
 
     StepRegress stepRegress = new StepRegress();
     String line;
@@ -68,3 +73,18 @@ public class StepRegressExample {
     System.out.println("predict2=" + predictsFineGrain + ";");
   }
 }
+
+/**
+ * figure, plot(chunkTimestamps(x,:),1:range), for i=1:1:range-1 if intervalsType(i)==0 hold
+ * on,plot(chunkTimestamps(x,i),i,'b+') % non-outlier & tilt else hold
+ * on,plot(chunkTimestamps(x,i),i,'r+') % outlier & level end end hold
+ * on,plot(chunkTimestamps(x,range),range,'g+') % the last point
+ * <p>
+ * K=1/vmedian(x);
+ * <p>
+ * for i=1:1:length(keys) hold on,xline(keys(i)) end
+ * <p>
+ * hold on,plot(chunkTimestamps(x,1):30:chunkTimestamps(x,100),predict2)
+ * <p>
+ * y=1:1:range; max(abs(y-predict))
+ */
