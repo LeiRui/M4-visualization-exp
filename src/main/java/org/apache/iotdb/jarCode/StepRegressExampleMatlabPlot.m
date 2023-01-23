@@ -85,14 +85,37 @@ for i=1:1:range-1
 end
 hold on,plot(chunkTimestamps(x,range),range,'g+') % the last point
 
-K=1/vmedian(x);
-
 for i=1:1:length(keys)
     hold on,xline(keys(i))
 end
 
 step=(chunkTimestamps(x,100)-chunkTimestamps(x,1))/300;
 hold on,plot(chunkTimestamps(x,1):step:chunkTimestamps(x,100),predict2)
+
+y=1:1:range;
+max(abs(y-predict))
+
+%%
+startPos=1273764;
+range=1000;
+endPos=startPos+range-1;
+t=M(startPos:endPos,1);
+figure, plot(t,1:range),
+for i=1:1:range-1
+    if intervalsType(i)==0
+        hold on,plot(t(i),i,'b+') % non-outlier & tilt
+    else
+        hold on,plot(t(i),i,'r+') % outlier & level
+    end
+end
+hold on,plot(t(range),range,'g+') % the last point
+
+for i=1:1:length(keys)
+    hold on,xline(keys(i))
+end
+
+step=(t(range)-t(1))/(range/2);
+hold on,plot(t(1):step:t(range),predict2)
 
 y=1:1:range;
 max(abs(y-predict))

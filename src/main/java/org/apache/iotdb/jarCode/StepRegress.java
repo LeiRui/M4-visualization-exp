@@ -83,9 +83,12 @@ public class StepRegress {
     for (int i = 0; i < intervals.size(); i++) {
       long delta = intervals.get(i);
 
-      // the current point (t,pos) considered, where t is the left endpoint of the current interval.
+      // the current point (t,pos) focused, where t is the left endpoint of the current interval.
       long t = timestamps.get(i);
       int pos = i + 1;
+      // the next point (t,pos), where t is the right endpoint of the current interval.
+      long nextT = timestamps.get(i + 1);
+      int nextPos = i + 2;
 
       // 1) determine the type of the current interval
       // level condition: big interval && the right endpoint of the interval is under the latest tilt line.
@@ -93,9 +96,21 @@ public class StepRegress {
       // "the right endpoint of the interval is under the latest tilt line" is to ensure the
       // monotonically decreasing order of tilt intercepts (the last interval running through the last point
       // is handled using post-processing to avoid disorder of tilt intercepts)
-      boolean isLevel =
-          isBigInterval(delta) && (pos + 1 < slope * timestamps.get(i + 1) + segmentIntercepts.get(
-              tiltLatestSegmentID));
+      boolean isLevel = isBigInterval(delta) && (nextPos < slope * nextT + segmentIntercepts.get(
+          tiltLatestSegmentID));
+      // to avoid TLTLTLTL... causing trivial segments, add extra rule for tilt
+      if (!isLevel) {
+        if (previousIntervalType == IntervalType.level) { // when previous interval is level
+          if (i < intervals.size() - 1) { // when having next interval
+            long nextDelta = intervals.get(i + 1);
+            if (isBigInterval(nextDelta) && (nextPos + 1
+                < slope * timestamps.get(i + 2) + segmentIntercepts.get(
+                tiltLatestSegmentID))) { // when next interval is also level
+              isLevel = true; // then fix type from tilt to level, LTL=>LLL
+            }
+          }
+        }
+      }
 
       // 2) determine if starting a new segment
       if (isLevel) {
