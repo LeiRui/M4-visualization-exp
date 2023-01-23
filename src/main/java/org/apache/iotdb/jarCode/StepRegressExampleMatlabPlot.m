@@ -89,7 +89,7 @@ for i=1:1:length(keys)
     hold on,xline(keys(i))
 end
 
-step=(chunkTimestamps(x,100)-chunkTimestamps(x,1))/300;
+step=(chunkTimestamps(x,100)-chunkTimestamps(x,1))/(range*3);
 hold on,plot(chunkTimestamps(x,1):step:chunkTimestamps(x,100),predict2)
 
 y=1:1:range;
@@ -119,3 +119,5 @@ hold on,plot(t(1):step:t(range),predict2)
 
 y=1:1:range;
 max(abs(y-predict))
+
+

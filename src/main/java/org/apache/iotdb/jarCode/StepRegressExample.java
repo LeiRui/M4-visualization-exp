@@ -16,7 +16,8 @@ public class StepRegressExample {
 //    int range = 100;
 //    int start = (x - 1) * range + 1;
 //    int end = start + range;
-    int start = 1273764;
+
+    int start = 1274009;//1273764;
     int range = 1000;
     int end = start + range;
 
@@ -72,13 +73,14 @@ public class StepRegressExample {
 
     DoubleArrayList predictsFineGrain = new DoubleArrayList();
     long step =
-        (stepRegress.getTimestamps().getLast() - stepRegress.getTimestamps().get(0)) / (range/2);
+        (stepRegress.getTimestamps().getLast() - stepRegress.getTimestamps().get(0)) / (range);
     for (long t = stepRegress.getTimestamps().get(0); t <= stepRegress.getTimestamps().getLast();
         t = t + step) {
       predictsFineGrain.add(stepRegress.infer(t));
     }
     System.out.println("predict2=" + predictsFineGrain + ";");
   }
+
 }
 
 /**
