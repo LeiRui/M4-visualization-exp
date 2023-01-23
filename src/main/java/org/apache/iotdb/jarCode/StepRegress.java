@@ -74,7 +74,7 @@ public class StepRegress {
   /**
    * learn the parameters of the step regression function for the loaded data.
    */
-  public void learn() {
+  public void learn() throws IOException {
     initForLearn();
 
     int tiltLatestSegmentID = 0;
@@ -83,15 +83,19 @@ public class StepRegress {
     for (int i = 0; i < intervals.size(); i++) {
       long delta = intervals.get(i);
 
-      // the current point (t,pos). t is the left endpoint of the current interval.
+      // the current point (t,pos) considered, where t is the left endpoint of the current interval.
       long t = timestamps.get(i);
       int pos = i + 1;
 
       // 1) determine the type of the current interval
-      // level condition: big interval && position not smaller than tilt prediction.
-      // or equally, tilt condition: !big interval || position bigger than tilt prediction.
+      // level condition: big interval && the right endpoint of the interval is under the latest tilt line.
+      // Note the right endpoint, not the left endpoint.
+      // "the right endpoint of the interval is under the latest tilt line" is to ensure the
+      // monotonically decreasing order of tilt intercepts (the last interval running through the last point
+      // is handled using post-processing to avoid disorder of tilt intercepts)
       boolean isLevel =
-          isBigInterval(delta) && (pos <= slope * t + segmentIntercepts.get(tiltLatestSegmentID));
+          isBigInterval(delta) && (pos + 1 < slope * timestamps.get(i + 1) + segmentIntercepts.get(
+              tiltLatestSegmentID));
 
       // 2) determine if starting a new segment
       if (isLevel) {
@@ -113,13 +117,13 @@ public class StepRegress {
           // 3) to determine the intercept, let the level function run through (timestamps.getLast(),timestamps.size())
           double intercept = timestamps.size(); // b2i=pos
           // 4) to determine the segment key, let the level function and the previous tilt function intersect
-          // Note that here is overwrite instead of add.
+          // Note that here is rewrite instead of add.
           // Note taht here is not getLast
           segmentKeys.set(segmentKeys.size() - 1,
               (intercept - segmentIntercepts.get(segmentIntercepts.size() - 2))
                   / slope); // x2i=(b2i-b2i-1)/K TODO debug here not getLast!
           // then add intercept to segmentIntercepts, do not change the order of codes here
-          // Note that here is overwrite instead of add.
+          // Note that here is rewrite instead of add.
           segmentIntercepts.set(segmentIntercepts.size() - 1, intercept);
         }
       } else {
@@ -151,13 +155,13 @@ public class StepRegress {
             // 3) to determine the intercept, let the tilt function run through (timestamps.getLast(),timestamps.size())
             double intercept = timestamps.size() - slope * timestamps.getLast(); // b2i+1=pos-K*t
             // 4) to determine the segment key, let the level function and the previous tilt function intersect
-            // Note that here is overwrite instead of add.
+            // Note that here is rewrite instead of add.
             // Note taht here is not getLast
             segmentKeys.set(segmentKeys.size() - 1,
                 (segmentIntercepts.get(segmentIntercepts.size() - 2) - intercept)
                     / slope); // x2i+1=(b2i-b2i+1)/K TODO debug here not getLast!
             // then add intercept to segmentIntercepts, do not change the order of codes here
-            // Note that here is overwrite instead of add.
+            // Note that here is rewrite instead of add.
             segmentIntercepts.set(segmentIntercepts.size() - 1, intercept);
 
             // now check to remove possible disorders
@@ -217,6 +221,32 @@ public class StepRegress {
       }
     }
     segmentKeys.add(timestamps.getLast()); // tm
+
+    checkOrder(segmentIntercepts);
+  }
+
+  /**
+   * For id starting from 0, since we fix that the first status is always tilt, then intercepts with
+   * even id should be monotonically decreasing, and intercepts with odd id should be monotonically
+   * increasing.
+   */
+  private void checkOrder(DoubleArrayList segmentIntercepts) throws IOException {
+    double tiltIntercept = Double.MAX_VALUE;
+    double levelIntercept = Double.MIN_VALUE;
+    for (int i = 0; i < segmentIntercepts.size(); i++) {
+      double intercept = segmentIntercepts.get(i);
+      if (i % 2 == 0) {
+        if (intercept >= tiltIntercept) {
+          throw new IOException(String.format("disorder of tilt intercepts!: i=%s", i));
+        }
+        tiltIntercept = intercept;
+      } else {
+        if (intercept <= levelIntercept) {
+          throw new IOException(String.format("disorder of level intercepts!: i=%s", i));
+        }
+        levelIntercept = intercept;
+      }
+    }
   }
 
   private boolean isBigInterval(long interval) {
