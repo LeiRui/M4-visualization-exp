@@ -132,9 +132,9 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 echo "Querying O_10_D_0_0 with varied w"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
-cd vary_w
 
 echo "moc"
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -150,7 +150,7 @@ do
 done
 
 echo "mac"
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResult.* .
@@ -166,7 +166,7 @@ do
 done
 
 echo "cpv"
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResult.* .
@@ -182,7 +182,7 @@ do
 done
 
 # unify results
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
@@ -224,9 +224,9 @@ echo "Querying O_10_D_0_0 with varied tqe"
 
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_tqe
-cd vary_tqe
 
 echo "moc"
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
 mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
@@ -244,7 +244,7 @@ do
 done
 
 echo "mac"
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
 mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResult.* .
@@ -261,7 +261,7 @@ do
 done
 
 echo "cpv"
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
 mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResult.* .
@@ -278,7 +278,7 @@ do
 done
 
 # unify results
-cd ..
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 
@@ -374,9 +374,9 @@ do
   echo "Querying ${workspace}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
-  cd fix
 
   echo "moc"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir moc
   cd moc
   cp $HOME_PATH/ProcessResult.* .
@@ -386,7 +386,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir mac
   cd mac
   cp $HOME_PATH/ProcessResult.* .
@@ -396,7 +396,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir cpv
   cd cpv
   cp $HOME_PATH/ProcessResult.* .
@@ -406,7 +406,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
@@ -523,9 +523,9 @@ do
   echo "Querying ${workspace}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
-  cd fix
 
   echo "moc"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir moc
   cd moc
   cp $HOME_PATH/ProcessResult.* .
@@ -535,7 +535,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir mac
   cd mac
   cp $HOME_PATH/ProcessResult.* .
@@ -545,7 +545,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir cpv
   cd cpv
   cp $HOME_PATH/ProcessResult.* .
@@ -555,7 +555,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
@@ -675,9 +675,9 @@ do
   echo "Querying ${workspace}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
-  cd fix
 
   echo "moc"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir moc
   cd moc
   cp $HOME_PATH/ProcessResult.* .
@@ -687,7 +687,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir mac
   cd mac
   cp $HOME_PATH/ProcessResult.* .
@@ -697,7 +697,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "cpv"
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir cpv
   cd cpv
   cp $HOME_PATH/ProcessResult.* .
@@ -707,7 +707,7 @@ do
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
-  cd ..
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
   java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 done
