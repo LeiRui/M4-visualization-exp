@@ -71,6 +71,8 @@ public class WriteData {
     System.out.println("[WriteData] valueIdx=" + valueIdx);
     // value encoder
     String valueEncoding = args[12]; // RLE, GORILLA, PLAIN
+    System.out.println("[WriteData] valueEncoding=" + valueEncoding);
+
     //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
     String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
         device,
