@@ -133,21 +133,21 @@ echo "Querying O_10_D_0_0 with varied w"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
 
-echo "moc"
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
-mkdir moc
-cd moc
-cp $HOME_PATH/ProcessResult.* .
-cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
-do
-  echo "w=$w"
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w moc >> result_${i}.txt
-  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
-  let i+=1
-done
+# echo "moc"
+# cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
+# mkdir moc
+# cd moc
+# cp $HOME_PATH/ProcessResult.* .
+# cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+# i=1
+# for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
+# do
+#   echo "w=$w"
+#   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w moc >> result_${i}.txt
+#   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
+#   let i+=1
+# done
 
 echo "mac"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
@@ -184,7 +184,8 @@ done
 # unify results
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 cp $HOME_PATH/SumResultUnify.* .
-java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+# java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
 # export results
 # [EXP1]
@@ -225,23 +226,23 @@ echo "Querying O_10_D_0_0 with varied tqe"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_tqe
 
-echo "moc"
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
-mkdir moc
-cd moc
-cp $HOME_PATH/ProcessResult.* .
-cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-i=1
-for per in 1 5 10 20 40 60 80 # 100% is already done in exp1
-do
-  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
-  echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
-  #  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} moc >> result_${i}.txt
-  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
-  let i+=1
-done
+# echo "moc"
+# cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
+# mkdir moc
+# cd moc
+# cp $HOME_PATH/ProcessResult.* .
+# cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+# i=1
+# for per in 1 5 10 20 40 60 80 # 100% is already done in exp1
+# do
+#   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+#   echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
+#   #  range=$((echo scale=0 ; echo ${k}*${FIX_W}*${TOTAL_TIME_RANGE}*${IOTDB_CHUNK_POINT_SIZE}/${TOTAL_POINT_NUMBER}) | bc )
+#   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} moc >> result_${i}.txt
+#   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
+#   let i+=1
+# done
 
 echo "mac"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
@@ -280,7 +281,8 @@ done
 # unify results
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
 cp $HOME_PATH/SumResultUnify.* .
-java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+# java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
 # export results
 # [EXP2]
@@ -375,15 +377,15 @@ do
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
 
-  echo "moc"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir moc
-  cd moc
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
+  # echo "moc"
+  # cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  # mkdir moc
+  # cd moc
+  # cp $HOME_PATH/ProcessResult.* .
+  # cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  # # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  # $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  # java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
@@ -408,7 +410,8 @@ do
   # unify results
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
-  java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  # java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
 # export results
@@ -524,15 +527,15 @@ do
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
 
-  echo "moc"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir moc
-  cd moc
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
+  # echo "moc"
+  # cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  # mkdir moc
+  # cd moc
+  # cp $HOME_PATH/ProcessResult.* .
+  # cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  # # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  # $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  # java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
@@ -557,7 +560,8 @@ do
   # unify results
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
-  java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  # java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
 # export results
@@ -676,15 +680,15 @@ do
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
 
-  echo "moc"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir moc
-  cd moc
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
+  # echo "moc"
+  # cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  # mkdir moc
+  # cd moc
+  # cp $HOME_PATH/ProcessResult.* .
+  # cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  # # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  # $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
+  # java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
   echo "mac"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
@@ -709,7 +713,8 @@ do
   # unify results
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   cp $HOME_PATH/SumResultUnify.* .
-  java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  # java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
 # export results

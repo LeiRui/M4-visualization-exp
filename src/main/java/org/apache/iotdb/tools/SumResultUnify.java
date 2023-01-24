@@ -9,36 +9,30 @@ import java.io.PrintWriter;
 public class SumResultUnify {
 
   public static void main(String[] args) throws IOException {
-    String moc = args[0]; // sumResultMOC.csv
-    String mac = args[1]; // sumResultMAC.csv
-    String cpv = args[2]; // sumResultCPV.csv
-    String out = args[3];
+    String mac = args[0]; // sumResultMAC.csv
+    String cpv = args[1]; // sumResultCPV.csv
+    String out = args[2];
 
-    BufferedReader mocReader = new BufferedReader(new FileReader(moc));
     BufferedReader macReader = new BufferedReader(new FileReader(mac));
     BufferedReader cpvReader = new BufferedReader(new FileReader(cpv));
     PrintWriter printWriter = new PrintWriter(new FileWriter(out));
-    String mocLine;
     String macLine;
     String cpvLine;
     String appendLine;
     boolean isHeader = true;
-    while ((mocLine = mocReader.readLine()) != null) {
-      macLine = macReader.readLine();
+    while ((macLine = macReader.readLine()) != null) {
       cpvLine = cpvReader.readLine();
 
       if (isHeader) {
-        mocLine = "MOC_" + mocLine;
         macLine = "MAC_" + macLine;
         cpvLine = "CPV_" + cpvLine;
         isHeader = false;
       }
 
-      appendLine = mocLine + "," + macLine + "," + cpvLine;
+      appendLine = macLine + "," + cpvLine;
       printWriter.println(appendLine);
     }
     printWriter.close();
-    mocReader.close();
     macReader.close();
     cpvReader.close();
   }
