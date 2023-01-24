@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.iotdb</groupId>
-  <artifactId>QueryData</artifactId>
+  <artifactId>WriteData</artifactId>
   <version>0.12.4</version>
   <name>M4</name>
 
@@ -64,7 +64,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>org.apache.iotdb.jarCode.QueryData</mainClass>
+                  <mainClass>org.apache.iotdb.jarCode.WriteData</mainClass>
                 </transformer>
               </transformers>
             </configuration>
