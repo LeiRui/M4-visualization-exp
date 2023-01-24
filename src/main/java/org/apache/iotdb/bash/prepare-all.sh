@@ -1,5 +1,7 @@
 M4_VISUALIZATION_EXP=/data/rl/M4-visualization-exp
 HOME_PATH=/data/rl/v4
+VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
+TIME_ENCODING=PLAIN # TS_2DIFF
 
 mkdir -p $HOME_PATH
 
@@ -52,6 +54,8 @@ $HOME_PATH/tool.sh DATA_MIN_TIME 0 run-single.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 617426057626 run-single.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1200000 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-BallSpeed.sh
 
 cd $HOME_PATH
@@ -66,6 +70,8 @@ $HOME_PATH/tool.sh DATA_MIN_TIME 1329955200008812200 run-single.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1329965999991045200 run-single.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1076102 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-MF03.sh
 
 cd $HOME_PATH
@@ -80,6 +86,8 @@ $HOME_PATH/tool.sh DATA_MIN_TIME 1616805035973 run-single.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1627380839563 run-single.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1943180 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-KOB.sh
 
 cd $HOME_PATH
@@ -94,6 +102,8 @@ $HOME_PATH/tool.sh DATA_MIN_TIME 1616194494000 run-single.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1642656230000 run-single.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1330764 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====

@@ -17,7 +17,7 @@ public class WriteData {
   /**
    * Before writing data, make sure check the server parameter configurations.
    */
-  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx
+  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx valueEncoding
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, IOException {
     String device = args[0];
@@ -69,6 +69,15 @@ public class WriteData {
     // 值idx，从0开始
     int valueIdx = Integer.parseInt(args[11]);
     System.out.println("[WriteData] valueIdx=" + valueIdx);
+    // value encoder
+    String valueEncoding = args[12]; // RLE, GORILLA, PLAIN
+    //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
+    String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
+        device,
+        measurement,
+        tsDataType,
+        valueEncoding
+    );
 
     if (deletePercentage < 0 || deletePercentage > 100) {
       throw new IOException("WRONG deletePercentage! deletePercentage should be within [0,100]");
@@ -101,6 +110,7 @@ public class WriteData {
 
     Session session = new Session("127.0.0.1", 6667, "root", "root");
     session.open(false);
+    session.executeNonQueryStatement(createSql);
 
     // this is to make all following inserts unseq chunks
     if (timestamp_precision.toLowerCase().equals("ns")) {
