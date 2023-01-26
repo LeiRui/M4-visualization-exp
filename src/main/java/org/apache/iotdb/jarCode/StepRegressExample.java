@@ -11,19 +11,19 @@ public class StepRegressExample {
   public static void main(String[] args) throws Exception {
     // read data into memory, assuming that the data is small enough to fit in memory
     // read csvData from row start(inclusive) to end(exclusive), counting from 1
-    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\RcvTime.csv";
+//    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\RcvTime.csv";
 //    int x = 12741; //4232;
 //    int range = 100;
 //    int start = (x - 1) * range + 1;
 //    int end = start + range;
 
-    int start = 1274009;//1273764;
-    int range = 1000;
-    int end = start + range;
+//    int start = 1274009;//1273764;
+//    int range = 1000;
+//    int end = start + range;
 
-//    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
-//    int start = 1;
-//    int end = 3;
+    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
+    int start = 1;
+    int end = 2;
 
     StepRegress stepRegress = new StepRegress();
     String line;
@@ -71,14 +71,14 @@ public class StepRegressExample {
     }
     System.out.println("predict=" + predicts + ";");
 
-    DoubleArrayList predictsFineGrain = new DoubleArrayList();
-    long step =
-        (stepRegress.getTimestamps().getLast() - stepRegress.getTimestamps().get(0)) / (range);
-    for (long t = stepRegress.getTimestamps().get(0); t <= stepRegress.getTimestamps().getLast();
-        t = t + step) {
-      predictsFineGrain.add(stepRegress.infer(t));
-    }
-    System.out.println("predict2=" + predictsFineGrain + ";");
+//    DoubleArrayList predictsFineGrain = new DoubleArrayList();
+//    long step =
+//        (stepRegress.getTimestamps().getLast() - stepRegress.getTimestamps().get(0)) / (range);
+//    for (long t = stepRegress.getTimestamps().get(0); t <= stepRegress.getTimestamps().getLast();
+//        t = t + step) {
+//      predictsFineGrain.add(stepRegress.infer(t));
+//    }
+//    System.out.println("predict2=" + predictsFineGrain + ";");
   }
 
 }
