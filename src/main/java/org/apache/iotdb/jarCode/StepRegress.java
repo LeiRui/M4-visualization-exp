@@ -8,7 +8,7 @@ import org.eclipse.collections.impl.list.mutable.primitive.LongArrayList;
 
 public class StepRegress {
 
-  private double slope;
+  private double slope = 0;
 
   // when learning parameters, we first determine segmentIntercepts and then determine segmentKeys;
   // when using functions, we read segmentKeys and then infer segmentIntercepts.
@@ -72,9 +72,15 @@ public class StepRegress {
   }
 
   /**
-   * learn the parameters of the step regression function for the loaded data.
+   * learn the parameters of the step regression function for the loaded data. Executed once and
+   * only once when serializing.
    */
   public void learn() throws IOException {
+    if (intervals.size() == 0) { // only one point
+      this.segmentKeys.add(timestamps.get(0)); // t1
+      return;
+    }
+
     initForLearn();
 
     int tiltLatestSegmentID = 0;
@@ -91,20 +97,25 @@ public class StepRegress {
       int nextPos = i + 2;
 
       // 1) determine the type of the current interval
-      // level condition: big interval && the right endpoint of the interval is under the latest tilt line.
+      // level condition: big interval && the right endpoint of the interval is under the latest
+      // tilt line.
       // Note the right endpoint, not the left endpoint.
       // "the right endpoint of the interval is under the latest tilt line" is to ensure the
-      // monotonically decreasing order of tilt intercepts (the last interval running through the last point
+      // monotonically decreasing order of tilt intercepts (the last interval running through the
+      // last point
       // is handled using post-processing to avoid disorder of tilt intercepts)
-      boolean isLevel = isBigInterval(delta) && (nextPos < slope * nextT + segmentIntercepts.get(
-          tiltLatestSegmentID));
+      boolean isLevel =
+          isBigInterval(delta)
+              && (nextPos < slope * nextT + segmentIntercepts.get(tiltLatestSegmentID));
       // to avoid TLTLTLTL... causing trivial segments, add extra rule for tilt
       if (!isLevel) {
         if (previousIntervalType == IntervalType.level) { // when previous interval is level
           if (i < intervals.size() - 1) { // when having next interval
             long nextDelta = intervals.get(i + 1);
-            if (isBigInterval(nextDelta) && (nextPos + 1
-                < slope * timestamps.get(i + 2) + segmentIntercepts.get(
+            if (isBigInterval(nextDelta)
+                && (nextPos + 1
+                < slope * timestamps.get(i + 2)
+                + segmentIntercepts.get(
                 tiltLatestSegmentID))) { // when next interval is also level
               isLevel = true; // then fix type from tilt to level, LTL=>LLL
             }
@@ -120,7 +131,8 @@ public class StepRegress {
           previousIntervalType = IntervalType.level;
           // 3) to determine the intercept, let the level function run through (t,pos)
           double intercept = pos; // b2i=pos
-          // 4) to determine the segment key, let the level function and the previous tilt function intersect
+          // 4) to determine the segment key, let the level function and the previous tilt function
+          // intersect
           segmentKeys.add((intercept - segmentIntercepts.getLast()) / slope); // x2i=(b2i-b2i-1)/K
           // then add intercept to segmentIntercepts, do not change the order of codes here
           segmentIntercepts.add(
@@ -129,12 +141,15 @@ public class StepRegress {
         // deal with the last interval to make sure the last point is hit
         // TODO create examples to debug this
         if (i == intervals.size() - 1) {
-          // 3) to determine the intercept, let the level function run through (timestamps.getLast(),timestamps.size())
+          // 3) to determine the intercept, let the level function run through
+          // (timestamps.getLast(),timestamps.size())
           double intercept = timestamps.size(); // b2i=pos
-          // 4) to determine the segment key, let the level function and the previous tilt function intersect
+          // 4) to determine the segment key, let the level function and the previous tilt function
+          // intersect
           // Note that here is rewrite instead of add.
           // Note taht here is not getLast
-          segmentKeys.set(segmentKeys.size() - 1,
+          segmentKeys.set(
+              segmentKeys.size() - 1,
               (intercept - segmentIntercepts.get(segmentIntercepts.size() - 2))
                   / slope); // x2i=(b2i-b2i-1)/K TODO debug here not getLast!
           // then add intercept to segmentIntercepts, do not change the order of codes here
@@ -148,7 +163,8 @@ public class StepRegress {
           previousIntervalType = IntervalType.tilt;
           // 3) to determine the intercept, let the tilt function run through (t,pos)
           double intercept = pos - slope * t; // b2i+1=pos-K*t
-          // 4) to determine the segment key, let the level function and the previous tilt function intersect
+          // 4) to determine the segment key, let the level function and the previous tilt function
+          // intersect
           segmentKeys.add((segmentIntercepts.getLast() - intercept) / slope); // x2i+1=(b2i-b2i+1)/K
           // then add intercept to segmentIntercepts, do not change the order of codes here
           segmentIntercepts.add(intercept);
@@ -160,19 +176,21 @@ public class StepRegress {
         if (i == intervals.size() - 1) {
           if (segmentIntercepts.size() == 1) { // all TTTTTT, only one segment info
             // remove all segment info, and directly connect the first and the last point
-            this.slope =
-                (timestamps.size() - 1.0) / (timestamps.getLast() - timestamps.getFirst());
+            this.slope = (timestamps.size() - 1.0) / (timestamps.getLast() - timestamps.getFirst());
             this.segmentKeys = new DoubleArrayList();
             this.segmentIntercepts = new DoubleArrayList();
             this.segmentKeys.add(timestamps.get(0)); // t1
             this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
           } else {
-            // 3) to determine the intercept, let the tilt function run through (timestamps.getLast(),timestamps.size())
+            // 3) to determine the intercept, let the tilt function run through
+            // (timestamps.getLast(),timestamps.size())
             double intercept = timestamps.size() - slope * timestamps.getLast(); // b2i+1=pos-K*t
-            // 4) to determine the segment key, let the level function and the previous tilt function intersect
+            // 4) to determine the segment key, let the level function and the previous tilt
+            // function intersect
             // Note that here is rewrite instead of add.
             // Note taht here is not getLast
-            segmentKeys.set(segmentKeys.size() - 1,
+            segmentKeys.set(
+                segmentKeys.size() - 1,
                 (segmentIntercepts.get(segmentIntercepts.size() - 2) - intercept)
                     / slope); // x2i+1=(b2i-b2i+1)/K TODO debug here not getLast!
             // then add intercept to segmentIntercepts, do not change the order of codes here
@@ -180,7 +198,8 @@ public class StepRegress {
             segmentIntercepts.set(segmentIntercepts.size() - 1, intercept);
 
             // now check to remove possible disorders
-            // search from back to front to find the first tilt intercept that is equal to or larger than the current intercept
+            // search from back to front to find the first tilt intercept that is equal to or larger
+            // than the current intercept
             int start = segmentIntercepts.size() - 3; // TODO debug
             // TODO consider only one T
             boolean equals = false;
@@ -203,17 +222,23 @@ public class StepRegress {
               this.segmentIntercepts = new DoubleArrayList();
               this.segmentKeys.add(timestamps.get(0)); // t1
               this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
-            } else if (start < segmentIntercepts.size() - 3) {
+            } else if ((start < segmentIntercepts.size() - 3) || equals) {
+              // either the first tilt intercept which is not smaller than the last tilt intercept
+              // is not the second-to-last tilt intercept,
+              // or is the second-to-last tilt intercept but is equal to the last tilt intercept.
               if (!equals) {
                 // remove all segment information after start+1 id, i.e., remove from start+2~end
                 // note that the level after start tilt is kept since equals=false.
-                segmentIntercepts = DoubleArrayList.newListWith(
-                    Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 2));
-                segmentKeys = DoubleArrayList.newListWith(
-                    Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 2));
+                segmentIntercepts =
+                    DoubleArrayList.newListWith(
+                        Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 2));
+                segmentKeys =
+                    DoubleArrayList.newListWith(
+                        Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 2));
 
                 // Add new segment info for TL&T
-                // 4) to determine the segment key, let the level function and the previous tilt function intersect
+                // 4) to determine the segment key, let the level function and the previous tilt
+                // function intersect
                 // Note that here is add and getLast again!
                 segmentKeys.add(
                     (segmentIntercepts.getLast() - intercept) / slope); // x2i+1=(b2i-b2i+1)/K
@@ -223,21 +248,26 @@ public class StepRegress {
               } else {
                 // remove all segment information after start id, i.e., remove from start+1~end
                 // note that the level after start tilt is NOT kept since equal==true
-                segmentIntercepts = DoubleArrayList.newListWith(
-                    Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 1));
-                segmentKeys = DoubleArrayList.newListWith(
-                    Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 1));
+                segmentIntercepts =
+                    DoubleArrayList.newListWith(
+                        Arrays.copyOfRange(segmentIntercepts.toArray(), 0, start + 1));
+                segmentKeys =
+                    DoubleArrayList.newListWith(
+                        Arrays.copyOfRange(segmentKeys.toArray(), 0, start + 1));
                 // TODO debug the first status is level, b1
               }
             }
-            // otherwise start==segmentIntercepts.size()-3 means result is already ready, no disorder to handle
+            // otherwise start==segmentIntercepts.size()-3 && equal=false,
+            // means the first tilt intercept which is bigger than the last tilt intercept
+            // is the second-to-last tilt intercept,
+            // so in this case the result is already ready, no disorder to handle
           }
         }
       }
     }
     segmentKeys.add(timestamps.getLast()); // tm
 
-    checkOrder(segmentIntercepts);
+    checkOrder();
   }
 
   /**
@@ -245,19 +275,25 @@ public class StepRegress {
    * even id should be monotonically decreasing, and intercepts with odd id should be monotonically
    * increasing.
    */
-  private void checkOrder(DoubleArrayList segmentIntercepts) throws IOException {
+  private void checkOrder() throws IOException {
     double tiltIntercept = Double.MAX_VALUE;
     double levelIntercept = Double.MIN_VALUE;
     for (int i = 0; i < segmentIntercepts.size(); i++) {
       double intercept = segmentIntercepts.get(i);
       if (i % 2 == 0) {
         if (intercept >= tiltIntercept) {
-          throw new IOException(String.format("disorder of tilt intercepts!: i=%s", i));
+          throw new IOException(
+              String.format(
+                  "disorder of tilt intercepts!: i=%s. Timestamps: %s, SegmentKeys: %s, SegmentIntercepts: %s",
+                  i, timestamps, segmentKeys, segmentIntercepts));
         }
         tiltIntercept = intercept;
       } else {
         if (intercept <= levelIntercept) {
-          throw new IOException(String.format("disorder of level intercepts!: i=%s", i));
+          throw new IOException(
+              String.format(
+                  "disorder of level intercepts!: i=%s. Timestamps: %s, SegmentKeys: %s, SegmentIntercepts: %s",
+                  i, timestamps, segmentKeys, segmentIntercepts));
         }
         levelIntercept = intercept;
       }
@@ -294,6 +330,14 @@ public class StepRegress {
     return slope;
   }
 
+  public void setSlope(double slope) {
+    this.slope = slope;
+  }
+
+  public void setSegmentKeys(DoubleArrayList segmentKeys) {
+    this.segmentKeys = segmentKeys;
+  }
+
   public DoubleArrayList getSegmentKeys() {
     return segmentKeys;
   }
@@ -312,8 +356,21 @@ public class StepRegress {
 
   /**
    * infer m-1 intercepts b1,b2,...,bm-1 given the slope and m segmentKeys t1,t2,...,tm (tm is not
-   * used)
+   * used) Executed once and only once when deserializing.
    */
+  public void inferInterceptsFromSegmentKeys() {
+    segmentIntercepts.add(1 - slope * segmentKeys.get(0)); // b1=1-K*t1
+    for (int i = 1; i < segmentKeys.size() - 1; i++) { // b2,b3,...,bm-1
+      if (i % 2 == 0) { // b2i+1=b2i-1-K*(t2i+1-t2i)
+        double b = segmentIntercepts.get(segmentIntercepts.size() - 2);
+        segmentIntercepts.add(b - slope * (segmentKeys.get(i) - segmentKeys.get(i - 1)));
+      } else { // b2i=K*t2i+b2i-1
+        double b = segmentIntercepts.getLast();
+        segmentIntercepts.add(slope * segmentKeys.get(i) + b);
+      }
+    }
+  }
+
   public static DoubleArrayList inferInterceptsFromSegmentKeys(double slope,
       DoubleArrayList segmentKeys) {
     DoubleArrayList segmentIntercepts = new DoubleArrayList();
@@ -331,14 +388,19 @@ public class StepRegress {
   }
 
   /**
-   * @param t input
-   * @return output the value of the step regression function f(t)
+   * @param t input timestamp
+   * @return output the value of the step regression function f(t), which is the estimated position
+   * in the chunk. Pay attention that f(t) starts from (startTime,1), ends at (endTime,count).
    */
   public double infer(double t) throws IOException {
+    if (segmentKeys.size() == 1) { // TODO DEBUG
+      return 1;
+    }
+
     if (t < segmentKeys.get(0) || t > segmentKeys.getLast()) {
       throw new IOException(
-          String.format("t out of range. input within [%s,%s]", segmentKeys.get(0),
-              segmentKeys.getLast()));
+          String.format(
+              "t out of range. input within [%s,%s]", segmentKeys.get(0), segmentKeys.getLast()));
     }
     int seg = 0;
     for (; seg < segmentKeys.size() - 1; seg++) {
