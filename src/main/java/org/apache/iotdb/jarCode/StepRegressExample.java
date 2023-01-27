@@ -23,7 +23,7 @@ public class StepRegressExample {
 
     String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
     int start = 1;
-    int end = 101;
+    int end = 81;
 
     StepRegress stepRegress = new StepRegress();
     String line;
