@@ -2,7 +2,7 @@
 - Firstly install iotdb locally:
 ```
 git clone -b M4-visualization http://github.com/apache/iotdb.git
-mvn clean install -DskipTests
+mvn clean install -DskipTests -pl -distribution
 ```
 
 - Then set the `mainClass` and `artifactId` in the pom.xml as `WriteData`/`QueryData`.
