@@ -20,7 +20,7 @@ public class CheckDisorder {
     System.out.println("dataDir=" + dataDir);
 
     // iteratively get all files under dataDir
-    List<File> res = listAllFiles(dataDir, new ArrayList<>());
+    List<File> res = listAllFiles(dataDir, new ArrayList<File>());
 
     // extract the column with the targetSensorName, and attach them together
     long lastTimestamp = -1;
