@@ -578,7 +578,7 @@ cd fix
 sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp4.csv #只是复制表头
 
 # delete percentage 0% exp result
-# 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 10%的结果
+# 把exp1.csv里的w=FIX_W那一行复制到exp4.csv里作为delete percentage 0%的结果
 # append the line starting with FIX_W and without the first two columns in exp1.csv to exp4.csv
 # sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
 sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # the line starting with FIX_W
