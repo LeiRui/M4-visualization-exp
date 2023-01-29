@@ -11,7 +11,12 @@ import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
+import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
+import org.apache.iotdb.tsfile.write.record.Tablet;
+import org.apache.iotdb.tsfile.write.schema.MeasurementSchema;
 
+// write in batch mode,
+// and separate insert and delete to avoid 1) delete points in memory 2) trigger repeat deletes
 public class WriteData {
 
   /**
@@ -142,30 +147,56 @@ public class WriteData {
     }
     session.executeNonQueryStatement("flush");
 
+    List<Long> deleteStartTimeList = new ArrayList<>();
+    List<Long> deleteEndTimeList = new ArrayList<>();
     File f = new File(filePath);
     String line = null;
     BufferedReader reader = new BufferedReader(new FileReader(f));
     long lastDeleteMinTime = Long.MAX_VALUE;
     long lastDeleteMaxTime = Long.MIN_VALUE;
     int cnt = 0;
+
+    List<MeasurementSchema> schemaList = new ArrayList<>();
+    schemaList.add(
+        new MeasurementSchema(measurement, tsDataType, TSEncoding.valueOf(valueEncoding)));
+    Tablet tablet = new Tablet(device, schemaList, iotdb_chunk_point_size);
+    long[] timestamps = tablet.timestamps;
+    Object[] values = tablet.values;
+
     while ((line = reader.readLine()) != null) {
+      cnt++;
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]);
-      session.insertRecord(
-          device,
-          timestamp,
-          Collections.singletonList(measurement),
-          Collections.singletonList(tsDataType),
-          parseValue(split[valueIdx], tsDataType));
-      cnt++;
 
+      // TODO change to batch mode, iotdb_chunk_point_size
+      int row = tablet.rowSize++;
+      timestamps[row] = timestamp;
+      switch (tsDataType) {
+        case INT64:
+          long long_value = Long.parseLong(split[valueIdx]); // get value from real data
+          long[] long_sensor = (long[]) values[0];
+          long_sensor[row] = long_value;
+          break;
+        case DOUBLE:
+          double double_value = Double.parseDouble(split[valueIdx]); // get value from real data
+          double[] double_sensor = (double[]) values[0];
+          double_sensor[row] = double_value;
+          break;
+        default:
+          throw new IOException("not supported data type!");
+      }
+      if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
+        session.insertTablet(tablet, true);
+        tablet.reset();
+      }
+
+      // generate delete start and end time
       if (timestamp > lastDeleteMaxTime) {
         lastDeleteMaxTime = timestamp;
       }
       if (timestamp < lastDeleteMinTime) {
         lastDeleteMinTime = timestamp;
       }
-
       if (deletePercentage > 0) {
         if (cnt >= deletePeriod) {
           cnt = 0;
@@ -176,15 +207,27 @@ public class WriteData {
                   Math.ceil(
                       lastDeleteMinTime + Math.random() * (rightBound - lastDeleteMinTime + 1));
           long deleteEndTime = deleteStartTime + deleteLen - 1;
-          session.deleteData(deletePaths, deleteStartTime, deleteEndTime);
-          System.out.println("[[[[delete]]]]]" + deleteStartTime + "," + deleteEndTime);
+          deleteStartTimeList.add(deleteStartTime);
+          deleteEndTimeList.add(deleteEndTime);
 
           lastDeleteMinTime = Long.MAX_VALUE;
           lastDeleteMaxTime = Long.MIN_VALUE;
         }
       }
     }
+    // flush the last Tablet
+    if (tablet.rowSize != 0) {
+      session.insertTablet(tablet, true);
+      tablet.reset();
+    }
+    session.executeNonQueryStatement("flush");
 
+    // separate insert and delete to avoid 1) delete points in memory 2) trigger repeat deletes
+    for (int i = 0; i < deleteStartTimeList.size(); i++) {
+      session.deleteData(deletePaths, deleteStartTimeList.get(i), deleteEndTimeList.get(i));
+      System.out.println(
+          "[[[[delete]]]]]" + deleteStartTimeList.get(i) + "," + deleteEndTimeList.get(i));
+    }
     session.executeNonQueryStatement("flush");
     session.close();
   }
