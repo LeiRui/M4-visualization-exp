@@ -186,7 +186,7 @@ public class WriteData {
           throw new IOException("not supported data type!");
       }
       if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
-        session.insertTablet(tablet, true);
+        session.insertTablet(tablet, false);
         tablet.reset();
       }
 
@@ -217,7 +217,7 @@ public class WriteData {
     }
     // flush the last Tablet
     if (tablet.rowSize != 0) {
-      session.insertTablet(tablet, true);
+      session.insertTablet(tablet, false);
       tablet.reset();
     }
     session.executeNonQueryStatement("flush");
