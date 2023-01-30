@@ -2,6 +2,7 @@ package org.apache.iotdb.jarCode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.collections.impl.list.mutable.primitive.DoubleArrayList;
@@ -11,19 +12,45 @@ public class StepRegressExample {
   public static void main(String[] args) throws Exception {
     // read data into memory, assuming that the data is small enough to fit in memory
     // read csvData from row start(inclusive) to end(exclusive), counting from 1
-//    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\datasets\\RcvTime.csv";
+
+//    String csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\RcvTime.csv";
 //    int x = 12741; //4232;
 //    int range = 100;
 //    int start = (x - 1) * range + 1;
 //    int end = start + range;
 
-//    int start = 1274009;//1273764;
-//    int range = 1000;
-//    int end = start + range;
+//    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
+//    int start = 1;
+//    int end = 81;
 
-    String csvData = "D:\\github\\m4-lsm\\M4-visualization-exp\\src\\main\\java\\org\\apache\\iotdb\\jarCode\\test1.csv";
-    int start = 1;
-    int end = 81;
+    int dataset = 2; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
+    String csvData = null;
+    int start = 0; // inclusive, counting from 1
+    int range = 0;
+    int end = 0; // exclusive, counting from 1
+    if (dataset == 1) {
+      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\BallSpeed.csv";
+      start = 423000;
+      range = 1000;
+      end = start + range;
+    } else if (dataset == 2) {
+      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\MF03.csv";
+      start = 450000;
+      range = 1000;
+      end = start + range;
+    } else if (dataset == 3) {
+      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\KOB.csv";
+      start = 1650012;
+      range = 1000;
+      end = start + range;
+    } else if (dataset == 4) {
+      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\RcvTime-custom.csv";
+      start = 1; // 1273764
+      range = 1000;
+      end = start + range;
+    } else {
+      throw new IOException("wrong parameter!");
+    }
 
     StepRegress stepRegress = new StepRegress();
     String line;
@@ -59,11 +86,19 @@ public class StepRegressExample {
     System.out.printf("mad=%.2f%n", stepRegress.getMad());
     System.out.println("timestamps=" + stepRegress.getTimestamps() + ";");
     System.out.println("intervalsType=" + stepRegress.getIntervalsType() + ";");
-    System.out.println("keys=" + stepRegress.getSegmentKeys() + ";");
     System.out.println("intercepts=" + stepRegress.getSegmentIntercepts() + ";");
     System.out.println(
         "intercepts=" + StepRegress.inferInterceptsFromSegmentKeys(stepRegress.getSlope(),
             stepRegress.getSegmentKeys()) + ";");
+
+    DoubleArrayList segmentKeysPos = new DoubleArrayList();
+    for (double t : stepRegress.getSegmentKeys().toArray()) {
+      segmentKeysPos.add(stepRegress.infer(t));
+    }
+    System.out.println("segmentKeys=" + stepRegress.getSegmentKeys() + ";");
+    System.out.println("segmentKeysPos=" + segmentKeysPos + ";");
+    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps);
+    System.out.println("passingPos=" + stepRegress.passingPos);
 
     DoubleArrayList predicts = new DoubleArrayList();
     for (long t : stepRegress.getTimestamps().toArray()) {
