@@ -23,36 +23,40 @@ public class StepRegressExample {
 //    int start = 1;
 //    int end = 81;
 
-    int dataset = 2; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
+    int dataset = 4; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
     String csvData = null;
     int start = 0; // inclusive, counting from 1
     int range = 0;
     int end = 0; // exclusive, counting from 1
+    StepRegress stepRegress = new StepRegress();
     if (dataset == 1) {
       csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\BallSpeed.csv";
       start = 423000;
       range = 1000;
       end = start + range;
+      stepRegress.bigIntervalParam = 3;
     } else if (dataset == 2) {
       csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\MF03.csv";
       start = 450000;
       range = 1000;
       end = start + range;
+      stepRegress.bigIntervalParam = 10;
     } else if (dataset == 3) {
-      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\KOB.csv";
-      start = 1650012;
+      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\KOB-custom.csv";
+      start = 1; // 1650012;
       range = 1000;
       end = start + range;
+      stepRegress.bigIntervalParam = 3;
     } else if (dataset == 4) {
       csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\RcvTime-custom.csv";
       start = 1; // 1273764
       range = 1000;
       end = start + range;
+      stepRegress.bigIntervalParam = 3;
     } else {
       throw new IOException("wrong parameter!");
     }
 
-    StepRegress stepRegress = new StepRegress();
     String line;
     List<Long> timestampList = new ArrayList<>();
     List<Long> intervalList = new ArrayList<>();
@@ -95,10 +99,11 @@ public class StepRegressExample {
     for (double t : stepRegress.getSegmentKeys().toArray()) {
       segmentKeysPos.add(stepRegress.infer(t));
     }
+    System.out.println("startPos=" + start + ";");
     System.out.println("segmentKeys=" + stepRegress.getSegmentKeys() + ";");
     System.out.println("segmentKeysPos=" + segmentKeysPos + ";");
-    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps);
-    System.out.println("passingPos=" + stepRegress.passingPos);
+    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps + ";");
+    System.out.println("passingPos=" + stepRegress.passingPos + ";");
 
     DoubleArrayList predicts = new DoubleArrayList();
     for (long t : stepRegress.getTimestamps().toArray()) {

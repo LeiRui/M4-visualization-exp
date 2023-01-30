@@ -7,6 +7,7 @@ import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 import org.eclipse.collections.impl.list.mutable.primitive.LongArrayList;
 
 public class StepRegress {
+  public int bigIntervalParam = 3; // change bigger for highly regular datasets
 
   private double slope = 0;
 
@@ -312,7 +313,6 @@ public class StepRegress {
   }
 
   private boolean isBigInterval(long interval) {
-    int bigIntervalParam = 10;
     return interval > this.mean + bigIntervalParam * this.stdDev;
   }
 
