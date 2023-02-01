@@ -31,8 +31,7 @@ public class ProcessResult {
     }
 
     String readLine = null;
-    boolean firstTime = true;
-    int metaNum = 0, dataNum = 0, readMemChunkNum = 0;
+    long metaNum = 0, dataNum = 0, readMemChunkNum = 0;
     long pointsTravered = 0;
     long metaTime = 0;
     long dataTime = 0;
@@ -42,12 +41,13 @@ public class ProcessResult {
     while ((readLine = reader.readLine()) != null) {
       if (readLine.startsWith("select")) {
         String[] values = readLine.split("\t");
-        if (firstTime) {
-          metaNum = Integer.parseInt(values[4]);
-          dataNum = Integer.parseInt(values[8]);
-          readMemChunkNum = Integer.parseInt(values[12]);
-          pointsTravered = Long.parseLong(values[16]);
-        }
+        metaNum += Integer.parseInt(values[4]);
+        // may be different even though repeated exp
+        // because for example varying query time range starts at a random time point,
+        // so use average instead of the first time value appears
+        dataNum += Integer.parseInt(values[8]);
+        readMemChunkNum += Integer.parseInt(values[12]);
+        pointsTravered += Long.parseLong(values[16]);
         metaTime += Long.parseLong(values[2]);
         dataTime += Long.parseLong(values[6]);
         readMemChunkTime += Long.parseLong(values[10]);
@@ -59,39 +59,39 @@ public class ProcessResult {
 
     writer.write(
         "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\t pointsTraversed\n"
-            + metaNum
+            + (double) metaNum / counter
             + "\t"
             + (double) metaTime / 1000000 / counter
             + "\t"
-            + dataNum
+            + (double) dataNum / counter
             + "\t"
             + (double) dataTime / 1000000 / counter
             + "\t"
-            + readMemChunkNum
+            + (double) readMemChunkNum / counter
             + "\t"
             + (double) readMemChunkTime / 1000000 / counter
             + "\t"
             + (double) totalTime / 1000000 / counter
             + "\t"
-            + pointsTravered
+            + (double) pointsTravered / counter
     );
 
     sumWriter.write(
-        metaNum
+        (double) metaNum / counter
             + ","
             + (double) metaTime / 1000000 / counter
             + ","
-            + dataNum
+            + (double) dataNum / counter
             + ","
             + (double) dataTime / 1000000 / counter
             + ","
-            + readMemChunkNum
+            + (double) readMemChunkNum / counter
             + ","
             + (double) readMemChunkTime / 1000000 / counter
             + ","
             + (double) totalTime / 1000000 / counter
             + ","
-            + pointsTravered
+            + (double) pointsTravered / counter
             + "\n");
 
     reader.close();
