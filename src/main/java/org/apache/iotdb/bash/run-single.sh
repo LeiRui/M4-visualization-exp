@@ -66,6 +66,38 @@ FIX_DELETE_RANGE=10
 # (4) delete percentage: 49%
 # (5) delete time range: 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
 ############################
+# O_10_D_0_0
+
+# O_0_D_0_0
+# O_20_D_0_0
+# O_30_D_0_0
+# O_40_D_0_0
+# O_50_D_0_0
+# O_60_D_0_0
+# O_70_D_0_0
+# O_80_D_0_0
+# O_90_D_0_0
+
+# O_10_D_9_10
+# O_10_D_19_10
+# O_10_D_29_10
+# O_10_D_39_10
+# O_10_D_49_10
+# O_10_D_59_10
+# O_10_D_69_10
+# O_10_D_79_10
+# O_10_D_89_10
+
+# O_10_D_49_20
+# O_10_D_49_30
+# O_10_D_49_40
+# O_10_D_49_50
+# O_10_D_49_60
+# O_10_D_49_70
+# O_10_D_49_80
+# O_10_D_49_90
+############################
+
 echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
 echo "Begin experiment!"
