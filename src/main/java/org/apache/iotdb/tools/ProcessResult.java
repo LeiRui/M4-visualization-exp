@@ -11,8 +11,8 @@ public class ProcessResult {
   /**
    * select min_time(s6), max_time(s6), first_value(s6), last_value(s6), min_value(s6),
    * max_value(s6) from root.game group by ([0, 617426057627), 617426057627ns)     meta IO: 14674123
-   *         meta num:      1        data IO:       0        data num:      0 readMemChunk IO:
-   * 0        readMemChunk num:      0        total:         46054921
+   * meta num:      1        data IO:       0        data num:      0 readMemChunk IO: 0
+   * readMemChunk num:      0        total:         46054921        pointsTraversed: 1200000
    */
   public static void main(String[] args) throws IOException {
 
@@ -27,12 +27,13 @@ public class ProcessResult {
     File file = new File(sumOutFilePath);
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
       sumWriter.write(
-          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total\n");
+          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total,pointsTraversed\n");
     }
 
     String readLine = null;
     boolean firstTime = true;
     int metaNum = 0, dataNum = 0, readMemChunkNum = 0;
+    long pointsTravered = 0;
     long metaTime = 0;
     long dataTime = 0;
     long totalTime = 0;
@@ -45,6 +46,7 @@ public class ProcessResult {
           metaNum = Integer.parseInt(values[4]);
           dataNum = Integer.parseInt(values[8]);
           readMemChunkNum = Integer.parseInt(values[12]);
+          pointsTravered = Long.parseLong(values[16]);
         }
         metaTime += Long.parseLong(values[2]);
         dataTime += Long.parseLong(values[6]);
@@ -56,7 +58,7 @@ public class ProcessResult {
     }
 
     writer.write(
-        "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\n"
+        "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\t pointsTraversed\n"
             + metaNum
             + "\t"
             + (double) metaTime / 1000000 / counter
@@ -69,7 +71,10 @@ public class ProcessResult {
             + "\t"
             + (double) readMemChunkTime / 1000000 / counter
             + "\t"
-            + (double) totalTime / 1000000 / counter);
+            + (double) totalTime / 1000000 / counter
+            + "\t"
+            + pointsTravered
+    );
 
     sumWriter.write(
         metaNum
@@ -85,6 +90,8 @@ public class ProcessResult {
             + (double) readMemChunkTime / 1000000 / counter
             + ","
             + (double) totalTime / 1000000 / counter
+            + ","
+            + pointsTravered
             + "\n");
 
     reader.close();
