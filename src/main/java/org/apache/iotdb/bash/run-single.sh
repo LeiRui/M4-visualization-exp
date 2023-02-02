@@ -362,7 +362,7 @@ done
 # (4) delete percentage: 0%
 # (5) delete time range: 0
 ############################
-for overlap_percentage in 0 20 30 40 50 60 70 80 90
+for overlap_percentage in 20 30 40 50 60 70 80 90 0
 do
   workspace="O_${overlap_percentage}_D_0_0"
   cd $HOME_PATH/${DATASET}_testspace
