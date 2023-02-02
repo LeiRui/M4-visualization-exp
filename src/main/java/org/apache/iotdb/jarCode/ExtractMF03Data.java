@@ -16,14 +16,14 @@ public class ExtractMF03Data {
   // java ExtractMF03Data /data3/raw_data/data/debs2012/allData.txt MF03.csv 0 4
   // 1329955200000000000 1329966000000000000
   public static void main(String[] args) throws IOException {
-    String inPath = args[0];
-    String outPath = args[1];
-    int timeIdx = Integer.parseInt(args[2]); // 0
-    int valueIdx = Integer.parseInt(args[3]); // mf03: 4
+    String inPath = "D:\\DEBS2012-ChallengeData.txt\\allData.txt";
+    String outPath = "D:\\DEBS2012-ChallengeData.txt\\MF03.csv";
+    int timeIdx = 0; // 0
+    int valueIdx = 4; // mf03: 4
     // [1329955200000000000 Thursday, February 23, 2012 0:00:00~1329966000000000000 Thursday,
     // February 23, 2012 3:00:00)
-    long startTime = Long.parseLong(args[4]);
-    long endTime = Long.parseLong(args[5]);
+//    long startTime = Long.parseLong(args[4]);
+//    long endTime = Long.parseLong(args[5]);
 
     File f = new File(inPath);
     FileWriter fileWriter = new FileWriter(outPath);
@@ -37,22 +37,25 @@ public class ExtractMF03Data {
       String[] split = line.split("\\s+");
       String timestampStr = split[timeIdx];
       long timestamp = getInstantWithPrecision(timestampStr, "ns");
-      if (timestamp >= endTime) {
-        break;
-      }
-      if (timestamp < startTime) {
-        continue;
-      }
+//      if (timestamp >= endTime) {
+//        break;
+//      }
+//      if (timestamp < startTime) {
+//        continue;
+//      }
       long value = Long.parseLong(split[valueIdx]);
-      printWriter.print(timestamp);
-      printWriter.print(",");
-      printWriter.print(value);
-      printWriter.println();
-      cnt++;
-      if (timestamp < lastTimestamp) {
+
+      if (timestamp <= lastTimestamp) {
         System.out.println("out-of-order! " + timestamp);
       }
-      lastTimestamp = timestamp;
+      else {
+        printWriter.print(timestamp);
+        printWriter.print(",");
+        printWriter.print(value);
+        printWriter.println();
+        cnt++;
+        lastTimestamp = timestamp;
+      }
     }
     reader.close();
     printWriter.close();

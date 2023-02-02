@@ -16,7 +16,7 @@ public class CheckDisorder {
     DateFormat dateFormat = new SimpleDateFormat(
         "yyyy-MM-dd'T'HH:mm:ss.SSS"); // 2020-06-09T23:51:07.194+08:00
 
-    String dataDir = args[0]; // E.g., /disk/zc_csv
+    String dataDir = "D:\\full-game\\tmp.csv"; // E.g., /disk/zc_csv
     System.out.println("dataDir=" + dataDir);
 
     // iteratively get all files under dataDir

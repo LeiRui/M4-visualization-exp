@@ -20,13 +20,13 @@ public class ExtractBallSpeedData {
 //    int startNum = Integer.parseInt(args[5]);
 //    int endNum = Integer.parseInt(args[6]);
 
-    String inPath = "D:\\baseline\\full-game\\full-game";
-    String outPath = "tmp.csv";
+    String inPath = "D:\\full-game\\full-game";
+    String outPath = "D:\\full-game\\tmp.csv";
     int timeIdx = 1;
     int valueIdx = 5;
     int sid = 8;
-    int startNum = 2000000;
-    int endNum = 3200000;
+//    int startNum = 2000000;
+//    int endNum = 3200000;
 
     File f = new File(inPath);
     FileWriter fileWriter = new FileWriter(outPath);
@@ -45,12 +45,12 @@ public class ExtractBallSpeedData {
         }
       }
       cnt++;
-      if (cnt < startNum) {
-        continue;
-      }
-      if (cnt >= endNum) {
-        break;
-      }
+//      if (cnt < startNum) {
+//        continue;
+//      }
+//      if (cnt >= endNum) {
+//        break;
+//      }
       long timestamp = Long.parseLong(split[timeIdx]);
       if (minTime == -1) {
         minTime = timestamp; // assume first timestamp is never disordered. is global minimal.
@@ -61,14 +61,16 @@ public class ExtractBallSpeedData {
       timestamp = (long) (timestamp / 1000); // turn to ns. original time unit is ps. IoTDB only ns.
       long value = Long.parseLong(split[valueIdx]);
 
-      printWriter.print(timestamp);
-      printWriter.print(",");
-      printWriter.print(value);
-      printWriter.println();
-      if (timestamp < lastTimestamp) {
+      if (timestamp <= lastTimestamp) {
         System.out.println("out-of-order! " + timestamp);
       }
-      lastTimestamp = timestamp;
+      else {
+        printWriter.print(timestamp);
+        printWriter.print(",");
+        printWriter.print(value);
+        printWriter.println();
+        lastTimestamp = timestamp;
+      }
     }
     reader.close();
     printWriter.close();
