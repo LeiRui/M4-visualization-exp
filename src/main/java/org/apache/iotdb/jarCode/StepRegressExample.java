@@ -30,25 +30,25 @@ public class StepRegressExample {
     int end = 0; // exclusive, counting from 1
     StepRegress stepRegress = new StepRegress();
     if (dataset == 1) {
-      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\BallSpeed.csv";
+      csvData = "D:\\github\\m4-lsm-m4-points-tranversed\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\BallSpeed.csv";
       start = 423000;
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 3;
     } else if (dataset == 2) {
-      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\MF03.csv";
+      csvData = "D:\\github\\m4-lsm-m4-points-tranversed\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\MF03.csv";
       start = 450000;
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 10;
     } else if (dataset == 3) {
-      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\KOB-custom.csv";
+      csvData = "D:\\github\\m4-lsm-m4-points-tranversed\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\KOB-custom.csv";
       start = 1; // 1650012;
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 3;
     } else if (dataset == 4) {
-      csvData = "D:\\github\\m4-lsm\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\RcvTime-custom.csv";
+      csvData = "D:\\github\\m4-lsm-m4-points-tranversed\\plotRawData_ExpRes_Motivation\\plotTimestamps\\datasets\\RcvTime-custom.csv";
       start = 1; // 1273764
       range = 1000;
       end = start + range;
