@@ -1,4 +1,4 @@
-package org.apache.iotdb.jarCode;
+package org.apache.iotdb.trivial;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +12,7 @@ import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 
-public class WriteData_old {
+public class WriteData_deprecated {
 
   /**
    * Before writing data, make sure check the server parameter configurations.

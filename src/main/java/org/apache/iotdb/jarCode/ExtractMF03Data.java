@@ -12,19 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class ExtractMF03Data {
-
-  // java ExtractMF03Data /data3/raw_data/data/debs2012/allData.txt MF03.csv 0 4
-  // 1329955200000000000 1329966000000000000
   public static void main(String[] args) throws IOException {
     String inPath = "D:\\DEBS2012-ChallengeData.txt\\allData.txt";
     String outPath = "D:\\DEBS2012-ChallengeData.txt\\MF03.csv";
     int timeIdx = 0; // 0
     int valueIdx = 4; // mf03: 4
-    // [1329955200000000000 Thursday, February 23, 2012 0:00:00~1329966000000000000 Thursday,
-    // February 23, 2012 3:00:00)
-//    long startTime = 1329955200000000000L;
-//    long endTime = 1338966000000000000L;
-
     File f = new File(inPath);
     FileWriter fileWriter = new FileWriter(outPath);
     String line;
@@ -37,12 +29,6 @@ public class ExtractMF03Data {
       String[] split = line.split("\\s+");
       String timestampStr = split[timeIdx];
       long timestamp = getInstantWithPrecision(timestampStr, "ns");
-//      if (timestamp >= endTime) {
-//        break;
-//      }
-//      if (timestamp < startTime) {
-//        continue;
-//      }
       long value = Long.parseLong(split[valueIdx]);
 
       if (timestamp <= lastTimestamp) {

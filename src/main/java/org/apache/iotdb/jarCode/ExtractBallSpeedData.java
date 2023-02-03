@@ -12,21 +12,11 @@ public class ExtractBallSpeedData {
 
   // sid, ts, x, y, z, |v|, |a|, vx, vy, vz, ax, ay, az
   public static void main(String[] args) throws IOException {
-//    String inPath = args[0];
-//    String outPath = args[1];
-//    int timeIdx = Integer.parseInt(args[2]);
-//    int valueIdx = Integer.parseInt(args[3]);
-//    int sid = Integer.parseInt(args[4]); // -1 means all sid
-//    int startNum = Integer.parseInt(args[5]);
-//    int endNum = Integer.parseInt(args[6]);
-
     String inPath = "D:\\full-game\\full-game";
     String outPath = "D:\\full-game\\tmp.csv";
     int timeIdx = 1;
     int valueIdx = 5;
     int sid = 8;
-//    int startNum = 2000000;
-//    int endNum = 3200000;
 
     File f = new File(inPath);
     FileWriter fileWriter = new FileWriter(outPath);
@@ -45,12 +35,7 @@ public class ExtractBallSpeedData {
         }
       }
       cnt++;
-//      if (cnt < startNum) {
-//        continue;
-//      }
-//      if (cnt >= endNum) {
-//        break;
-//      }
+
       long timestamp = Long.parseLong(split[timeIdx]);
       if (minTime == -1) {
         minTime = timestamp; // assume first timestamp is never disordered. is global minimal.
