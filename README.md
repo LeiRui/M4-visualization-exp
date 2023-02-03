@@ -31,21 +31,23 @@ The datasets in the `src/main/java/org/apache/iotdb/datasets` of this repository
 
 ---
 
-Steps to use the bigger BallSpeed dataset (7,193,200 points) as experimented in paper:
+How to use the bigger BallSpeed dataset (7,193,200 points) as experimented in paper:
 
 1.   First download the raw data "full-game" from [link](https://www.iis.fraunhofer.de/en/ff/lv/dataanalytics/ek/download.html).
 2.   Then update the values of `inPath` and `outPath` in the `src/main/java/org/apache/iotdb/jarCode/ExtractBallSpeedData.java` as the path of "full-game" and the expected path of the ouput "BallSpeed.csv", respectively.
 3.   Run `src/main/java/org/apache/iotdb/jarCode/ExtractBallSpeedData.java` to extract "BallSpeed.csv" from "full-game".
 4.   Copy the larger "BallSpeed.csv" under `src/main/java/org/apache/iotdb/datasets` to replace the smaller "BallSpeed.csv".
+5.   Run `prepare-all-big.sh` instead of `prepare-all.sh` in the step-by-step guide above.
 
 ---
 
-Steps to use the bigger MF03 dataset (10,000,000 points) as experimented in paper:
+How to use the bigger MF03 dataset (10,000,000 points) as experimented in paper:
 
 1.   First download the raw data "DEBS2012-ChallengeData.txt" from [link](https://ftp.mi.fu-berlin.de/pub/debs2012/).
 2.   Then update the values of `inPath` and `outPath` in the `src/main/java/org/apache/iotdb/jarCode/ExtractMF03Data.java` as the path of "allData.txt" and the expected path of the ouput "MF03.csv", respectively.
 3.   Run `src/main/java/org/apache/iotdb/jarCode/ExtractMF03Data.java` to extract "MF03.csv" from "allData.txt".
 4.   Copy the larger "MF03.csv" under `src/main/java/org/apache/iotdb/datasets` to replace the smaller "MF03.csv".
+5.   Run `prepare-all-big.sh` instead of `prepare-all.sh` in the step-by-step guide above.
 
 
 

@@ -51,9 +51,12 @@ $HOME_PATH/tool.sh MEASUREMENT "s6" run-single.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-single.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 0 run-single.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 617426057626 run-single.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1200000 run-single.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 617426057626 run-single.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1200000 run-single.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-single.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-single.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-BallSpeed.sh
@@ -66,10 +69,14 @@ $HOME_PATH/tool.sh DEVICE "root.debs2012" run-single.sh
 $HOME_PATH/tool.sh MEASUREMENT "mf03" run-single.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-single.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329955200008812200 run-single.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1329965999991045200 run-single.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1076102 run-single.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1329955200008812200 run-single.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1329965999991045200 run-single.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1076102 run-single.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-single.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-single.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-single.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 cp run-single.sh run-MF03.sh
