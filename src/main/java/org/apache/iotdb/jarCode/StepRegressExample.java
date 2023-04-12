@@ -48,7 +48,7 @@ public class StepRegressExample {
       end = start + range;
       stepRegress.bigIntervalParam = 3;
     } else if (dataset == 4) {
-      csvData = "RcvTime.csv";
+      csvData = "src/main/java/org/apache/iotdb/datasets/RcvTime.csv";
       start = 1; // 1273764
       range = 1000;
       end = start + range;
@@ -102,8 +102,8 @@ public class StepRegressExample {
     System.out.println("startPos=" + start + ";");
     System.out.println("segmentKeys=" + stepRegress.getSegmentKeys() + ";");
     System.out.println("segmentKeysPos=" + segmentKeysPos + ";");
-    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps + ";");
-    System.out.println("passingPos=" + stepRegress.passingPos + ";");
+//    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps + ";");
+//    System.out.println("passingPos=" + stepRegress.passingPos + ";");
 
     DoubleArrayList predicts = new DoubleArrayList();
     for (long t : stepRegress.getTimestamps().toArray()) {

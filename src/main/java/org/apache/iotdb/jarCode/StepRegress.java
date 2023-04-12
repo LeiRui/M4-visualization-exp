@@ -7,7 +7,9 @@ import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 import org.eclipse.collections.impl.list.mutable.primitive.LongArrayList;
 
 public class StepRegress {
-  public int bigIntervalParam = 3; // change bigger for highly regular datasets
+
+  public static int bigIntervalParam = 3; // change bigger for highly regular datasets
+  public static boolean useMad = false;
 
   private double slope = 0;
 
@@ -25,8 +27,8 @@ public class StepRegress {
   private LongArrayList timestamps = new LongArrayList(); // Pi.t
   private LongArrayList intervals = new LongArrayList(); // Pi+1.t-Pi.t
 
-  public DoubleArrayList passingTimestamps = new DoubleArrayList(); // for debug
-  public IntArrayList passingPos = new IntArrayList(); // for debug
+//  public DoubleArrayList passingTimestamps = new DoubleArrayList(); // for debug
+//  public IntArrayList passingPos = new IntArrayList(); // for debug
 
   enum IntervalType {
     tilt,
@@ -73,8 +75,8 @@ public class StepRegress {
     this.slope = 1 / this.median;
     this.segmentKeys.add(timestamps.get(0)); // t1
     this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
-    this.passingTimestamps.add(timestamps.get(0));
-    this.passingPos.add(1);
+//    this.passingTimestamps.add(timestamps.get(0));
+//    this.passingPos.add(1);
   }
 
   /**
@@ -133,8 +135,8 @@ public class StepRegress {
       if (isLevel) {
         intervalsType.add(IntervalType.level.ordinal());
         if (previousIntervalType == IntervalType.tilt) { // else do nothing, still level
-          passingTimestamps.add(t);
-          passingPos.add(pos);
+//          passingTimestamps.add(t);
+//          passingPos.add(pos);
           // [[[translate from tilt to level]]]
           previousIntervalType = IntervalType.level;
           // 3) to determine the intercept, let the level function run through (t,pos)
@@ -167,8 +169,8 @@ public class StepRegress {
       } else {
         intervalsType.add(IntervalType.tilt.ordinal());
         if (previousIntervalType == IntervalType.level) { // else do nothing, still tilt
-          passingTimestamps.add(t);
-          passingPos.add(pos);
+//          passingTimestamps.add(t);
+//          passingPos.add(pos);
           // [[[translate form level to tilt]]]
           previousIntervalType = IntervalType.tilt;
           // 3) to determine the intercept, let the tilt function run through (t,pos)
@@ -276,8 +278,8 @@ public class StepRegress {
       }
     }
     segmentKeys.add(timestamps.getLast()); // tm
-    passingTimestamps.add(timestamps.getLast());
-    passingPos.add(timestamps.size());
+//    passingTimestamps.add(timestamps.getLast());
+//    passingPos.add(timestamps.size());
 
     checkOrder();
   }
@@ -313,7 +315,11 @@ public class StepRegress {
   }
 
   private boolean isBigInterval(long interval) {
-    return interval > this.mean + bigIntervalParam * this.stdDev;
+    if (!useMad) {
+      return interval > this.mean + bigIntervalParam * this.stdDev;
+    } else {
+      return interval > this.median + bigIntervalParam * this.mad;
+    }
   }
 
   public double getMedian() {
@@ -413,18 +419,42 @@ public class StepRegress {
           String.format(
               "t out of range. input within [%s,%s]", segmentKeys.get(0), segmentKeys.getLast()));
     }
-    int seg = 0;
-    for (; seg < segmentKeys.size() - 1; seg++) {
-      if (t <= segmentKeys.get(seg + 1)) { // t < the right end of the segment interval
-        break;
-      }
-    }
+//    int seg = 0;
+//    for (; seg < segmentKeys.size() - 1; seg++) {
+//      if (t <= segmentKeys.get(seg + 1)) { // t < the right end of the segment interval
+//        break;
+//      }
+//    }
+    int seg = binarySearch(segmentKeys, t);
     // we have fixed that the first status is always tilt,
     // so for indexes starting from 0, even id is tilt, odd id is level.
     if (seg % 2 == 0) { // tilt
       return slope * t + segmentIntercepts.get(seg);
     } else {
       return segmentIntercepts.get(seg);
+    }
+  }
+
+  // find firstly strictly greater than or equal to the element in a sorted array
+  public int binarySearch(DoubleArrayList segmentKeys, double targetT) {
+    int start = 0;
+    int end = segmentKeys.size() - 1;
+    int ans = -1;
+    while (start <= end) {
+      int mid = (start + end) / 2;
+      // Move to right side if target is greater.
+      if (segmentKeys.get(mid) < targetT) {
+        start = mid + 1;
+      } else // Move left side.
+      {
+        ans = mid;
+        end = mid - 1;
+      }
+    }
+    if (ans == 0) {
+      return ans; // means that targetT equals the first segment keys, therefore ans is not the right point of the segment
+    } else {
+      return ans - 1; // the id of the segment
     }
   }
 }
