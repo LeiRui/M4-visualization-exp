@@ -30,8 +30,8 @@ public class EvaluateChunkIndex {
   public static String expResultFile = "evaluateIndexExp.csv";
 
   public static void main(String[] args) throws Exception {
-    int[] testN = new int[]{100, 100, 500, 1000, 2000, 4000, 6000, 10000, 15000, 20000, 30000,
-        40000, 50000}; // the first 100 for warm up codes
+    int[] testN = new int[]{100, 100, 500, 1000, 2000, 4000, 6000, 10000, 15000, 20000, 25000,
+        30000, 35000, 40000, 45000, 50000}; // the first 100 for warm up codes
     for (int N : testN) {
       reset();
       StepRegress.useMad = true;
