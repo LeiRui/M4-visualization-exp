@@ -24,21 +24,16 @@ public class EvaluateChunkIndex {
   //  public static int repeatNumLowerBound = 100000;
 //  public static int repeatCount = 0;
 
-  public static int repeatRound = 20;
+  public static int repeatRound = 60;
   public static int repeatRoundCnt = 0;
 
   public static String expResultFile = "evaluateIndexExp.csv";
 
   public static void main(String[] args) throws Exception {
-    int[] testN = new int[]{100, 1000, 2000, 4000, 6000, 10000, 15000, 20000, 30000, 40000,
-        50000};
+    int[] testN = new int[]{100, 100, 500, 1000, 2000, 4000, 6000, 10000, 15000, 20000, 30000,
+        40000, 50000}; // the first 100 for warm up codes
     for (int N : testN) {
       reset();
-//      if (N > 20000) {
-//        StepRegress.useMad = true;
-//      } else {
-//        StepRegress.useMad = false;
-//      }
       StepRegress.useMad = true;
       testWithN(N);
     }
