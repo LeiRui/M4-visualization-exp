@@ -2,6 +2,7 @@ M4_VISUALIZATION_EXP=/data1/rl/reply/M4-visualization-exp
 HOME_PATH=/data1/rl/reply/v4
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
+use_Mad=true
 
 mkdir -p $HOME_PATH
 
@@ -57,6 +58,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
 $HOME_PATH/tool.sh FIX_W 720 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
+$HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
 cp run-single-ablation.sh run-BallSpeed.sh
 
 cd $HOME_PATH
@@ -74,6 +76,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
 $HOME_PATH/tool.sh FIX_W 1000 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
+$HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
 cp run-single-ablation.sh run-MF03.sh
 
 cd $HOME_PATH
@@ -91,6 +94,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
 $HOME_PATH/tool.sh FIX_W 194 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
+$HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
 cp run-single-ablation.sh run-KOB.sh
 
 cd $HOME_PATH
@@ -108,6 +112,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
 $HOME_PATH/tool.sh FIX_W 133 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
+$HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
 cp run-single-ablation.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====

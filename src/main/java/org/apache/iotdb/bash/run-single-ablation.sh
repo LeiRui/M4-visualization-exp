@@ -15,6 +15,7 @@ TOTAL_POINT_NUMBER=1200000
 let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
+use_Mad=false
 
 # iotdb config info
 IOTDB_CHUNK_POINT_SIZE=100
@@ -38,7 +39,7 @@ echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
 
-overlap_percentage in 0
+for overlap_percentage in 0
 do
   workspace="O_${overlap_percentage}_D_0_0"
   cd $HOME_PATH/${DATASET}_testspace
@@ -59,6 +60,7 @@ do
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_Mad ${use_Mad} ../../iotdb-engine-example.properties
   # properties for cpv true and disable chunk index
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_ChunkIndex false ../../iotdb-engine-example.properties
@@ -88,23 +90,23 @@ do
 
   echo "without chunk index"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir cpv
-  cd cpv
+  mkdir mac
+  cd mac
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
+  java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
   echo "with chunk index"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir mac
-  cd mac
+  mkdir cpv
+  cd cpv
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
+  java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 
   # unify results
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
