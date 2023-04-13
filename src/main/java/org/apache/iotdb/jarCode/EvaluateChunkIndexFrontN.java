@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 // use the first N points instead of sliding window
+// nohup java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000 BallSpeed.csv 2>&1 &
 public class EvaluateChunkIndexFrontN {
 
   public static List<Double> maxErrorList = new ArrayList<>();
