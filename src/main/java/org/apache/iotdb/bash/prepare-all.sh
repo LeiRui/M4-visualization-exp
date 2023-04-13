@@ -1,5 +1,5 @@
-M4_VISUALIZATION_EXP=/data/rl/M4-visualization-exp
-HOME_PATH=/data/rl/v4
+M4_VISUALIZATION_EXP=/data1/rl/reply/M4-visualization-exp
+HOME_PATH=/data1/rl/reply/v4
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 
