@@ -36,7 +36,8 @@ echo "Begin experiment!"
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
-java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 90 40
+# long D:\desktop\test.csv D:\desktop\test2.csv 0 1 3
+java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER}
 
 for overlap_percentage in 90
 do

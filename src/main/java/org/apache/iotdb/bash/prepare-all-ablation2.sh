@@ -54,8 +54,8 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 0 run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-single-ablation.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-single-ablation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single-ablation.sh
-$HOME_PATH/tool.sh FIX_W 100 run-single-ablation.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
+$HOME_PATH/tool.sh FIX_W 1 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
@@ -72,8 +72,8 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-single-ablation.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-single-ablation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single-ablation.sh
-$HOME_PATH/tool.sh FIX_W 100 run-single-ablation.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
+$HOME_PATH/tool.sh FIX_W 1 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
@@ -90,8 +90,8 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1616805035973 run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1627380839563 run-single-ablation.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1943180 run-single-ablation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single-ablation.sh
-$HOME_PATH/tool.sh FIX_W 20 run-single-ablation.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
+$HOME_PATH/tool.sh FIX_W 1 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
@@ -108,8 +108,8 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1616194494000 run-single-ablation.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1642656230000 run-single-ablation.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1330764 run-single-ablation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single-ablation.sh
-$HOME_PATH/tool.sh FIX_W 20 run-single-ablation.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-ablation.sh
+$HOME_PATH/tool.sh FIX_W 1 run-single-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-ablation.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-single-ablation.sh
@@ -124,13 +124,13 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/datasets/$value.csv .
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/OverlapGenerator.java .
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/OverlapGenerator2.java .
 # remove the line starting with "package" in the java file
-sed '/^package/d' OverlapGenerator.java > OverlapGenerator2.java
-rm OverlapGenerator.java
-mv OverlapGenerator2.java OverlapGenerator.java
+sed '/^package/d' OverlapGenerator2.java > OverlapGeneratorTmp.java
+rm OverlapGenerator2.java
+mv OverlapGeneratorTmp.java OverlapGenerator2.java
 # then javac it
-javac OverlapGenerator.java
+javac OverlapGenerator2.java
 
 echo "prepare ${value}_testspace directory, this is for write and query";
 cd $HOME_PATH
