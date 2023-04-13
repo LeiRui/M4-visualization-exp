@@ -35,6 +35,7 @@ public class EvaluateChunkIndexFrontN {
       reset();
       testWithN(N, repeatRound, filePath);
     }
+    System.out.println("ALL FINISH!");
   }
 
   public static void reset() {
