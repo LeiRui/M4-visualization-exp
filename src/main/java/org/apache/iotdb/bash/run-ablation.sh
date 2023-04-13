@@ -39,9 +39,9 @@ cp ${DATASET}.csv ${DATASET}-O_0
 # long D:\desktop\test.csv D:\desktop\test2.csv 0 1 3
 java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER}
 
-for overlap_percentage in 90
+for IOTDB_CHUNK_POINT_SIZE in 5000000 3000000 1000000 500000 100000 50000 10000
 do
-  workspace="O_${overlap_percentage}_D_0_0"
+  workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
@@ -78,7 +78,7 @@ do
   ./start-server.sh /dev/null 2>&1 &
   sleep 8s
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_${overlap_percentage} 0 0 0 1 ${VALUE_ENCODING}
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING}
   sleep 5s
   ./stop-server.sh
   sleep 5s
