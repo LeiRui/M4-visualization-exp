@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.iotdb.rpc.IoTDBConnectionException;
-import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
@@ -21,13 +19,26 @@ public class WriteDataVaryChunkSize {
   /**
    * Before writing data, make sure check the server parameter configurations.
    */
-  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx valueEncoding m
-  public static void main(String[] args)
-      throws IoTDBConnectionException, StatementExecutionException, IOException {
+  // Usage: java -jar WriteDataVaryChunkSize-0.12.4.jar
+  //String device,
+  //String measurement,
+  //TSDataType tsDataType,
+  //String timestamp_precision,
+  //long queryStartTime,
+  //long queryEndTime,
+  //int iotdb_chunk_point_size,
+  //String filePath,
+  //int timeIdx,,
+  //int valueIdx,
+  //String valueEncoding,
+  //int M
+  public static void main(String[] args) throws Exception {
     String device = args[0];
     System.out.println("[WriteData] device=" + device);
+
     String measurement = args[1];
     System.out.println("[WriteData] measurement=" + measurement);
+
     String dataType = args[2]; // long or double
     System.out.println("[WriteData] dataType=" + dataType);
     TSDataType tsDataType;
@@ -46,41 +57,75 @@ public class WriteDataVaryChunkSize {
       throw new IOException("timestamp_precision only accepts ns,us,ms.");
     }
 
-    long total_time_length = Long.parseLong(args[4]); // in corresponding timestamp precision
-    System.out.println("[WriteData] total_time_length=" + total_time_length);
-    int total_point_number = Integer.parseInt(args[5]);
-    System.out.println("[WriteData] total_point_number=" + total_point_number);
+    long queryStartTime = Long.parseLong(args[4]);
+    System.out.println("[WriteData] query start time=" + queryStartTime);
+    long queryEndTime = Long.parseLong(args[5]);
+    System.out.println("[WriteData] query end time=" + queryEndTime);
+
     int iotdb_chunk_point_size = Integer.parseInt(args[6]);
     System.out.println("[WriteData] iotdb_chunk_point_size=" + iotdb_chunk_point_size);
-
-    long chunkAvgTimeLen =
-        (long) Math
-            .ceil(total_time_length / Math.ceil(total_point_number * 1.0 / iotdb_chunk_point_size));
-    System.out.println("[WriteData] derived estimated chunkAvgTimeLen =" + chunkAvgTimeLen);
 
     // 乱序数据源
     String filePath = args[7];
     System.out.println("[WriteData] filePath=" + filePath);
-    // delete percentage
-    int deletePercentage = Integer.parseInt(args[8]); // 0 means no deletes. 0-100
-    System.out.println("[WriteData] deletePercentage=" + deletePercentage);
-    // 每次删除的时间长度，用chunkAvgTimeLen的百分比表示
-    int deleteLenPercentage = Integer.parseInt(args[9]); // 0-100
-    System.out.println("[WriteData] deleteLenPercentage=" + deleteLenPercentage);
+
     // 时间戳idx，从0开始
-    int timeIdx = Integer.parseInt(args[10]);
+    int timeIdx = Integer.parseInt(args[8]);
     System.out.println("[WriteData] timeIdx=" + timeIdx);
     // 值idx，从0开始
-    int valueIdx = Integer.parseInt(args[11]);
+    int valueIdx = Integer.parseInt(args[9]);
     System.out.println("[WriteData] valueIdx=" + valueIdx);
     // value encoder
-    String valueEncoding = args[12]; // RLE, GORILLA, PLAIN
+    String valueEncoding = args[10]; // RLE, GORILLA, PLAIN
     System.out.println("[WriteData] valueEncoding=" + valueEncoding);
 
     // number of chunks in a tsfile
-    int M = Integer.parseInt(args[13]);
+    int M = Integer.parseInt(args[11]);
     System.out.println("[WriteData] number of chunks in a TsFile=" + M);
 
+    List<Long> minTimestamps = new ArrayList<>();
+    List<Long> maxTimestamps = new ArrayList<>();
+    getMinMaxTimeForEachChunk(minTimestamps, maxTimestamps, filePath, timeIdx, valueIdx,
+        iotdb_chunk_point_size);
+
+    writeData(device,
+        measurement,
+        tsDataType,
+        timestamp_precision,
+        queryStartTime,
+        queryEndTime,
+        iotdb_chunk_point_size,
+        filePath,
+        timeIdx,
+        valueIdx,
+        valueEncoding,
+        M);
+  }
+
+  public static void getMinMaxTimeForEachChunk(List<Long> minTime, List<Long> maxTime,
+      String filePath, int timeIdx, int valueIdx, int iotdb_chunk_point_size) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        String[] split = line.split(",");
+        long timestamp = Long.parseLong(split[timeIdx]);
+
+      }
+    }
+  }
+
+  public static void writeData(String device,
+      String measurement,
+      TSDataType tsDataType,
+      String timestamp_precision,
+      long queryStartTime,
+      long queryEndTime,
+      int iotdb_chunk_point_size,
+      String filePath,
+      int timeIdx,
+      int valueIdx,
+      String valueEncoding,
+      int M) throws Exception {
     //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
     String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
         device,
@@ -88,35 +133,6 @@ public class WriteDataVaryChunkSize {
         tsDataType,
         valueEncoding
     );
-
-    if (deletePercentage < 0 || deletePercentage > 100) {
-      throw new IOException("WRONG deletePercentage! deletePercentage should be within [0,100]");
-    }
-    if (deleteLenPercentage < 0 || deleteLenPercentage > 100) {
-      throw new IOException(
-          "WRONG deleteLenPercentage! deleteLenPercentage should be within [0,100]");
-    }
-    if (deletePercentage > 0 && deleteLenPercentage == 0) {
-      throw new IOException(
-          "WRONG deleteLenPercentage! when deletePercentage>0, so should deleteLenPercentage");
-    }
-
-    int deletePeriod = Integer.MAX_VALUE;
-    if (deletePercentage > 0) {
-      // insert a delete when every 100/deletePercentage chunks are inserted,
-      // thus to meet the deletePercentage target.
-      // using the number of chunks inserted as deletePercentage baseline is to
-      // avoid the delete operation being handled in memory.
-      deletePeriod =
-          (int) Math.floor(100 * 1.0 / deletePercentage
-              * iotdb_chunk_point_size);
-    }
-
-    // the delete time range length is deleteLenPercentage of chunkAvgTimeLen
-    long deleteLen = (long) Math.floor(chunkAvgTimeLen * deleteLenPercentage * 1.0 / 100);
-
-    List<String> deletePaths = new ArrayList<>();
-    deletePaths.add(device + "." + measurement);
 
     Session session = new Session("127.0.0.1", 6667, "root", "root");
     session.open(false);
@@ -150,14 +166,9 @@ public class WriteDataVaryChunkSize {
     }
     session.executeNonQueryStatement("flush");
 
-    List<Long> deleteStartTimeList = new ArrayList<>();
-    List<Long> deleteEndTimeList = new ArrayList<>();
     File f = new File(filePath);
     String line = null;
     BufferedReader reader = new BufferedReader(new FileReader(f));
-    long lastDeleteMinTime = Long.MAX_VALUE;
-    long lastDeleteMaxTime = Long.MIN_VALUE;
-    int cnt = 0;
 
     List<MeasurementSchema> schemaList = new ArrayList<>();
     schemaList.add(
@@ -167,11 +178,9 @@ public class WriteDataVaryChunkSize {
     Object[] values = tablet.values;
 
     while ((line = reader.readLine()) != null) {
-      cnt++;
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]);
 
-      // TODO change to batch mode, iotdb_chunk_point_size
       int row = tablet.rowSize++;
       timestamps[row] = timestamp;
       switch (tsDataType) {
@@ -192,31 +201,6 @@ public class WriteDataVaryChunkSize {
         session.insertTablet(tablet, false);
         tablet.reset();
       }
-
-      // generate delete start and end time
-      if (timestamp > lastDeleteMaxTime) {
-        lastDeleteMaxTime = timestamp;
-      }
-      if (timestamp < lastDeleteMinTime) {
-        lastDeleteMinTime = timestamp;
-      }
-      if (deletePercentage > 0) {
-        if (cnt >= deletePeriod) {
-          cnt = 0;
-          // randomize deleteStartTime in [lastMinTime, max(lastMaxTime-deleteLen,lastMinTime+1)]
-          long rightBound = Math.max(lastDeleteMaxTime - deleteLen, lastDeleteMinTime + 1);
-          long deleteStartTime =
-              (long)
-                  Math.ceil(
-                      lastDeleteMinTime + Math.random() * (rightBound - lastDeleteMinTime + 1));
-          long deleteEndTime = deleteStartTime + deleteLen - 1;
-          deleteStartTimeList.add(deleteStartTime);
-          deleteEndTimeList.add(deleteEndTime);
-
-          lastDeleteMinTime = Long.MAX_VALUE;
-          lastDeleteMaxTime = Long.MIN_VALUE;
-        }
-      }
     }
     // flush the last Tablet
     if (tablet.rowSize != 0) {
@@ -225,13 +209,6 @@ public class WriteDataVaryChunkSize {
     }
     session.executeNonQueryStatement("flush");
 
-    // separate insert and delete to avoid 1) delete points in memory 2) trigger repeat deletes
-    for (int i = 0; i < deleteStartTimeList.size(); i++) {
-      session.deleteData(deletePaths, deleteStartTimeList.get(i), deleteEndTimeList.get(i));
-      System.out.println(
-          "[[[[delete]]]]]" + deleteStartTimeList.get(i) + "," + deleteEndTimeList.get(i));
-    }
-    session.executeNonQueryStatement("flush");
     session.close();
   }
 
