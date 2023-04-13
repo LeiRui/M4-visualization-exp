@@ -1,6 +1,0 @@
-2023-04-13 14:43:46,384 [main] WARN  o.a.i.t.c.c.TSFileDescriptor:123 - page_size is greater than group size, will set it as the same with group size 
-2023-04-13 14:43:46,385 [main] WARN  o.a.i.d.c.IoTDBDescriptor:932 - page_size is greater than group size, will set it as the same with group size 
-2023-04-13 14:43:46,473 [main] WARN  o.a.i.d.s.StartupChecks:38 - iotdb.jmx.port missing from iotdb-env.sh(Unix or OS X, if you use Windows, check conf/iotdb-env.bat) 
-2023-04-13 14:48:42,772 [main] WARN  o.a.i.t.c.c.TSFileDescriptor:123 - page_size is greater than group size, will set it as the same with group size 
-2023-04-13 14:48:42,773 [main] WARN  o.a.i.d.c.IoTDBDescriptor:932 - page_size is greater than group size, will set it as the same with group size 
-2023-04-13 14:48:42,917 [main] WARN  o.a.i.d.s.StartupChecks:38 - iotdb.jmx.port missing from iotdb-env.sh(Unix or OS X, if you use Windows, check conf/iotdb-env.bat) 
