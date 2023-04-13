@@ -21,7 +21,7 @@ public class WriteDataVaryChunkSize {
   /**
    * Before writing data, make sure check the server parameter configurations.
    */
-  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx valueEncoding
+  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx valueEncoding m
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, IOException {
     String device = args[0];
@@ -76,6 +76,10 @@ public class WriteDataVaryChunkSize {
     // value encoder
     String valueEncoding = args[12]; // RLE, GORILLA, PLAIN
     System.out.println("[WriteData] valueEncoding=" + valueEncoding);
+
+    // number of chunks in a tsfile
+    int M = Integer.parseInt(args[13]);
+    System.out.println("[WriteData] number of chunks in a TsFile=" + M);
 
     //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
     String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
