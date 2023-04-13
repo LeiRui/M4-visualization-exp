@@ -111,6 +111,15 @@ public class WriteDataVaryChunkSize {
         valueEncoding,
         M,
         flags);
+
+    int cnt = 0;
+    for (boolean flag : flags) {
+      if (flag) {
+        cnt++;
+      }
+    }
+    System.out.println(
+        "split ratio = " + cnt * 1.0 / flags.size() + ". " + flags.size() + " TsFiles");
   }
 
   public static List<Boolean> checkIfSplit(List<Long> minTimeList, List<Long> maxTimeList,
