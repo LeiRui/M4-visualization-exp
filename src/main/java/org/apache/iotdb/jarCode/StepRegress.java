@@ -9,7 +9,7 @@ import org.eclipse.collections.impl.list.mutable.primitive.LongArrayList;
 public class StepRegress {
 
   public static int bigIntervalParam = 3; // change bigger for highly regular datasets
-  public static boolean useMad = false;
+  public static boolean useMad = true;
 
   private double slope = 0;
 
