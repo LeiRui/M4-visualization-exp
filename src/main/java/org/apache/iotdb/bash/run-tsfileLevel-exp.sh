@@ -35,7 +35,7 @@ echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
 
-for NumberOfChunksInTsFile in 2 1 3 5 8 10 15 20 25 30 40 50 70 100 150 200 250
+for NumberOfChunksInTsFile in 2 1 3 5 10 15 20 25 30 40 50 70 100 150 200 250 1
 do
   workspace="O_0_D_0_0_${NumberOfChunksInTsFile}"
   cd $HOME_PATH/${DATASET}_testspace
@@ -100,6 +100,14 @@ do
   # cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   # cp $HOME_PATH/SumResultUnify.* .
   # java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+done
+
+for NumberOfChunksInTsFile in 1 2 3 5 10 15 20 25 30 40 50 70 100 150 200 250 1
+do
+  workspace="O_0_D_0_0_${NumberOfChunksInTsFile}"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  queryTime=$(cat sumResultCPV.csv| cut -f 7 -d "," | sed -n 2p)
+  echo ${NumberOfChunksInTsFile} "," ${queryTime}>> $HOME_PATH/${DATASET}_testspace/allResult.csv
 done
 
 
