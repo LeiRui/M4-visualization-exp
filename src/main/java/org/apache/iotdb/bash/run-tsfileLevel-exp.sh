@@ -35,9 +35,9 @@ echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
 
-for NumberOfChunksInTsFile in 1 5
+for NumberOfChunksInTsFile in 1 5 10 15 20 25 30 40 50 100 150 200 250
 do
-  workspace="O_0_D_0_0"
+  workspace="O_0_D_0_0_${NumberOfChunksInTsFile}"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
