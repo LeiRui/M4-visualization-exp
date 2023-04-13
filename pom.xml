@@ -50,14 +50,14 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>WriteData</finalName>
+    <finalName>WriteDataVaryChunkSize</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.WriteData</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.WriteDataVaryChunkSize</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

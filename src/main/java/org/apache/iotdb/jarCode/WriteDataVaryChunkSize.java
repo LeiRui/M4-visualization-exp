@@ -28,7 +28,7 @@ public class WriteDataVaryChunkSize {
   //long queryEndTime,
   //int iotdb_chunk_point_size,
   //String filePath,
-  //int timeIdx,,
+  //int timeIdx,
   //int valueIdx,
   //String valueEncoding,
   //int w,
@@ -86,13 +86,15 @@ public class WriteDataVaryChunkSize {
 
     // number of chunks in a tsfile
     int M = Integer.parseInt(args[12]);
-    System.out.println("[WriteData] number of chunks in a TsFile=" + M);
+    System.out.println("[WriteData] M (number of chunks in a TsFile)=" + M);
 
     List<Long> minTimestamps = new ArrayList<>();
     List<Long> maxTimestamps = new ArrayList<>();
     getMinMaxTimeForEachChunk(minTimestamps, maxTimestamps, filePath, timeIdx, valueIdx,
         iotdb_chunk_point_size);
 
+    // for true, write M chunks each iotdb_chunk_point_size points
+    // for false, write 1 chunk containing M*iotdb_chunk_point_size points
     List<Boolean> flags = checkIfSplit(minTimestamps, maxTimestamps, queryStartTime, queryEndTime,
         w, M);
 
@@ -107,7 +109,8 @@ public class WriteDataVaryChunkSize {
         timeIdx,
         valueIdx,
         valueEncoding,
-        M);
+        M,
+        flags);
   }
 
   public static List<Boolean> checkIfSplit(List<Long> minTimeList, List<Long> maxTimeList,
@@ -197,7 +200,21 @@ public class WriteDataVaryChunkSize {
       int timeIdx,
       int valueIdx,
       String valueEncoding,
-      int M) throws Exception {
+      int M,
+      List<Boolean> flags) throws Exception {
+    // for true, write M chunks each iotdb_chunk_point_size points
+    // for false, write 1 chunk containing M*iotdb_chunk_point_size points
+    List<Integer> chunkPointNumList = new ArrayList<>();
+    for (boolean flag : flags) {
+      if (flag) { // split
+        for (int i = 0; i < M; i++) {
+          chunkPointNumList.add(iotdb_chunk_point_size);
+        }
+      } else {
+        chunkPointNumList.add(iotdb_chunk_point_size * M);
+      }
+    }
+
     //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
     String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
         device,
@@ -245,7 +262,9 @@ public class WriteDataVaryChunkSize {
     List<MeasurementSchema> schemaList = new ArrayList<>();
     schemaList.add(
         new MeasurementSchema(measurement, tsDataType, TSEncoding.valueOf(valueEncoding)));
-    Tablet tablet = new Tablet(device, schemaList, iotdb_chunk_point_size);
+
+    int chunkIdx = 0;
+    Tablet tablet = new Tablet(device, schemaList, chunkPointNumList.get(chunkIdx++)); // note here
     long[] timestamps = tablet.timestamps;
     Object[] values = tablet.values;
 
@@ -272,15 +291,18 @@ public class WriteDataVaryChunkSize {
       if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
         session.insertTablet(tablet, false);
         tablet.reset();
+        tablet = new Tablet(device, schemaList, chunkPointNumList.get(chunkIdx++)); // note here
+        timestamps = tablet.timestamps;
+        values = tablet.values;
+        session.executeNonQueryStatement("flush");
       }
     }
     // flush the last Tablet
     if (tablet.rowSize != 0) {
       session.insertTablet(tablet, false);
       tablet.reset();
+      session.executeNonQueryStatement("flush");
     }
-    session.executeNonQueryStatement("flush");
-
     session.close();
   }
 
