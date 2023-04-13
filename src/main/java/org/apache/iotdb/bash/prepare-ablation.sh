@@ -63,7 +63,7 @@ cp run-ablation.sh run-MF03.sh
 
 
 #====prepare directory for each dataset====
-datasetArray=(""MF03");
+datasetArray=("MF03");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";

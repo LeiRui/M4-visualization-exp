@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 // use the first N points instead of sliding window
-// nohup java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000 BallSpeed.csv 2>&1 &
+// nohup java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000000 BallSpeed.csv  2>&1 &
 public class EvaluateChunkIndexFrontN {
 
   public static List<Double> maxErrorList = new ArrayList<>();
@@ -28,9 +28,11 @@ public class EvaluateChunkIndexFrontN {
 
   public static void main(String[] args) throws Exception {
     int[] testN = new int[]{100, 100, 500, 1000, 2000, 4000, 6000, 10000, 15000, 20000, 25000,
-        30000, 35000, 40000, 45000, 50000}; // the first 100 for warm up codes
+        30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000,
+        70000}; // the first 100 for warm up codes
     int repeatRound = Integer.parseInt(args[0]);
     String filePath = args[1];
+    StepRegress.useMad = false;
     //    String csvData = "D:\\github\\reply\\BallSpeed.csv"; // no header
     for (int N : testN) {
       System.out.println("testing N=" + N);

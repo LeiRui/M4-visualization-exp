@@ -61,6 +61,7 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_Mad ${use_Mad} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh wal_buffer_size 1073741824 ../../iotdb-engine-example.properties
   # properties for cpv true and disable chunk index
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_ChunkIndex false ../../iotdb-engine-example.properties
