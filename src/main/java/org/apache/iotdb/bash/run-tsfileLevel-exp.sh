@@ -102,7 +102,7 @@ do
   # java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-for NumberOfChunksInTsFile in 1 2 3 5 10 15 20 25 30 40 50 70 100 150 200 250 1
+for NumberOfChunksInTsFile in 1 2 3 5 10 15 20 25 30 40 50 70 100 150 200 250
 do
   workspace="O_0_D_0_0_${NumberOfChunksInTsFile}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
