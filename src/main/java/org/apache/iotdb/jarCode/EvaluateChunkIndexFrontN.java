@@ -36,6 +36,7 @@ public class EvaluateChunkIndexFrontN {
       System.out.println("testing N=" + N);
       reset();
       testWithN(N, repeatRound, filePath);
+      System.out.println();
     }
     System.out.println("ALL FINISH!");
   }
@@ -59,7 +60,8 @@ public class EvaluateChunkIndexFrontN {
       throw new IOException("N should be positive!");
     }
     String line;
-    while (repeatRoundCnt < repeatRound) {
+    // the larger chunk, the less repeated tests needed
+    while (repeatRoundCnt < Math.ceil(repeatRound * 1.0 / chunkPointNumArg)) {
       List<Long> timestampList = new ArrayList<>();
       try (BufferedReader reader = new BufferedReader(new FileReader(csvData))) {
         while ((line = reader.readLine()) != null) {
