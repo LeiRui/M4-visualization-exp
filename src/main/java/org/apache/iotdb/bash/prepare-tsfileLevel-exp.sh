@@ -54,8 +54,8 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-tsfileLevel-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 0 run-tsfileLevel-exp.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-tsfileLevel-exp.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh FIX_W 100 run-tsfileLevel-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-tsfileLevel-exp.sh
+$HOME_PATH/tool.sh FIX_W 10 run-tsfileLevel-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-tsfileLevel-exp.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-tsfileLevel-exp.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-tsfileLevel-exp.sh

@@ -69,10 +69,17 @@ do
   ./start-server.sh /dev/null 2>&1 &
   sleep 8s
   java -jar $HOME_PATH/WriteDataVaryChunkSize*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_0 0 1 ${VALUE_ENCODING} ${FIX_W} ${NumberOfChunksInTsFile}
-  sleep 5s
+  sleep 35s
   ./stop-server.sh
-  sleep 5s
+  sleep 10s
   echo 3 | sudo tee /proc/sys/vm/drop_caches
+
+#  cd $HOME_PATH/iotdb-server-0.12.4/sbin
+#  ./start-server.sh /dev/null 2>&1 &
+#  sleep 30s
+#  ./stop-server.sh
+#  sleep 20s
+#  echo 3 | sudo tee /proc/sys/vm/drop_caches
 
   # [query data]
   echo "Querying ${workspace}"
