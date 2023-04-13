@@ -31,6 +31,7 @@ public class WriteDataVaryChunkSize {
   //int timeIdx,,
   //int valueIdx,
   //String valueEncoding,
+  //int w,
   //int M
   public static void main(String[] args) throws Exception {
     String device = args[0];
@@ -80,13 +81,20 @@ public class WriteDataVaryChunkSize {
     System.out.println("[WriteData] valueEncoding=" + valueEncoding);
 
     // number of chunks in a tsfile
-    int M = Integer.parseInt(args[11]);
+    int w = Integer.parseInt(args[11]);
+    System.out.println("[WriteData] number of M4 intervals=" + w);
+
+    // number of chunks in a tsfile
+    int M = Integer.parseInt(args[12]);
     System.out.println("[WriteData] number of chunks in a TsFile=" + M);
 
     List<Long> minTimestamps = new ArrayList<>();
     List<Long> maxTimestamps = new ArrayList<>();
     getMinMaxTimeForEachChunk(minTimestamps, maxTimestamps, filePath, timeIdx, valueIdx,
         iotdb_chunk_point_size);
+
+    List<Boolean> flags = checkIfSplit(minTimestamps, maxTimestamps, queryStartTime, queryEndTime,
+        w, M);
 
     writeData(device,
         measurement,
@@ -102,14 +110,78 @@ public class WriteDataVaryChunkSize {
         M);
   }
 
+  public static List<Boolean> checkIfSplit(List<Long> minTimeList, List<Long> maxTimeList,
+      long queryStartTime, long queryEndTime, int w, int M) {
+    List<Boolean> flags = new ArrayList<>();
+    long interval = (long) Math.ceil((double) (queryEndTime - queryStartTime) / w);
+    queryEndTime = queryStartTime + interval * w;
+
+    int intervalIdx = 0;
+    int count = 0;
+    long currentMinTime = -1;
+    long currentMaxTime = -1;
+    for (int i = 0; i < minTimeList.size(); i++) {
+      count++;
+      if (count == 1) {
+        currentMinTime = minTimeList.get(i);
+        if (M > 1) { // else M=1 should not continue skip
+          continue;
+        }
+      }
+      if (count == M || i == minTimeList.size() - 1) {
+        currentMaxTime = maxTimeList.get(i);
+        count = 0;
+        // check if split [currentMinTime,currentMaxTime]
+        boolean split = isSplit(currentMinTime, currentMaxTime, queryStartTime, queryEndTime, w);
+        flags.add(split); // true to split
+      }
+    }
+    return flags;
+  }
+
+  public static boolean isSplit(long chunkMinTime, long chunkMaxTime, long queryStartTime,
+      long queryEndTime,
+      int w) {
+    long interval = (long) Math.ceil((double) (queryEndTime - queryStartTime) / w);
+    queryEndTime = queryStartTime + interval * w;
+
+    for (int i = 0; i < w; i++) {
+      long intervalMin = queryStartTime + i * interval;
+      long intervalMax = intervalMin + interval;
+      if (intervalMin > chunkMaxTime) {
+        break;
+      }
+      // check
+      if (chunkMinTime < intervalMin && intervalMin <= chunkMaxTime) {
+        return true;
+      }
+      if (chunkMinTime < intervalMax && intervalMax <= chunkMaxTime) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static void getMinMaxTimeForEachChunk(List<Long> minTime, List<Long> maxTime,
       String filePath, int timeIdx, int valueIdx, int iotdb_chunk_point_size) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       String line;
+      int count = 0;
+      long timestamp = -1;
       while ((line = reader.readLine()) != null) {
         String[] split = line.split(",");
-        long timestamp = Long.parseLong(split[timeIdx]);
-
+        timestamp = Long.parseLong(split[timeIdx]);
+        if (count == 0) {
+          minTime.add(timestamp);
+        }
+        count++;
+        if (count == iotdb_chunk_point_size) {
+          count = 0;
+          maxTime.add(timestamp);
+        }
+      }
+      if (timestamp >= 0) {
+        maxTime.add(timestamp); // the last one if not full
       }
     }
   }
