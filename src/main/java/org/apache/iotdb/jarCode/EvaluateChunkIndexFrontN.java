@@ -32,6 +32,7 @@ public class EvaluateChunkIndexFrontN {
     String filePath = args[1];
     //    String csvData = "D:\\github\\reply\\BallSpeed.csv"; // no header
     for (int N : testN) {
+      System.out.println("testing N=" + N);
       reset();
       testWithN(N, repeatRound, filePath);
     }
