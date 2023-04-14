@@ -1,4 +1,4 @@
-package org.apache.iotdb.jarCode;
+package org.apache.iotdb.trivial;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import org.apache.iotdb.jarCode.StepRegress;
 
 public class EvaluateChunkIndex {
 
