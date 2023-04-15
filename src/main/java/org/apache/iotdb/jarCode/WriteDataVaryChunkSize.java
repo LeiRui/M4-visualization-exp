@@ -13,7 +13,6 @@ import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
 import org.apache.iotdb.tsfile.write.record.Tablet;
 import org.apache.iotdb.tsfile.write.schema.MeasurementSchema;
 
-// write different sizes of chunks
 public class WriteDataVaryChunkSize {
 
   /**
@@ -86,7 +85,6 @@ public class WriteDataVaryChunkSize {
 
     // number of chunks in a tsfile
     int M = Integer.parseInt(args[12]);
-    System.out.println("[WriteData] M (number of chunks in a TsFile)=" + M);
 
     List<Long> minTimestamps = new ArrayList<>();
     List<Long> maxTimestamps = new ArrayList<>();
@@ -118,8 +116,8 @@ public class WriteDataVaryChunkSize {
         cnt++;
       }
     }
-    System.out.println(
-        "split ratio = " + cnt * 1.0 / flags.size() + ". " + flags.size() + " TsFiles");
+    System.out.println("[WriteData] number of chunks in a TsFile =" + M);
+    System.out.println("[WriteData] split ratio = " + cnt * 1.0 / flags.size());
   }
 
   public static List<Boolean> checkIfSplit(List<Long> minTimeList, List<Long> maxTimeList,

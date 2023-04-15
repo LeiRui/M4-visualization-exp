@@ -75,7 +75,7 @@ on 1000 keys
 data source file: D:\full-game\BallSpeed.csv
 
 [Experimental Results]
-file size: 82944, total query cost: 3622260 (read index cost: 2287920, search cost: 343090, read data cost: 6253270)
+file size: 82944, total query cost (ns): 3622260 (read index cost: 2287920, search cost: 343090, read data cost: 6253270)
 ```
 
 Similarly, run the following command:
@@ -93,7 +93,7 @@ on 1000 keys
 data source file is D:\full-game\BallSpeed.csv
 
 [Experimental Results]
-file size: 2224, total query cost: 1103260 (read index cost: 16900, search cost: 451180, read data cost: 1571340)
+file size: 2224, total query cost (ns): 1103260 (read index cost: 16900, search cost: 451180, read data cost: 1571340)
 ```
 
 The source codes of "BPlusTreeBaselineExp-jar-with-dependencies.jar" are in [another repository](https://github.com/LeiRui/BPlusTreeBaselineExp.git).
@@ -123,7 +123,7 @@ Use the bigger BallSpeed dataset (7,193,200 points) as experimented in paper:
 Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-BallSpeed.sh /dev/null 2>&1 &`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
-When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/BallSpeed_testspace/allResult.csv`.
+When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/BallSpeed_testspace/allResult.csv` with header `"numberChunksInTsFile,queryTime(ms)"`, and the split ratio information are printed in the `nohup.out` (searching sentences containing "split ratio" in `nohup.out`).
 
 ## Evaluation of the Proposed Chunk Index
 
@@ -167,4 +167,4 @@ Use the bigger MF03 dataset (10,000,000 points) as experimented in paper:
 Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-MF03.sh /dev/null 2>&1 &`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
-When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/MF03_testspace/allResult.csv`.
+When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/MF03_testspace/allResult.csv` with header `"numberOfPointsInChunk,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints"`.

@@ -50,14 +50,14 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>EvaluateChunkIndexFrontN</finalName>
+    <finalName>WriteDataVaryChunkSize</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.EvaluateChunkIndexFrontN</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.WriteDataVaryChunkSize</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
