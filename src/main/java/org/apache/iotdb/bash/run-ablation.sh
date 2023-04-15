@@ -116,6 +116,17 @@ do
   java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
+echo "numberOfPointsInChunk,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
+do
+  workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  withoutIndexQueryTime=$(cat result.csv| cut -f 7 -d "," | sed -n 2p)
+  withoutIndexTraversedPoints=$(cat result.csv| cut -f 8 -d "," | sed -n 2p)
+  withIndexQueryTime=$(cat result.csv| cut -f 15 -d "," | sed -n 2p)
+  withIndexTraversedPoints=$(cat result.csv| cut -f 16 -d "," | sed -n 2p)
+  echo ${IOTDB_CHUNK_POINT_SIZE} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+done
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches

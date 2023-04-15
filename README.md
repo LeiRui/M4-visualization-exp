@@ -96,7 +96,7 @@ data source file is D:\full-game\BallSpeed.csv
 file size: 2224, total query cost: 1103260 (read index cost: 16900, search cost: 451180, read data cost: 1571340)
 ```
 
-The source experimental codes are in [this repository](https://github.com/LeiRui/BPlusTreeBaselineExp.git).
+The source codes of "BPlusTreeBaselineExp-jar-with-dependencies.jar" are in [another repository](https://github.com/LeiRui/BPlusTreeBaselineExp.git).
 
 ## Meta-Info at the TsFile Level
 
@@ -120,7 +120,7 @@ Use the bigger BallSpeed dataset (7,193,200 points) as experimented in paper:
 
 ### Step 3: run bash
 
-Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-tsfileLevel-exp.sh /dev/null 2>&1 &`.
+Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-BallSpeed.sh /dev/null 2>&1 &`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
 When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/BallSpeed_testspace/allResult.csv`.
@@ -138,7 +138,9 @@ For example, run the following command:
 java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000000 D:\full-game\BallSpeed.csv
 ```
 
-and then the experimental results under different number of keys (N) are summarized in `evaluateIndexExp.csv`.
+and then the experimental results with different number of keys (denoted as N) are summarized in `evaluateIndexExp.csv`.
+
+The source codes of "EvaluateChunkIndexFrontN-jar-with-dependencies.jar" are in `src/main/java/org/apache/iotdb/jarCode/EvaluateChunkIndexFrontN.java` of this `M4-visualization-exp` directory.
 
 ## Ablation Study
 
@@ -162,10 +164,7 @@ Use the bigger MF03 dataset (10,000,000 points) as experimented in paper:
 
 ### Step 3: run bash
 
-Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-ablation-exp.sh /dev/null 2>&1 &`.
+Enter the directory at `HOME_PATH`, run experiments using `nohup ./run-MF03.sh /dev/null 2>&1 &`.
 The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
-When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in each of `$HOME_PATH/${DATASET}_testspace/"O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"`.
-
-
-
+When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/MF03_testspace/allResult.csv`.
