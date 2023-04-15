@@ -33,7 +33,6 @@ public class EvaluateChunkIndexFrontN {
     int repeatRound = Integer.parseInt(args[0]);
     String filePath = args[1];
     StepRegress.useMad = false;
-    //    String csvData = "D:\\github\\reply\\BallSpeed.csv"; // no header
     for (int N : testN) {
       System.out.println("testing N=" + N);
       reset();
