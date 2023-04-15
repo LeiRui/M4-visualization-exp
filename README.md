@@ -72,7 +72,7 @@ and the experimental results on B+ tree with 1000 keys from BallSpeed dataset ar
 [Experimental Settings]
 B+ tree index
 on 1000 keys
-data source file: D:\full-game\BallSpeed.csv
+data source file: ../datasets/BallSpeed.csv
 
 [Experimental Results]
 file size: 82944, total query cost (ns): 3622260 (read index cost: 2287920, search cost: 343090, read data cost: 6253270)
@@ -90,7 +90,7 @@ and the experimental results on our proposed chunk index with 1000 keys from Bal
 [Experimental Settings]
 Chunk index with step regression
 on 1000 keys
-data source file is D:\full-game\BallSpeed.csv
+data source file is ../datasets/BallSpeed.csv
 
 [Experimental Results]
 file size: 2224, total query cost (ns): 1103260 (read index cost: 16900, search cost: 451180, read data cost: 1571340)
@@ -135,7 +135,7 @@ Enter the directory `src/main/java/org/apache/iotdb/jars` in this `M4-visualizat
 For example, run the following command:
 
 ```
-java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000000 D:\full-game\BallSpeed.csv
+java -jar EvaluateChunkIndexFrontN-jar-with-dependencies.jar 10000000 ../datasets/BallSpeed.csv
 ```
 
 and then the experimental results with different number of keys (denoted as N) are summarized in `evaluateIndexExp.csv`.
