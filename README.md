@@ -63,7 +63,7 @@ Enter the directory `src/main/java/org/apache/iotdb/jars` in this `M4-visualizat
 For example, run the following command:
 
 ```
-java -jar BPlusTreeBaselineExp-jar-with-dependencies.jar true 1000 D:\full-game\BallSpeed.csv
+java -jar BPlusTreeBaselineExp-jar-with-dependencies.jar true 1000 ../datasets/BallSpeed.csv
 ```
 
 and the experimental results on B+ tree with 1000 keys from BallSpeed dataset are printed in the console window:
@@ -81,7 +81,7 @@ file size: 82944, total query cost (ns): 3622260 (read index cost: 2287920, sear
 Similarly, run the following command:
 
 ```
-java -jar BPlusTreeBaselineExp-jar-with-dependencies.jar false 1000 D:\full-game\BallSpeed.csv
+java -jar BPlusTreeBaselineExp-jar-with-dependencies.jar false 1000 ../datasets/BallSpeed.csv
 ```
 
 and the experimental results on our proposed chunk index with 1000 keys from BallSpeed dataset are printed in the console window:
