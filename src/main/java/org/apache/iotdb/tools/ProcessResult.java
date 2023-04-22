@@ -27,7 +27,8 @@ public class ProcessResult {
     File file = new File(sumOutFilePath);
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
       sumWriter.write(
-          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total,pointsTraversed\n");
+//          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total,pointsTraversed\n");
+          "meta_num,avg_meta,data_num,avg_data,read_mem_chunk_num,avg_read_mem_chunk_time,avg_total\n");
     }
 
     String readLine = null;
