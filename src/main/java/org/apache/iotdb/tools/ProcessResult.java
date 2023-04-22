@@ -32,7 +32,7 @@ public class ProcessResult {
 
     String readLine = null;
     long metaNum = 0, dataNum = 0, readMemChunkNum = 0;
-    long pointsTravered = 0;
+//    long pointsTravered = 0;
     long metaTime = 0;
     long dataTime = 0;
     long totalTime = 0;
@@ -47,7 +47,7 @@ public class ProcessResult {
         // so use average instead of the first time value appears
         dataNum += Integer.parseInt(values[8]);
         readMemChunkNum += Integer.parseInt(values[12]);
-        pointsTravered += Long.parseLong(values[16]);
+//        pointsTravered += Long.parseLong(values[16]);
         metaTime += Long.parseLong(values[2]);
         dataTime += Long.parseLong(values[6]);
         readMemChunkTime += Long.parseLong(values[10]);
@@ -58,7 +58,8 @@ public class ProcessResult {
     }
 
     writer.write(
-        "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\t pointsTraversed\n"
+//        "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\t pointsTraversed\n"
+        "meta_num\t avg_meta\t data_num\t avg_data\t read_mem_chunk_num\t avg_read_mem_chunk_time\t avg_total\n"
             + (double) metaNum / counter
             + "\t"
             + (double) metaTime / 1000000 / counter
@@ -72,8 +73,8 @@ public class ProcessResult {
             + (double) readMemChunkTime / 1000000 / counter
             + "\t"
             + (double) totalTime / 1000000 / counter
-            + "\t"
-            + (double) pointsTravered / counter
+//            + "\t"
+//            + (double) pointsTravered / counter
     );
 
     sumWriter.write(
@@ -90,8 +91,8 @@ public class ProcessResult {
             + (double) readMemChunkTime / 1000000 / counter
             + ","
             + (double) totalTime / 1000000 / counter
-            + ","
-            + (double) pointsTravered / counter
+//            + ","
+//            + (double) pointsTravered / counter
             + "\n");
 
     reader.close();
