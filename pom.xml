@@ -50,14 +50,14 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>WriteDataVaryChunkSize</finalName>
+    <finalName>SimpleRawQuery</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.WriteDataVaryChunkSize</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.SimpleRawQuery</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
