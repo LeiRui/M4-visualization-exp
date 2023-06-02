@@ -12,8 +12,8 @@ public class ExtractBallSpeedData {
 
   // sid, ts, x, y, z, |v|, |a|, vx, vy, vz, ax, ay, az
   public static void main(String[] args) throws IOException {
-    String inPath = "D:\\full-game\\full-game";
-    String outPath = "D:\\full-game\\tmp.csv";
+    String inPath = "D:\\DATA\\full-game\\full-game";
+    String outPath = "D:\\DATA\\full-game\\BallSpeed.csv";
     int timeIdx = 1;
     int valueIdx = 5;
     int sid = 8;

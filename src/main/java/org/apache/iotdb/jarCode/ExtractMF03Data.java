@@ -13,8 +13,8 @@ import java.time.format.DateTimeParseException;
 
 public class ExtractMF03Data {
   public static void main(String[] args) throws IOException {
-    String inPath = "D:\\DEBS2012-ChallengeData.txt\\allData.txt";
-    String outPath = "D:\\DEBS2012-ChallengeData.txt\\MF03.csv";
+    String inPath = "D:\\DATA\\DEBS2012-ChallengeData.txt\\allData.txt";
+    String outPath = "D:\\DATA\\DEBS2012-ChallengeData.txt\\MF03.csv";
     int timeIdx = 0; // 0
     int valueIdx = 4; // mf03: 4
     File f = new File(inPath);
