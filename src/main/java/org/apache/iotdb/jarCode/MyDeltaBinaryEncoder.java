@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class MyDeltaBinaryEncoder extends Encoder {
 
-  protected static final int BLOCK_DEFAULT_SIZE = 100;
+  protected static final int BLOCK_DEFAULT_SIZE = 128;
   private static final Logger logger = LoggerFactory.getLogger(MyDeltaBinaryEncoder.class);
   protected ByteArrayOutputStream out;
   protected int blockSize;
@@ -83,7 +83,7 @@ public abstract class MyDeltaBinaryEncoder extends Encoder {
       calcTwoDiff(i);
     }
     writeWidth = calculateBitWidthsForDeltaBlockBuffer();
-    System.out.println("bitWidth=" + writeWidth);
+//    System.out.println("bitWidth=" + writeWidth);
     writeHeaderToBytes();
     writeDataWithMinWidth();
 
