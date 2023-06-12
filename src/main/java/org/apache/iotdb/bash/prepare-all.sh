@@ -1,7 +1,7 @@
-M4_VISUALIZATION_EXP=/data1/rl/reply/M4-visualization-exp
-HOME_PATH=/data1/rl/reply/v4
-VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
-TIME_ENCODING=PLAIN # TS_2DIFF
+M4_VISUALIZATION_EXP=/home/ubuntu/rl/M4-visualization-exp
+HOME_PATH=/home/ubuntu/rl/v4
+VALUE_ENCODING=RLE # RLE for int/long, GORILLA for float/double
+TIME_ENCODING=TS_2DIFF # TS_2DIFF
 
 mkdir -p $HOME_PATH
 
