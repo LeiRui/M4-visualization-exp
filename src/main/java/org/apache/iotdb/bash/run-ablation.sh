@@ -15,6 +15,7 @@ TOTAL_POINT_NUMBER=1200000
 let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
+COMPRESSOR=UNCOMPRESSED
 use_Mad=false
 
 # iotdb config info
@@ -60,6 +61,7 @@ do
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_Mad ${use_Mad} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh wal_buffer_size 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh max_number_of_points_in_page 10485760 ../../iotdb-engine-example.properties

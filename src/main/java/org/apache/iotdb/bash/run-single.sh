@@ -15,6 +15,7 @@ TOTAL_POINT_NUMBER=1200000
 let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
+COMPRESSOR=UNCOMPRESSED
 
 # iotdb config info
 IOTDB_CHUNK_POINT_SIZE=100
@@ -142,6 +143,7 @@ $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.prope
 $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
 
 # properties for cpv
 $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
@@ -383,6 +385,7 @@ do
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
@@ -553,6 +556,7 @@ do
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
@@ -723,6 +727,7 @@ do
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties

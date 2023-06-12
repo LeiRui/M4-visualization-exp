@@ -2,6 +2,7 @@ M4_VISUALIZATION_EXP=/home/ubuntu/rl/M4-visualization-exp
 HOME_PATH=/home/ubuntu/rl/v4
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
+COMPRESSOR=UNCOMPRESSED
 
 mkdir -p $HOME_PATH
 
@@ -59,6 +60,7 @@ $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 cp run-single.sh run-BallSpeed.sh
 
 cd $HOME_PATH
@@ -79,6 +81,7 @@ $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 cp run-single.sh run-MF03.sh
 
 cd $HOME_PATH
@@ -95,6 +98,7 @@ $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1943180 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 cp run-single.sh run-KOB.sh
 
 cd $HOME_PATH
@@ -111,6 +115,7 @@ $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 1330764 run-single.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 cp run-single.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====

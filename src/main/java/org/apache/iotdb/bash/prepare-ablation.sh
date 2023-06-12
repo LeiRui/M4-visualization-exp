@@ -2,6 +2,7 @@ M4_VISUALIZATION_EXP=/data1/rl/reply/M4-visualization-exp
 HOME_PATH=/data1/rl/reply/ablationExp
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
+COMPRESSOR=UNCOMPRESSED
 use_Mad=true
 
 mkdir -p $HOME_PATH
@@ -58,6 +59,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000000 run-ablation.sh
 $HOME_PATH/tool.sh FIX_W 1 run-ablation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 $HOME_PATH/tool.sh use_Mad ${use_Mad} run-ablation.sh
 cp run-ablation.sh run-MF03.sh
 
