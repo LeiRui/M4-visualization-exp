@@ -87,7 +87,6 @@ mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-# Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
 $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
 
@@ -97,7 +96,6 @@ mkdir moc
 cd moc
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-# Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
 $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
 
@@ -107,7 +105,6 @@ mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-# Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
 $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
 java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
 

@@ -1,6 +1,7 @@
 package org.apache.iotdb.jarCode;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
@@ -25,7 +26,7 @@ public class QueryData {
 
   public static Session session;
 
-  // Usage: java -jar QueryData-0.12.4.jar device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  // Usage: java -jar QueryData-0.12.4.jar device measurement timestamp_precision dataMinTime dataMaxTime range w approach queryMetricResultCsvPath
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, TException, IOException {
     String device = args[0];
@@ -67,6 +68,11 @@ public class QueryData {
       System.out.println(
           "MAKE SURE you have set the enable_CPV as true in `iotdb-engine.properties` for CPV!");
     }
+
+    // query time metrics
+    String queryMetricResultCsvPath = args[8];
+    System.out.println("[QueryData] queryMetricResultCsvPath=" + queryMetricResultCsvPath);
+    PrintWriter pw = new PrintWriter(queryMetricResultCsvPath);
 
     long minTime;
     long maxTime;
@@ -116,18 +122,24 @@ public class QueryData {
     System.out.println("[QueryData] sql=" + sql);
 
     long c = 0;
+    long startTime = System.nanoTime();
     SessionDataSet dataSet = session.executeQueryStatement(sql);
     DataIterator ite = dataSet.iterator();
     while (ite.next()) { // this way avoid constructing rowRecord
       c++;
     }
-//    session.executeNonQueryStatement("clear cache");
+    long elapsedTimeNanoSec = System.nanoTime() - startTime;
+    pw.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
+
     dataSet = session.executeFinish();
     String info = dataSet.getFinishResult();
-    System.out.println(
-        info); // don't add more string to this output, as ProcessResult code depends on this.
+    pw.println(info);
+    // don't add more string to this output, as ProcessResult code depends on this.
+    System.out.println(info);
     System.out.println("[QueryData] query result line number=" + c);
+
     dataSet.closeOperationHandle();
     session.close();
+    pw.close();
   }
 }
