@@ -10,43 +10,22 @@ import java.util.Map;
 
 public class ProcessResult {
 
-  public static String[] IoTDBIOMonitor2Print = new String[]{
-      "[1-ns]ClientElapsedTime",
-      "[2-ns]Server_Query_Execute",
-      "[2-ns]Server_Query_Fetch",
-      "[3]dataSetType",
-      "[3-ns]M4_LSM_init_loadAllChunkMetadatas",
-      "[3-ns]M4_LSM_merge_M4_time_span",
-      "[3-ns]M4_LSM_FP",
-      "[3-ns]M4_LSM_LP",
-      "[3-ns]M4_LSM_BP",
-      "[3-ns]M4_LSM_TP",
-      "[4-ns]DCP_A_GET_CHUNK_METADATAS",
-      "[4-ns]DCP_B_READ_MEM_CHUNK",
+  public static String[] IoTDBIOMonitor2Print = new String[]{"[1-ns]ClientElapsedTime",
+      "[2-ns]Server_Query_Execute", "[2-ns]Server_Query_Fetch", "[3]dataSetType",
+      "[3-ns]M4_LSM_init_loadAllChunkMetadatas", "[3-ns]M4_LSM_merge_M4_time_span",
+      "[3-ns]M4_LSM_FP", "[3-ns]M4_LSM_LP", "[3-ns]M4_LSM_BP", "[3-ns]M4_LSM_TP",
+      "[4-ns]DCP_A_GET_CHUNK_METADATAS", "[4-ns]DCP_B_READ_MEM_CHUNK",
       "[4-ns]DCP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA",
-      "[4-ns]DCP_D_DECODE_PAGEDATA_TRAVERSE_POINTS",
-      "[4-ns]SEARCH_ARRAY_a_verifBPTP",
-      "[4-ns]SEARCH_ARRAY_b_genFP",
-      "[4-ns]SEARCH_ARRAY_b_genLP",
-      "[4-ns]SEARCH_ARRAY_c_genBPTP",
-      "[2-cnt]Server_Query_Execute",
-      "[2-cnt]Server_Query_Fetch",
-      "[3-cnt]M4_LSM_init_loadAllChunkMetadatas",
-      "[3-cnt]M4_LSM_merge_M4_time_span",
-      "[3-cnt]M4_LSM_FP",
-      "[3-cnt]M4_LSM_LP",
-      "[3-cnt]M4_LSM_BP",
-      "[3-cnt]M4_LSM_TP",
-      "[4-cnt]DCP_A_GET_CHUNK_METADATAS",
-      "[4-cnt]DCP_B_READ_MEM_CHUNK",
+      "[4-ns]DCP_D_DECODE_PAGEDATA_TRAVERSE_POINTS", "[4-ns]SEARCH_ARRAY_a_verifBPTP",
+      "[4-ns]SEARCH_ARRAY_b_genFP", "[4-ns]SEARCH_ARRAY_b_genLP", "[4-ns]SEARCH_ARRAY_c_genBPTP",
+      "[2-cnt]Server_Query_Execute", "[2-cnt]Server_Query_Fetch",
+      "[3-cnt]M4_LSM_init_loadAllChunkMetadatas", "[3-cnt]M4_LSM_merge_M4_time_span",
+      "[3-cnt]M4_LSM_FP", "[3-cnt]M4_LSM_LP", "[3-cnt]M4_LSM_BP", "[3-cnt]M4_LSM_TP",
+      "[4-cnt]DCP_A_GET_CHUNK_METADATAS", "[4-cnt]DCP_B_READ_MEM_CHUNK",
       "[4-cnt]DCP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA",
-      "[4-cnt]DCP_D_DECODE_PAGEDATA_TRAVERSE_POINTS",
-      "[4-cnt]SEARCH_ARRAY_a_verifBPTP",
-      "[4-cnt]SEARCH_ARRAY_b_genFP",
-      "[4-cnt]SEARCH_ARRAY_b_genLP",
-      "[4-cnt]SEARCH_ARRAY_c_genBPTP",
-      "[4-cnt]DCP_D_traversedPointNum",
-      "[3-4]M4_LSM_merge_M4_time_span_B_READ_MEM_CHUNK_cnt",
+      "[4-cnt]DCP_D_DECODE_PAGEDATA_TRAVERSE_POINTS", "[4-cnt]SEARCH_ARRAY_a_verifBPTP",
+      "[4-cnt]SEARCH_ARRAY_b_genFP", "[4-cnt]SEARCH_ARRAY_b_genLP", "[4-cnt]SEARCH_ARRAY_c_genBPTP",
+      "[4-cnt]DCP_D_traversedPointNum", "[3-4]M4_LSM_merge_M4_time_span_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_SEARCH_ARRAY_a_verifBPTP_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_SEARCH_ARRAY_b_genFP_cnt",
@@ -54,29 +33,20 @@ public class ProcessResult {
       "[3-4]M4_LSM_merge_M4_time_span_SEARCH_ARRAY_c_genBPTP_cnt",
       "[3-4]M4_LSM_FP_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_FP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
-      "[3-4]M4_LSM_FP_SEARCH_ARRAY_a_verifBPTP_cnt",
-      "[3-4]M4_LSM_FP_SEARCH_ARRAY_b_genFP_cnt",
-      "[3-4]M4_LSM_FP_SEARCH_ARRAY_b_genLP_cnt",
-      "[3-4]M4_LSM_FP_SEARCH_ARRAY_c_genBPTP_cnt",
+      "[3-4]M4_LSM_FP_SEARCH_ARRAY_a_verifBPTP_cnt", "[3-4]M4_LSM_FP_SEARCH_ARRAY_b_genFP_cnt",
+      "[3-4]M4_LSM_FP_SEARCH_ARRAY_b_genLP_cnt", "[3-4]M4_LSM_FP_SEARCH_ARRAY_c_genBPTP_cnt",
       "[3-4]M4_LSM_LP_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_LP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
-      "[3-4]M4_LSM_LP_SEARCH_ARRAY_a_verifBPTP_cnt",
-      "[3-4]M4_LSM_LP_SEARCH_ARRAY_b_genFP_cnt",
-      "[3-4]M4_LSM_LP_SEARCH_ARRAY_b_genLP_cnt",
-      "[3-4]M4_LSM_LP_SEARCH_ARRAY_c_genBPTP_cnt",
+      "[3-4]M4_LSM_LP_SEARCH_ARRAY_a_verifBPTP_cnt", "[3-4]M4_LSM_LP_SEARCH_ARRAY_b_genFP_cnt",
+      "[3-4]M4_LSM_LP_SEARCH_ARRAY_b_genLP_cnt", "[3-4]M4_LSM_LP_SEARCH_ARRAY_c_genBPTP_cnt",
       "[3-4]M4_LSM_BP_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_BP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
-      "[3-4]M4_LSM_BP_SEARCH_ARRAY_a_verifBPTP_cnt",
-      "[3-4]M4_LSM_BP_SEARCH_ARRAY_b_genFP_cnt",
-      "[3-4]M4_LSM_BP_SEARCH_ARRAY_b_genLP_cnt",
-      "[3-4]M4_LSM_BP_SEARCH_ARRAY_c_genBPTP_cnt",
+      "[3-4]M4_LSM_BP_SEARCH_ARRAY_a_verifBPTP_cnt", "[3-4]M4_LSM_BP_SEARCH_ARRAY_b_genFP_cnt",
+      "[3-4]M4_LSM_BP_SEARCH_ARRAY_b_genLP_cnt", "[3-4]M4_LSM_BP_SEARCH_ARRAY_c_genBPTP_cnt",
       "[3-4]M4_LSM_TP_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_TP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
-      "[3-4]M4_LSM_TP_SEARCH_ARRAY_a_verifBPTP_cnt",
-      "[3-4]M4_LSM_TP_SEARCH_ARRAY_b_genFP_cnt",
-      "[3-4]M4_LSM_TP_SEARCH_ARRAY_b_genLP_cnt",
-      "[3-4]M4_LSM_TP_SEARCH_ARRAY_c_genBPTP_cnt",
-  };
+      "[3-4]M4_LSM_TP_SEARCH_ARRAY_a_verifBPTP_cnt", "[3-4]M4_LSM_TP_SEARCH_ARRAY_b_genFP_cnt",
+      "[3-4]M4_LSM_TP_SEARCH_ARRAY_b_genLP_cnt", "[3-4]M4_LSM_TP_SEARCH_ARRAY_c_genBPTP_cnt",};
 
   public static void main(String[] args) throws IOException {
 
@@ -101,6 +71,9 @@ public class ProcessResult {
     while ((readLine = reader.readLine()) != null) {
       String metric = whichMetric(readLine);
       if (metric != null) {
+        if (metric.equals(IoTDBIOMonitor2Print[0])) {
+          repetition++;
+        }
         String[] values = readLine.split(",");
         if (metric.contains("-ns") || metric.contains("_ns")) {
           long time_ns = Long.parseLong(values[1]);
@@ -112,19 +85,22 @@ public class ProcessResult {
         } else {
           dataSetType = values[1];
         }
-        repetition++;
         writer.write(readLine + "\n");
       }
     }
 
-    for (String metric : IoTDBIOMonitor2Print) {
+    for (int i = 0; i < IoTDBIOMonitor2Print.length; i++) {
+      String metric = IoTDBIOMonitor2Print[i];
       if (metric.contains("-ns") || metric.contains("_ns")) {
-        sumWriter.write((double) metrics_ns.get(metric) / repetition + ",");
+        sumWriter.write((double) metrics_ns.get(metric) / repetition + "");
       } else if (metric.contains("-cnt") || metric.contains("-count") || metric.contains("_cnt")
           || metric.contains("_count")) {
-        sumWriter.write((double) metrics_cnt.get(metric) / repetition + ",");
+        sumWriter.write((double) metrics_cnt.get(metric) / repetition + "");
       } else {
-        sumWriter.write(dataSetType + ",");
+        sumWriter.write(dataSetType);
+      }
+      if (i < IoTDBIOMonitor2Print.length - 1) {
+        sumWriter.write(",");
       }
     }
     sumWriter.write("\n");
