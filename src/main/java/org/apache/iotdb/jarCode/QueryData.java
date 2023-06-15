@@ -1,7 +1,6 @@
 package org.apache.iotdb.jarCode;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
@@ -26,7 +25,7 @@ public class QueryData {
 
   public static Session session;
 
-  // Usage: java -jar QueryData-0.12.4.jar device measurement timestamp_precision dataMinTime dataMaxTime range w approach queryMetricResultCsvPath
+  // Usage: java -jar QueryData-0.12.4.jar device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, TException, IOException {
     String device = args[0];
@@ -68,11 +67,6 @@ public class QueryData {
       System.out.println(
           "MAKE SURE you have set the enable_CPV as true in `iotdb-engine.properties` for CPV!");
     }
-
-    // query time metrics
-    String queryMetricResultCsvPath = args[8];
-    System.out.println("[QueryData] queryMetricResultCsvPath=" + queryMetricResultCsvPath);
-    PrintWriter pw = new PrintWriter(queryMetricResultCsvPath);
 
     long minTime;
     long maxTime;
@@ -129,17 +123,15 @@ public class QueryData {
       c++;
     }
     long elapsedTimeNanoSec = System.nanoTime() - startTime;
-    pw.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
+    System.out.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
 
     dataSet = session.executeFinish();
     String info = dataSet.getFinishResult();
-    pw.println(info);
     // don't add more string to this output, as ProcessResult code depends on this.
     System.out.println(info);
     System.out.println("[QueryData] query result line number=" + c);
 
     dataSet.closeOperationHandle();
     session.close();
-    pw.close();
   }
 }
