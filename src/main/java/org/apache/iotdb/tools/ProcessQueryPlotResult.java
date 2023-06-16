@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProcessResult {
+public class ProcessQueryPlotResult {
 
-  public static String[] QueryDataPrint = new String[]{"[1-ns]ClientElapsedTime",
+  public static String[] QueryPlotPrint = new String[]{
+      "[1-ns]get_data",
+      "[1-ns]plot_data",
       "[2-ns]Server_Query_Execute", "[2-ns]Server_Query_Fetch", "[3]dataSetType",
       "[3-ns]M4_LSM_init_loadAllChunkMetadatas", "[3-ns]M4_LSM_merge_M4_time_span",
       "[3-ns]M4_LSM_FP", "[3-ns]M4_LSM_LP", "[3-ns]M4_LSM_BP", "[3-ns]M4_LSM_TP",
@@ -60,7 +62,7 @@ public class ProcessResult {
     FileWriter sumWriter = new FileWriter(sumOutFilePath, true); // append
     File file = new File(sumOutFilePath);
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
-      sumWriter.write(String.join(",", QueryDataPrint) + "\n");
+      sumWriter.write(String.join(",", QueryPlotPrint) + "\n");
     }
 
     Map<String, Long> metrics_ns = new HashMap<>();
@@ -71,7 +73,7 @@ public class ProcessResult {
     while ((readLine = reader.readLine()) != null) {
       String metric = whichMetric(readLine);
       if (metric != null) {
-        if (metric.equals(QueryDataPrint[0])) {
+        if (metric.equals(QueryPlotPrint[0])) {
           repetition++;
         }
         String[] values = readLine.split(",");
@@ -89,8 +91,8 @@ public class ProcessResult {
       }
     }
 
-    for (int i = 0; i < QueryDataPrint.length; i++) {
-      String metric = QueryDataPrint[i];
+    for (int i = 0; i < QueryPlotPrint.length; i++) {
+      String metric = QueryPlotPrint[i];
       if (metric.contains("-ns") || metric.contains("_ns")) {
         sumWriter.write((double) metrics_ns.get(metric) / repetition + "");
       } else if (metric.contains("-cnt") || metric.contains("-count") || metric.contains("_cnt")
@@ -99,7 +101,7 @@ public class ProcessResult {
       } else {
         sumWriter.write(dataSetType);
       }
-      if (i < QueryDataPrint.length - 1) {
+      if (i < QueryPlotPrint.length - 1) {
         sumWriter.write(",");
       }
     }
@@ -111,7 +113,7 @@ public class ProcessResult {
   }
 
   public static String whichMetric(String line) {
-    for (String metricName : QueryDataPrint) {
+    for (String metricName : QueryPlotPrint) {
       if (line.contains(metricName)) {
         return metricName;
       }
