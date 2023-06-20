@@ -11,7 +11,6 @@ import java.util.Map;
 public class ProcessQueryPlotResult {
 
   public static String[] QueryPlotPrint = new String[]{
-      "[1-ns]get_data",//get_data = Server_Query_Execute + transfer_data
       "[1-ns]transfer_data",
       "[1-ns]parse_data",
       "[1-ns]plot_data",
@@ -75,7 +74,8 @@ public class ProcessQueryPlotResult {
     while ((readLine = reader.readLine()) != null) {
       String metric = whichMetric(readLine);
       if (metric != null) {
-        if (metric.equals(QueryPlotPrint[0])) {
+        if (metric.equals("[1-ns]transfer_data")) {
+          // NOTE this is important, ensure this metric appears once and only once in each repetition test
           repetition++;
         }
         String[] values = readLine.split(",");
@@ -95,23 +95,7 @@ public class ProcessQueryPlotResult {
 
     for (int i = 0; i < QueryPlotPrint.length; i++) {
       String metric = QueryPlotPrint[i];
-      if (metric.contains("[1-ns]transfer_data")) {
-        // transfer_data=get_data-Server_Query_Execute
-        double get_data_avg;
-        if (metrics_ns.containsKey("[1-ns]get_data")) {
-          get_data_avg = (double) metrics_ns.get("[1-ns]get_data") / repetition;
-        } else {
-          get_data_avg = 0;
-        }
-        double server_query_execute_avg;
-        if (metrics_ns.containsKey("[2-ns]Server_Query_Execute")) {
-          server_query_execute_avg =
-              (double) metrics_ns.get("[2-ns]Server_Query_Execute") / repetition;
-        } else {
-          server_query_execute_avg = 0;
-        }
-        sumWriter.write(get_data_avg - server_query_execute_avg + "");
-      } else if (metric.contains("-ns") || metric.contains("_ns")) {
+      if (metric.contains("-ns") || metric.contains("_ns")) {
         if (metrics_ns.containsKey(metric)) {
           sumWriter.write((double) metrics_ns.get(metric) / repetition + "");
         } else { // "diskFile" read method does not print iotdb server metrics
