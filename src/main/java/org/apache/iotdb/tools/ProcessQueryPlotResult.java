@@ -11,7 +11,9 @@ import java.util.Map;
 public class ProcessQueryPlotResult {
 
   public static String[] QueryPlotPrint = new String[]{
-      "[1-ns]get_data",
+      "[1-ns]get_data",//get_data = Server_Query_Execute + transfer_data
+      "[1-ns]transfer_data",
+      "[1-ns]parse_data",
       "[1-ns]plot_data",
       "[2-ns]Server_Query_Execute", "[2-ns]Server_Query_Fetch", "[3]dataSetType",
       "[3-ns]M4_LSM_init_loadAllChunkMetadatas", "[3-ns]M4_LSM_merge_M4_time_span",
@@ -67,7 +69,7 @@ public class ProcessQueryPlotResult {
 
     Map<String, Long> metrics_ns = new HashMap<>();
     Map<String, Integer> metrics_cnt = new HashMap<>();
-    String dataSetType = "";
+    String dataSetType = "NONE";
     String readLine;
     int repetition = 0;
     while ((readLine = reader.readLine()) != null) {
@@ -93,11 +95,35 @@ public class ProcessQueryPlotResult {
 
     for (int i = 0; i < QueryPlotPrint.length; i++) {
       String metric = QueryPlotPrint[i];
-      if (metric.contains("-ns") || metric.contains("_ns")) {
-        sumWriter.write((double) metrics_ns.get(metric) / repetition + "");
+      if (metric.contains("[1-ns]transfer_data")) {
+        // transfer_data=get_data-Server_Query_Execute
+        double get_data_avg;
+        if (metrics_ns.containsKey("[1-ns]get_data")) {
+          get_data_avg = (double) metrics_ns.get("[1-ns]get_data") / repetition;
+        } else {
+          get_data_avg = 0;
+        }
+        double server_query_execute_avg;
+        if (metrics_ns.containsKey("[2-ns]Server_Query_Execute")) {
+          server_query_execute_avg =
+              (double) metrics_ns.get("[2-ns]Server_Query_Execute") / repetition;
+        } else {
+          server_query_execute_avg = 0;
+        }
+        sumWriter.write(get_data_avg - server_query_execute_avg + "");
+      } else if (metric.contains("-ns") || metric.contains("_ns")) {
+        if (metrics_ns.containsKey(metric)) {
+          sumWriter.write((double) metrics_ns.get(metric) / repetition + "");
+        } else { // "diskFile" read method does not print iotdb server metrics
+          sumWriter.write("0");
+        }
       } else if (metric.contains("-cnt") || metric.contains("-count") || metric.contains("_cnt")
           || metric.contains("_count")) {
-        sumWriter.write((double) metrics_cnt.get(metric) / repetition + "");
+        if (metrics_cnt.containsKey(metric)) {
+          sumWriter.write((double) metrics_cnt.get(metric) / repetition + "");
+        } else { // "diskFile" read method does not print iotdb server metrics
+          sumWriter.write("0");
+        }
       } else {
         sumWriter.write(dataSetType);
       }
