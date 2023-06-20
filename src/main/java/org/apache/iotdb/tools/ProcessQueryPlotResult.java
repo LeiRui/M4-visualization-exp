@@ -63,7 +63,12 @@ public class ProcessQueryPlotResult {
     FileWriter sumWriter = new FileWriter(sumOutFilePath, true); // append
     File file = new File(sumOutFilePath);
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
-      sumWriter.write(String.join(",", QueryPlotPrint) + "\n");
+      sumWriter.write(String.join(",", QueryPlotPrint)
+          + ",server_processing_time_ns,"
+          + "communication_time_ns,"
+          + "client_processing_time_ns,"
+          + "total_response_time_ns"
+          + "\n");
     }
 
     Map<String, Long> metrics_ns = new HashMap<>();
@@ -111,12 +116,32 @@ public class ProcessQueryPlotResult {
       } else {
         sumWriter.write(dataSetType);
       }
-      if (i < QueryPlotPrint.length - 1) {
-        sumWriter.write(",");
-      }
+      sumWriter.write(",");
     }
-    sumWriter.write("\n");
 
+    double server_processing_time_ns = 0;
+    double communication_time_ns = 0;
+    double client_processing_time_ns = 0;
+    double total_response_time_ns = 0;
+    if (metrics_ns.containsKey("[2-ns]Server_Query_Execute")) {
+      server_processing_time_ns =
+          (double) metrics_ns.get("[2-ns]Server_Query_Execute") / repetition;
+    }
+    sumWriter.write(server_processing_time_ns + ",");
+    if (metrics_ns.containsKey("[1-ns]transfer_data")) {
+      communication_time_ns = (double) metrics_ns.get("[1-ns]transfer_data") / repetition;
+    }
+    sumWriter.write(communication_time_ns + ",");
+    if (metrics_ns.containsKey("[1-ns]parse_data")) {
+      client_processing_time_ns += (double) metrics_ns.get("[1-ns]parse_data") / repetition;
+    }
+    if (metrics_ns.containsKey("[1-ns]plot_data")) {
+      client_processing_time_ns += (double) metrics_ns.get("[1-ns]plot_data") / repetition;
+    }
+    sumWriter.write(client_processing_time_ns + ",");
+    total_response_time_ns =
+        server_processing_time_ns + communication_time_ns + client_processing_time_ns;
+    sumWriter.write(total_response_time_ns + "\n");
     reader.close();
     writer.close();
     sumWriter.close();
