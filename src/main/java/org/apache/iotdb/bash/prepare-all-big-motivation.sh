@@ -19,7 +19,6 @@ fi
 
 #====prepare general environment====
 cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/AppendDatasetByCopy.java .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/WriteData-*.jar .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/QueryData-*.jar .
@@ -42,12 +41,6 @@ rm SumResultUnify.java
 mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
-# remove the line starting with "package" in the java file
-sed '/^package/d' AppendDatasetByCopy.java > AppendDatasetByCopy2.java
-rm AppendDatasetByCopy.java
-mv AppendDatasetByCopy2.java AppendDatasetByCopy.java
-# then javac it
-javac AppendDatasetByCopy.java
 
 #====prepare run bash for each dataset====
 cd $HOME_PATH
@@ -76,7 +69,14 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/datasets/$value.csv .
-java ../AppendDatasetByCopy $value.csv $value-cp10.csv 10
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/AppendDatasetByCopy.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' AppendDatasetByCopy.java > AppendDatasetByCopy2.java
+rm AppendDatasetByCopy.java
+mv AppendDatasetByCopy2.java AppendDatasetByCopy.java
+# then javac it
+javac AppendDatasetByCopy.java
+java AppendDatasetByCopy $value.csv $value-cp10.csv 10
 rm $value.csv
 mv $value-cp10.csv $value.csv
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/OverlapGenerator.java .
