@@ -76,7 +76,7 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/datasets/$value.csv .
-java AppendDatasetByCopy $value.csv $value-cp10.csv 10
+java ../AppendDatasetByCopy $value.csv $value-cp10.csv 10
 rm $value.csv
 mv $value-cp10.csv $value.csv
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/OverlapGenerator.java .
