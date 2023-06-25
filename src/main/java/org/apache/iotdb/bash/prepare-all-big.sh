@@ -142,3 +142,5 @@ mkdir ${value}_testspace
 done;
 
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+
+echo "finish"
