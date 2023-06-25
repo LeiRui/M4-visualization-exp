@@ -37,8 +37,8 @@ public class AppendDatasetByCopy {
     long lastTimestamp = Long.parseLong(lastRow.split(csvSplitBy)[0]);
     long timestampShiftUnit = lastTimestamp - firstTimestamp + (secondTimestamp - firstTimestamp);
     for (int i = 2; i < copyNum + 1; i++) {
-      System.out.println("copy " + i);
-      long timestampShift = timestampShiftUnit * i;
+//      System.out.println("copy " + i);
+      long timestampShift = timestampShiftUnit * (i - 1);
       BufferedReader reader = new BufferedReader(new FileReader(file));
       while ((line = reader.readLine()) != null) {
         String[] items = line.split(csvSplitBy);
