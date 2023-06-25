@@ -1,5 +1,5 @@
-M4_VISUALIZATION_EXP=/root/ubuntu/rl/M4-visualization-exp
-HOME_PATH=/root/ubuntu/rl/v4
+M4_VISUALIZATION_EXP=/root/ubuntu/M4-visualization-exp
+HOME_PATH=/root/ubuntu/v4
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=SNAPPY

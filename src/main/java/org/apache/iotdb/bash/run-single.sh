@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # generate HOME_PATH workspace by running prepare.sh first
-HOME_PATH=/data/rl/v4
+HOME_PATH=/data/v4
 
 # dataset basic info
 DATASET=BallSpeed # BallSpeed KOB MF03 RcvTime
