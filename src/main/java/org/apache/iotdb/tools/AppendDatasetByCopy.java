@@ -22,7 +22,7 @@ public class AppendDatasetByCopy {
     String secondRow = null;
     String lastRow = null;
     BufferedReader readerInitial = new BufferedReader(new FileReader(file));
-    System.out.println("copy 1");
+//    System.out.println("copy 1");
     firstRow = readerInitial.readLine();
     writer.println(firstRow);
     secondRow = readerInitial.readLine();
