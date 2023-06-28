@@ -26,7 +26,7 @@ if [ $READ_METHOD == "rawQuery" ]
 then
   scp -r $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/master/iotdb-server-0.13.4 .
   scp -r $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/master/iotdb-cli-0.13.4 .
-  cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/master/WriteData-*.jar .
+  cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/master/WriteData-*.jar .
 else
   scp -r $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/iotdb-server-0.12.4 .
   scp -r $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/iotdb-cli-0.12.4 .
