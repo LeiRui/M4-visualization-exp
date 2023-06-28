@@ -80,7 +80,7 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 echo "Writing ${workspace}"
 cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-*/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-*/sbin
-./start-server.sh /dev/null 2>&1 &
+./start-server.sh >/dev/null 2>&1 &
 sleep 8s
 # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
 java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_${overlap_percentage} 0 0 0 1 ${VALUE_ENCODING}
