@@ -1,6 +1,12 @@
 READ_METHOD=rawQuery # rawQuery/mac/cpv
-M4_VISUALIZATION_EXP=/home/ubuntu/M4-visualization-exp
-HOME_PATH=/home/ubuntu/v4-$READ_METHOD
+BASE_PATH=/home/ubuntu
+M4_VISUALIZATION_EXP=$BASE_PATH/M4-visualization-exp
+if [ $READ_METHOD == "rawQuery" ]
+then
+  HOME_PATH=$BASE_PATH/v4-$READ_METHOD
+else
+  HOME_PATH=$BASE_PATH/v4
+fi
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=SNAPPY
