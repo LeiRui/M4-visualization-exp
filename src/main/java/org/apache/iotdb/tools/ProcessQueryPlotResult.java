@@ -12,7 +12,7 @@ public class ProcessQueryPlotResult {
 
   public static String[] QueryPlotPrint = new String[]{
       "[1-ns]transfer_data",
-      "[1-ns]parse_data",
+      "[1-ns]get_data",
       "[1-ns]plot_data",
       "[2-ns]Server_Query_Execute", "[2-ns]Server_Query_Fetch", "[3]dataSetType",
       "[3-ns]M4_LSM_init_loadAllChunkMetadatas", "[3-ns]M4_LSM_merge_M4_time_span",
@@ -127,14 +127,20 @@ public class ProcessQueryPlotResult {
       server_processing_time_ns =
           (double) metrics_ns.get("[2-ns]Server_Query_Execute") / repetition;
     }
+    if (metrics_ns.containsKey("[2-ns]Server_Query_Fetch")) {
+      server_processing_time_ns += (double) metrics_ns.get("[2-ns]Server_Query_Fetch") / repetition;
+    }
     sumWriter.write(server_processing_time_ns + ",");
     if (metrics_ns.containsKey("[1-ns]transfer_data")) {
       communication_time_ns = (double) metrics_ns.get("[1-ns]transfer_data") / repetition;
     }
     sumWriter.write(communication_time_ns + ",");
-    if (metrics_ns.containsKey("[1-ns]parse_data")) {
-      client_processing_time_ns += (double) metrics_ns.get("[1-ns]parse_data") / repetition;
+    double parse_time = 0;
+    if (metrics_ns.containsKey("[1-ns]get_data")) {
+      parse_time += (double) metrics_ns.get("[1-ns]get_data") / repetition;
+      parse_time -= server_processing_time_ns;
     }
+    client_processing_time_ns += parse_time;
     if (metrics_ns.containsKey("[1-ns]plot_data")) {
       client_processing_time_ns += (double) metrics_ns.get("[1-ns]plot_data") / repetition;
     }
