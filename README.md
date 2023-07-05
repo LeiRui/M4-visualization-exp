@@ -154,13 +154,13 @@ Use the bigger MF03 dataset (10,000,000 points) as experimented in paper:
 
 ### Step 2: prepare bash
 
-1. Enter the directory `src/main/java/org/apache/iotdb/bash` in this `M4-visualization-exp` directory, and update `prepare-ablation-exp.sh` as follows:
+1. Enter the directory `src/main/java/org/apache/iotdb/bash` in this `M4-visualization-exp` directory, and update `prepare-time-ablation.sh` as follows:
 
     - update `M4_VISUALIZATION_EXP` as the downloaded path of this `M4-visualization-exp` directory.
 
     - update `HOME_PATH` as an empty directory where you want the experiments to be executed.
 
-2. Run `prepare-ablation-exp.sh` and then the directory at `HOME_PATH` will be ready for experiments.
+2. Run `prepare-time-ablation.sh` and then the directory at `HOME_PATH` will be ready for experiments.
 
 ### Step 3: run bash
 

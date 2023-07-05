@@ -1,5 +1,5 @@
-M4_VISUALIZATION_EXP=/data1/reply/M4-visualization-exp
-HOME_PATH=/data1/reply/tsfileLevelExp
+M4_VISUALIZATION_EXP=/home/ubuntu/M4-visualization-exp
+HOME_PATH=/home/ubuntu/valueAblationExp
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=UNCOMPRESSED
@@ -21,7 +21,7 @@ fi
 #====prepare general environment====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/tool.sh .
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/WriteDataVaryChunkSize-jar-with-dependencies.jar .
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/WriteData-*.jar .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/jars/QueryData-*.jar .
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/tools/query_experiment.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment.sh
@@ -43,28 +43,29 @@ mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
 
-#====prepare run bash for each dataset====
+#====prepare run bash for test dataset====
 cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-tsfileLevel-exp.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh FIX_W 10 run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-tsfileLevel-exp.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-tsfileLevel-exp.sh
-$HOME_PATH/tool.sh use_Mad ${use_Mad} run-tsfileLevel-exp.sh
-cp run-tsfileLevel-exp.sh run-BallSpeed.sh
+cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-value-ablation.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-value-ablation.sh
+$HOME_PATH/tool.sh DATASET MF03 run-value-ablation.sh
+$HOME_PATH/tool.sh DEVICE "root.debs2012" run-value-ablation.sh
+$HOME_PATH/tool.sh MEASUREMENT "mf03" run-value-ablation.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-value-ablation.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-value-ablation.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-value-ablation.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-value-ablation.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-value-ablation.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000000 run-value-ablation.sh
+$HOME_PATH/tool.sh FIX_W 1000 run-value-ablation.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-value-ablation.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-value-ablation.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-value-ablation.sh
+$HOME_PATH/tool.sh use_Mad ${use_Mad} run-value-ablation.sh
+cp run-value-ablation.sh run-MF03.sh
+
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed");
+datasetArray=("MF03");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
