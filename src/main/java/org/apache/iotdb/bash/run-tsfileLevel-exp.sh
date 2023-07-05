@@ -62,7 +62,7 @@ do
   $HOME_PATH/tool.sh wal_buffer_size 1073741824 ../../iotdb-engine-example.properties
   # properties for cpv true and enable chunk index
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh use_ChunkIndex true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableChunkIndex.properties
 
   # [write data]

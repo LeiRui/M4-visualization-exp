@@ -30,7 +30,7 @@ public class StepRegress {
 //  public DoubleArrayList passingTimestamps = new DoubleArrayList(); // for debug
 //  public IntArrayList passingPos = new IntArrayList(); // for debug
 
-  enum IntervalType {
+  public enum IntervalType {
     tilt,
     level
   }
