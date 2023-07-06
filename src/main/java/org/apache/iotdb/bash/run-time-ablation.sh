@@ -37,8 +37,8 @@ echo "Begin experiment!"
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
-# long D:\desktop\test.csv D:\desktop\test2.csv 0 1 3
-java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER}
+# long D:\desktop\test.csv D:\desktop\test2.csv 0 1 10 4
+java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER} 10000
 
 for IOTDB_CHUNK_POINT_SIZE in 5000000 3000000 1000000 500000 100000 50000 10000
 do
@@ -69,10 +69,17 @@ do
   # properties for cpv true and disable chunk index
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_TimeIndex false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_ValueIndex false ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-disableChunkIndex.properties
-  # properties for cpv true and enable chunk index
+  # properties for cpv true and enable time index only
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_ValueIndex false ../../iotdb-engine-example.properties
+  cp ../../iotdb-engine-example.properties iotdb-engine-enableTimeIndexOnly.properties
+  # properties for cpv true and enable both time and value index
+  $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_ValueIndex true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableChunkIndex.properties
 
   # [write data]
@@ -93,42 +100,73 @@ do
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
 
-  echo "without chunk index"
+  echo "disableChunkIndex"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir mac
-  cd mac
+  mkdir disableChunkIndex
+  cd disableChunkIndex
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
+  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_disableChunkIndex.csv
 
-  echo "with chunk index"
+  echo "enableTimeIndexOnly"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir cpv
-  cd cpv
+  mkdir enableTimeIndexOnly
+  cd enableTimeIndexOnly
+  cp $HOME_PATH/ProcessResult.* .
+  cp ../../iotdb-engine-enableTimeIndexOnly.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
+  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableTimeIndexOnly.csv
+
+  echo "enableChunkIndex"
+  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+  mkdir enableChunkIndex
+  cd enableChunkIndex
   cp $HOME_PATH/ProcessResult.* .
   cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
+  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableChunkIndex.csv
 
   # unify results
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  cp $HOME_PATH/SumResultUnify.* .
-  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+#  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+#  cp $HOME_PATH/SumResultUnify.* .
+#  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-echo "numberOfPointsInChunk,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ms),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
+enableTimeIndexOnly_QueryTime(ms),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
+enableChunkIndex_QueryTime(ms),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
 for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
 do
   workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
-  withoutIndexTraversedPoints=$(cat result.csv| cut -f 36 -d "," | sed -n 2p)
-  withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
-  withIndexTraversedPoints=$(cat result.csv| cut -f 103 -d "," | sed -n 2p)
-  echo ${IOTDB_CHUNK_POINT_SIZE} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+
+  disableChunkIndex_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
+  disableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
+  disableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+
+  enableTimeIndexOnly_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
+  enableTimeIndexOnly_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
+  enableTimeIndexOnly_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+
+  enableChunkIndex_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
+  enableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
+  enableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+
+  echo ${IOTDB_CHUNK_POINT_SIZE} "," \
+  ${disableChunkIndex_QueryTime} "," \
+  ${disableChunkIndex_timeIndex_traversedPointNum} "," \
+  ${disableChunkIndex_valueIndex_traversedPointNum} "," \
+  ${enableTimeIndexOnly_QueryTime} "," \
+  ${enableTimeIndexOnly_timeIndex_traversedPointNum} "," \
+  ${enableTimeIndexOnly_valueIndex_traversedPointNum} "," \
+  ${enableChunkIndex_QueryTime} "," \
+  ${enableChunkIndex_timeIndex_traversedPointNum} "," \
+  ${enableChunkIndex_valueIndex_traversedPointNum} \
+  >> $HOME_PATH/${DATASET}_testspace/allResult.csv
 done
 
 echo "ALL FINISHED!"

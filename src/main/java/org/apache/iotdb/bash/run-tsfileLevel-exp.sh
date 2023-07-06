@@ -63,6 +63,7 @@ do
   # properties for cpv true and enable chunk index
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh use_ValueIndex true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableChunkIndex.properties
 
   # [write data]

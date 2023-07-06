@@ -14,7 +14,7 @@ public class OverlapGenerator2 {
 
   public static void main(String[] args) throws IOException {
     String dataType = args[0]; // long or double
-    if (!dataType.toLowerCase().equals("long") && !dataType.toLowerCase().equals("double")) {
+    if (!dataType.equalsIgnoreCase("long") && !dataType.equalsIgnoreCase("double")) {
       throw new IOException("Data type only accepts long or double.");
     }
     dataType = dataType.toLowerCase();
@@ -24,6 +24,8 @@ public class OverlapGenerator2 {
     int timeIdx = Integer.parseInt(args[3]);
     int valueIdx = Integer.parseInt(args[4]);
     int pointNum = Integer.parseInt(args[5]);
+    int min_IOTDB_CHUNK_POINT_SIZE = Integer.parseInt(args[6]);
+    int select = min_IOTDB_CHUNK_POINT_SIZE / 2;
 
     File f = new File(inPath);
     FileWriter fileWriter = new FileWriter(outPath);
@@ -38,28 +40,58 @@ public class OverlapGenerator2 {
     long[] timestampArray = new long[pointNum];
     Object[] valueArray = new Object[pointNum];
     int cnt = 0;
-    while ((line = reader.readLine()) != null && cnt < pointNum) {
+    while ((line = reader.readLine()) != null && cnt < pointNum) { // no header
       String[] split = line.split(",");
-      timestampArray[cnt] = Long.parseLong(split[timeIdx]); // time
-      valueArray[cnt] = parseValue(split[valueIdx], dataType); // value
+      timestampArray[cnt] = Long.parseLong(split[timeIdx]);
+      valueArray[cnt] = parseValue(split[valueIdx], dataType);
       cnt++;
     }
+
+    cnt = 0;
+    long select_t = -1;
+    Object select_v = null;
     for (int k : idx) {
-      printWriter.print(timestampArray[k]);
-      printWriter.print(",");
-      printWriter.print(valueArray[k]);
-      printWriter.println();
+      cnt++;
+      if (cnt == select) {
+        select_t = timestampArray[k];
+        select_v = valueArray[k];
+        printWriter.print(timestampArray[k]);
+        printWriter.print(",");
+        printWriter.print(peak(dataType));
+        printWriter.println();
+      } else if (cnt < pointNum) {
+        printWriter.print(timestampArray[k]);
+        printWriter.print(",");
+        printWriter.print(valueArray[k]);
+        printWriter.println();
+      } else { // last
+        printWriter.print(select_t);
+        printWriter.print(",");
+        printWriter.print(select_v);
+        printWriter.println();
+      }
     }
+
     System.out.println(cnt);
     reader.close();
     printWriter.close();
   }
 
   public static Object parseValue(String value, String dataType) throws IOException {
-    if (dataType.toLowerCase().equals("long")) {
+    if (dataType.equalsIgnoreCase("long")) {
       return Long.parseLong(value);
-    } else if (dataType.toLowerCase().equals("double")) {
+    } else if (dataType.equalsIgnoreCase("double")) {
       return Double.parseDouble(value);
+    } else {
+      throw new IOException("Data type only accepts long or double.");
+    }
+  }
+
+  public static Object peak(String dataType) throws IOException {
+    if (dataType.equalsIgnoreCase("long")) {
+      return Long.MAX_VALUE;
+    } else if (dataType.equalsIgnoreCase("double")) {
+      return Double.MAX_VALUE;
     } else {
       throw new IOException("Data type only accepts long or double.");
     }

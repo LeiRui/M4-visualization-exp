@@ -64,10 +64,12 @@ $HOME_PATH/tool.sh wal_buffer_size 1073741824 ../../iotdb-engine-example.propert
 $HOME_PATH/tool.sh max_number_of_points_in_page 10485760 ../../iotdb-engine-example.properties
 # properties for cpv true and disable chunk index
 $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh use_ValueIndex false ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-disableChunkIndex.properties
+cp ../../iotdb-engine-example.properties iotdb-engine-disableValueIndexOnly.properties
 # properties for cpv true and enable chunk index
 $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh use_TimeIndex true ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh use_ValueIndex true ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableChunkIndex.properties
 
@@ -89,12 +91,12 @@ echo "Querying ${workspace}"
 cd $HOME_PATH/${DATASET}_testspace/${workspace}
 mkdir fix
 
-echo "without chunk index"
+echo "without value index"
 cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
 mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResult.* .
-cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cp ../../iotdb-engine-disableValueIndexOnly.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 # for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
@@ -104,7 +106,7 @@ do
   java ProcessResult result_$w.txt result_$w.out ../sumResultMAC.csv
 done
 
-echo "with chunk index"
+echo "with value index"
 cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
 mkdir cpv
 cd cpv
