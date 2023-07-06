@@ -25,7 +25,10 @@ public class ProcessResult {
       "[4-cnt]DCP_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA",
       "[4-cnt]DCP_D_DECODE_PAGEDATA_TRAVERSE_POINTS", "[4-cnt]SEARCH_ARRAY_a_verifBPTP",
       "[4-cnt]SEARCH_ARRAY_b_genFP", "[4-cnt]SEARCH_ARRAY_b_genLP", "[4-cnt]SEARCH_ARRAY_c_genBPTP",
-      "[4-cnt]DCP_D_traversedPointNum", "[3-4]M4_LSM_merge_M4_time_span_B_READ_MEM_CHUNK_cnt",
+      "[5-cnt]DCP_D_getAllSatisfiedPageData_traversedPointNum",
+      "[5-cnt]DCP_D_timeIndex_traversedPointNum",
+      "[5-cnt]DCP_D_valueIndex_traversedPointNum",
+      "[3-4]M4_LSM_merge_M4_time_span_B_READ_MEM_CHUNK_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_C_DESERIALIZE_PAGEHEADER_DECOMPRESS_PAGEDATA_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_SEARCH_ARRAY_a_verifBPTP_cnt",
       "[3-4]M4_LSM_merge_M4_time_span_SEARCH_ARRAY_b_genFP_cnt",
@@ -71,7 +74,7 @@ public class ProcessResult {
     while ((readLine = reader.readLine()) != null) {
       String metric = whichMetric(readLine);
       if (metric != null) {
-        if (metric.equals(QueryDataPrint[0])) {
+        if (metric.equals(QueryDataPrint[1])) {
           repetition++;
         }
         String[] values = readLine.split(",");

@@ -122,9 +122,9 @@ do
   workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
-  withoutIndexTraversedPoints=$(cat result.csv| cut -f 35 -d "," | sed -n 2p)
-  withIndexQueryTime=$(cat result.csv| cut -f 67 -d "," | sed -n 2p)
-  withIndexTraversedPoints=$(cat result.csv| cut -f 100 -d "," | sed -n 2p)
+  withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
+  withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
+  withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
   echo ${IOTDB_CHUNK_POINT_SIZE} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
 done
 
