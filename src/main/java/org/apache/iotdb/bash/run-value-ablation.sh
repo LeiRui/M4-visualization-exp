@@ -122,14 +122,25 @@ cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
 cp $HOME_PATH/SumResultUnify.* .
 java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
-echo "w,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
-workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
+#echo "w,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+#workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
+#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+#withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
+#withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
+#withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
+#withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
+#echo ${FIX_W} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+
 cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
-withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
-withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
-withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
-echo ${FIX_W} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+sed -i -e 1's/^/w,estimated chunks per interval,/' result.csv
+line=2
+for FIX_W in 1 2 20000
+do
+  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
+  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
+  sed -i -e ${line}"s/^/${w},${c},/" result.csv
+  let line+=1
+done
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
