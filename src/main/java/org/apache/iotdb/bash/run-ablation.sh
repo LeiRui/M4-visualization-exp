@@ -148,13 +148,13 @@ do
   disableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
   disableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
 
-  enableTimeIndexOnly_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
-  enableTimeIndexOnly_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
-  enableTimeIndexOnly_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+  enableTimeIndexOnly_QueryTime=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 2 -d "," | sed -n 2p)
+  enableTimeIndexOnly_timeIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 36 -d "," | sed -n 2p)
+  enableTimeIndexOnly_valueIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 37 -d "," | sed -n 2p)
 
-  enableChunkIndex_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
-  enableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
-  enableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+  enableChunkIndex_QueryTime=$(cat sumResult_enableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
+  enableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
+  enableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
 
   echo ${IOTDB_CHUNK_POINT_SIZE} "," \
   ${disableChunkIndex_QueryTime} "," \
