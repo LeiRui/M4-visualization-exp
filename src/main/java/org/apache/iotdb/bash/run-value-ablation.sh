@@ -84,51 +84,52 @@ sleep 5s
 sleep 5s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 
+# [query data]
+echo "Querying ${workspace}"
+cd $HOME_PATH/${DATASET}_testspace/${workspace}
+mkdir fix
+
+echo "without chunk index"
+cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+mkdir mac
+cd mac
+cp $HOME_PATH/ProcessResult.* .
+cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 # for FIX_W in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 for FIX_W in 1 2 20000
 do
-  # [query data]
-  echo "Querying ${workspace}"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}
-  mkdir fix
-
-  echo "without chunk index"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir mac
-  cd mac
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
+done
 
-  echo "with chunk index"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir cpv
-  cd cpv
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+echo "with chunk index"
+cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+mkdir cpv
+cd cpv
+cp $HOME_PATH/ProcessResult.* .
+cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+# for FIX_W in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
+for FIX_W in 1 2 20000
+do
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
   java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
-
-  # unify results
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  cp $HOME_PATH/SumResultUnify.* .
-  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 done
 
-echo "numberOfPointsInChunk,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
-for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
-do
-  workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
-  withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
-  withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
-  withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
-  echo ${IOTDB_CHUNK_POINT_SIZE} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
-done
+# unify results
+cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+cp $HOME_PATH/SumResultUnify.* .
+java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+
+echo "w,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
+cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
+withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
+withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
+withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
+echo ${FIX_W} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
