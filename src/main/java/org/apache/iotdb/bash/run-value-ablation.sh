@@ -96,12 +96,12 @@ cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-disableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 # for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
-for w in 1 2 20000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${w} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${w} cpv >> result_$w.txt
+  java ProcessResult result_$w.txt result_$w.out ../sumResultMAC.csv
 done
 
 echo "with chunk index"
@@ -111,12 +111,12 @@ cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 # for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
-for w in 1 2 20000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${w} cpv >> result_3.txt
-  java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${w} cpv >> result_$w.txt
+  java ProcessResult result_$w.txt result_$w.out ../sumResultCPV.csv
 done
 
 # unify results
@@ -136,7 +136,7 @@ java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
 sed -i -e 1's/^/w,estimated chunks per interval,/' result.csv
 line=2
-for w in 1 2 20000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
