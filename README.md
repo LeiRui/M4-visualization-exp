@@ -20,7 +20,7 @@ The running logs are saved in nohup.out, which can be checked by the command: `t
     - `exp4.csv` for varying delete percentage, 
     - `exp5.csv` for varying delete time range.
 
-In these csv, counting from 0, the 8th column is the query execution time of M4-UDF, and the 16th column is the query execution time of M4-LSM.
+In these csv, counting from 1, the 4th column is the query execution time of M4-UDF, and the 71th column is the query execution time of M4-LSM.
 
 ## About datasets
 
