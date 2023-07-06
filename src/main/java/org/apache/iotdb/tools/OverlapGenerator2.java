@@ -57,7 +57,7 @@ public class OverlapGenerator2 {
         select_v = valueArray[k];
         printWriter.print(timestampArray[k]);
         printWriter.print(",");
-        printWriter.print(peak(dataType));
+        printWriter.print("11582"); // for MF03
         printWriter.println();
       } else if (cnt < pointNum) {
         printWriter.print(timestampArray[k]);
@@ -87,13 +87,13 @@ public class OverlapGenerator2 {
     }
   }
 
-  public static Object peak(String dataType) throws IOException {
-    if (dataType.equalsIgnoreCase("long")) {
-      return Long.MAX_VALUE;
-    } else if (dataType.equalsIgnoreCase("double")) {
-      return Double.MAX_VALUE;
-    } else {
-      throw new IOException("Data type only accepts long or double.");
-    }
-  }
+//  public static Object peak(String dataType) throws IOException {
+//    if (dataType.equalsIgnoreCase("long")) {
+//      return Long.MAX_VALUE; // not Long.MAX_VALUE as that will pollute sdt
+//    } else if (dataType.equalsIgnoreCase("double")) {
+//      return Double.MAX_VALUE; // not Double.MAX_VALUE as that will pollute sdt
+//    } else {
+//      throw new IOException("Data type only accepts long or double.");
+//    }
+//  }
 }
