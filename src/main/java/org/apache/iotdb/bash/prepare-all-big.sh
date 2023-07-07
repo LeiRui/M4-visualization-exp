@@ -1,8 +1,9 @@
 M4_VISUALIZATION_EXP=/home/ubuntu/M4-visualization-exp
 HOME_PATH=/home/ubuntu/v4
+
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
-COMPRESSOR=SNAPPY
+COMPRESSOR=UNCOMPRESSED
 
 mkdir -p $HOME_PATH
 
