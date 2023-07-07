@@ -133,6 +133,11 @@ do
 
 done
 
+
+cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0_10000/fix
+header=$(cat sumResult_disableChunkIndex.csv| sed -n 2p)
+echo "disableChunkIndex" header "," "enableTimeIndexOnly" header "," "enableChunkIndex" header >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
+
 echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ns),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
 enableTimeIndexOnly_QueryTime(ns),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
 enableChunkIndex_QueryTime(ns),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
@@ -144,14 +149,17 @@ do
   disableChunkIndex_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
   disableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
   disableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+  disableChunkIndex_line=$(cat sumResult_disableChunkIndex.csv| sed -n 2p)
 
   enableTimeIndexOnly_QueryTime=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 2 -d "," | sed -n 2p)
   enableTimeIndexOnly_timeIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 36 -d "," | sed -n 2p)
   enableTimeIndexOnly_valueIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 37 -d "," | sed -n 2p)
+  enableTimeIndexOnly_line=$(cat sumResult_enableTimeIndexOnly.csv| sed -n 2p)
 
   enableChunkIndex_QueryTime=$(cat sumResult_enableChunkIndex.csv| cut -f 2 -d "," | sed -n 2p)
   enableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 36 -d "," | sed -n 2p)
   enableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 37 -d "," | sed -n 2p)
+  enableChunkIndex_line=$(cat sumResult_enableChunkIndex.csv| sed -n 2p)
 
   echo ${IOTDB_CHUNK_POINT_SIZE} "," \
   ${disableChunkIndex_QueryTime} "," \
@@ -164,6 +172,11 @@ do
   ${enableChunkIndex_timeIndex_traversedPointNum} "," \
   ${enableChunkIndex_valueIndex_traversedPointNum} \
   >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+
+  echo ${disableChunkIndex_line} "," \
+  ${enableTimeIndexOnly_line} "," \
+  ${enableChunkIndex_line} \
+  >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
 done
 
 echo "ALL FINISHED!"
