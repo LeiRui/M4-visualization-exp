@@ -12,7 +12,7 @@ TIMESTAMP_PRECISION=ns
 DATA_MIN_TIME=0  # in the corresponding timestamp precision
 DATA_MAX_TIME=617426057626  # in the corresponding timestamp precision
 TOTAL_POINT_NUMBER=1200000
-let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
+let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME}
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
 COMPRESSOR=UNCOMPRESSED
@@ -36,11 +36,12 @@ echo "Begin experiment!"
 ############################
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
-cp ${DATASET}.csv ${DATASET}-O_0
+#cp ${DATASET}.csv ${DATASET}-O_0
 # long D:\desktop\test.csv D:\desktop\test2.csv 0 1 10 4
 java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER} 10000
 
-for IOTDB_CHUNK_POINT_SIZE in 5000000 3000000 1000000 500000 100000 50000 10000
+# for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
+for IOTDB_CHUNK_POINT_SIZE in 5000000
 do
   workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
   cd $HOME_PATH/${DATASET}_testspace
@@ -86,7 +87,7 @@ do
   echo "Writing ${workspace}"
   cp iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   cd $HOME_PATH/iotdb-server-0.12.4/sbin
-  ./start-server.sh /dev/null 2>&1 &
+  ./start-server.sh >$HOME_PATH/${DATASET}_testspace/${workspace}/iotdb-server-log-${IOTDB_CHUNK_POINT_SIZE}.log 2>&1 &
   sleep 8s
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
   java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING}
@@ -110,37 +111,32 @@ do
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
   java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_disableChunkIndex.csv
 
-  echo "enableTimeIndexOnly"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir enableTimeIndexOnly
-  cd enableTimeIndexOnly
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableTimeIndexOnly.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
-  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableTimeIndexOnly.csv
-
-  echo "enableChunkIndex"
-  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-  mkdir enableChunkIndex
-  cd enableChunkIndex
-  cp $HOME_PATH/ProcessResult.* .
-  cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
-  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableChunkIndex.csv
-
-  # unify results
+#  echo "enableTimeIndexOnly"
 #  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#  cp $HOME_PATH/SumResultUnify.* .
-#  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+#  mkdir enableTimeIndexOnly
+#  cd enableTimeIndexOnly
+#  cp $HOME_PATH/ProcessResult.* .
+#  cp ../../iotdb-engine-enableTimeIndexOnly.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
+#  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableTimeIndexOnly.csv
+#
+#  echo "enableChunkIndex"
+#  cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+#  mkdir enableChunkIndex
+#  cd enableChunkIndex
+#  cp $HOME_PATH/ProcessResult.* .
+#  cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
+#  java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableChunkIndex.csv
+
 done
 
 echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ms),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
 enableTimeIndexOnly_QueryTime(ms),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
 enableChunkIndex_QueryTime(ms),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
-# for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
-for IOTDB_CHUNK_POINT_SIZE in 5000000
+for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
 do
   workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
