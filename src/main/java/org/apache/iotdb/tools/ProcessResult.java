@@ -67,7 +67,7 @@ public class ProcessResult {
     }
 
     Map<String, Long> metrics_ns = new HashMap<>();
-    Map<String, Integer> metrics_cnt = new HashMap<>();
+    Map<String, Long> metrics_cnt = new HashMap<>();
     String dataSetType = "";
     String readLine;
     int repetition = 0;
@@ -83,7 +83,7 @@ public class ProcessResult {
           sumMetric(metric, time_ns, metrics_ns);
         } else if (metric.contains("-cnt") || metric.contains("-count") || metric.contains("_cnt")
             || metric.contains("_count")) {
-          int op_cnt = Integer.parseInt(values[1]);
+          long op_cnt = Long.parseLong(values[1]);
           sumMetric(metric, op_cnt, metrics_cnt);
         } else {
           dataSetType = values[1];
@@ -122,19 +122,19 @@ public class ProcessResult {
     return null;
   }
 
-  public static void sumMetric(String metric, long time_ns, Map<String, Long> metrics_ns) {
+  public static void sumMetric(String metric, long ns_or_cnt, Map<String, Long> metrics_ns) {
     if (metrics_ns.containsKey(metric)) {
-      metrics_ns.put(metric, time_ns + metrics_ns.get(metric));
+      metrics_ns.put(metric, ns_or_cnt + metrics_ns.get(metric));
     } else {
-      metrics_ns.put(metric, time_ns);
+      metrics_ns.put(metric, ns_or_cnt);
     }
   }
 
-  public static void sumMetric(String metric, int op_cnt, Map<String, Integer> metrics_cnt) {
-    if (metrics_cnt.containsKey(metric)) {
-      metrics_cnt.put(metric, op_cnt + metrics_cnt.get(metric));
-    } else {
-      metrics_cnt.put(metric, op_cnt);
-    }
-  }
+//  public static void sumMetric(String metric, long op_cnt, Map<String, Long> metrics_cnt) {
+//    if (metrics_cnt.containsKey(metric)) {
+//      metrics_cnt.put(metric, op_cnt + metrics_cnt.get(metric));
+//    } else {
+//      metrics_cnt.put(metric, op_cnt);
+//    }
+//  }
 }
