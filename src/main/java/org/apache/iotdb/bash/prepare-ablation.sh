@@ -54,7 +54,8 @@ $HOME_PATH/tool.sh MEASUREMENT "mf03" run-ablation.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-ablation.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-ablation.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-ablation.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-ablation.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647703290700 run-ablation.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-ablation.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-ablation.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000000 run-ablation.sh
 $HOME_PATH/tool.sh FIX_W 1 run-ablation.sh
