@@ -133,9 +133,9 @@ do
 
 done
 
-echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ms),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
-enableTimeIndexOnly_QueryTime(ms),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
-enableChunkIndex_QueryTime(ms),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ns),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
+enableTimeIndexOnly_QueryTime(ns),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
+enableChunkIndex_QueryTime(ns),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
 for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
 do
   workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"

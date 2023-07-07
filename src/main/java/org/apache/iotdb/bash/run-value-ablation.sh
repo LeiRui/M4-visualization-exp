@@ -112,7 +112,6 @@ mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-# for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
 do
   echo "w=$w"
