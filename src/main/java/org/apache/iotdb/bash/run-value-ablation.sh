@@ -82,7 +82,7 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableChunkIndex.propertie
 echo "Writing ${workspace}"
 cp iotdb-engine-enableChunkIndex.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
-./start-server.sh /dev/null 2>&1 &
+./start-server.sh >$HOME_PATH/${DATASET}_testspace/${workspace}/iotdb-server-log-${IOTDB_CHUNK_POINT_SIZE}.log 2>&1 &
 sleep 8s
 # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
 java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_${FIX_OVERLAP_PERCENTAGE} 0 0 0 1 ${VALUE_ENCODING}
@@ -138,30 +138,53 @@ do
   java ProcessResult result_$w.txt result_$w.out ../sumResult_enableChunkIndex.csv
 done
 
-## unify results
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#cp $HOME_PATH/SumResultUnify.* .
-#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
-#echo "w,withoutIndexQueryTime(ms),withoutIndexTraversedPoints,withIndexQueryTime(ms),withIndexTraversedPoints" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
-#workspace="O_${FIX_OVERLAP_PERCENTAGE}_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#withoutIndexQueryTime=$(cat result.csv| cut -f 2 -d "," | sed -n 2p)
-#withoutIndexTraversedPoints=$(cat result.csv| cut -f 37 -d "," | sed -n 2p)
-#withIndexQueryTime=$(cat result.csv| cut -f 69 -d "," | sed -n 2p)
-#withIndexTraversedPoints=$(cat result.csv| cut -f 104 -d "," | sed -n 2p)
-#echo ${w} "," ${withoutIndexQueryTime} "," ${withoutIndexTraversedPoints} "," ${withIndexQueryTime} "," ${withIndexTraversedPoints} >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
+header=$(cat sumResult_disableChunkIndex.csv| sed -n 1p)
+echo "w," "disableChunkIndex" $header "," "enableTimeIndexOnly" $header "," "enableChunkIndex" $header >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
 
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#sed -i -e 1's/^/w,estimated chunks per interval,/' result.csv
-#line=2
-#for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
-#do
-#  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
-#  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
-#  sed -i -e ${line}"s/^/${w},${c},/" result.csv
-#  let line+=1
-#done
+echo "w,disableChunkIndex_QueryTime(ns),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
+enableTimeIndexOnly_QueryTime(ns),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
+enableChunkIndex_QueryTime(ns),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+
+row=1
+for w in 1 2 5 10 20 50 100 200 500 1000
+do
+  row=row+1
+
+  disableChunkIndex_QueryTime=$(cat sumResult_disableChunkIndex.csv| cut -f 2 -d "," | sed -n ${row}p)
+  disableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 36 -d "," | sed -n {row}p)
+  disableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_disableChunkIndex.csv| cut -f 37 -d "," | sed -n {row}p)
+  disableChunkIndex_line=$(cat sumResult_disableChunkIndex.csv| sed -n {row}p)
+
+  enableTimeIndexOnly_QueryTime=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 2 -d "," | sed -n {row}p)
+  enableTimeIndexOnly_timeIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 36 -d "," | sed -n {row}p)
+  enableTimeIndexOnly_valueIndex_traversedPointNum=$(cat sumResult_enableTimeIndexOnly.csv| cut -f 37 -d "," | sed -n {row}p)
+  enableTimeIndexOnly_line=$(cat sumResult_enableTimeIndexOnly.csv| sed -n {row}p)
+
+  enableChunkIndex_QueryTime=$(cat sumResult_enableChunkIndex.csv| cut -f 2 -d "," | sed -n {row}p)
+  enableChunkIndex_timeIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 36 -d "," | sed -n {row}p)
+  enableChunkIndex_valueIndex_traversedPointNum=$(cat sumResult_enableChunkIndex.csv| cut -f 37 -d "," | sed -n {row}p)
+  enableChunkIndex_line=$(cat sumResult_enableChunkIndex.csv| sed -n {row}p)
+
+  echo ${w} "," \
+  ${disableChunkIndex_QueryTime} "," \
+  ${disableChunkIndex_timeIndex_traversedPointNum} "," \
+  ${disableChunkIndex_valueIndex_traversedPointNum} "," \
+  ${enableTimeIndexOnly_QueryTime} "," \
+  ${enableTimeIndexOnly_timeIndex_traversedPointNum} "," \
+  ${enableTimeIndexOnly_valueIndex_traversedPointNum} "," \
+  ${enableChunkIndex_QueryTime} "," \
+  ${enableChunkIndex_timeIndex_traversedPointNum} "," \
+  ${enableChunkIndex_valueIndex_traversedPointNum} \
+  >> $HOME_PATH/${DATASET}_testspace/allResult.csv
+
+  echo ${IOTDB_CHUNK_POINT_SIZE} "," \
+  ${disableChunkIndex_line} "," \
+  ${enableTimeIndexOnly_line} "," \
+  ${enableChunkIndex_line} \
+  >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
+done
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
