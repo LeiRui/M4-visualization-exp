@@ -1,6 +1,6 @@
 # A Step-by-step guide to experiments
 
-1. Download this `M4-visualization-exp` directory using `git clone http://github.com/LeiRui/M4-visualization-exp.git`
+1. Download this `M4-visualization-exp` directory.
 
 2. Enter the directory `src/main/java/org/apache/iotdb/bash` in this `M4-visualization-exp` directory, and update `prepare-all.sh` as follows:
 
@@ -96,7 +96,7 @@ data source file is full-game/BallSpeed.csv
 file size: 2224, total query cost (ns): 1103260 (read index cost: 16900, search cost: 451180, read data cost: 1571340)
 ```
 
-The source codes of "BPlusTreeBaselineExp-jar-with-dependencies.jar" are in [another repository](https://github.com/LeiRui/BPlusTreeBaselineExp.git).
+The source codes of "BPlusTreeBaselineExp-jar-with-dependencies.jar" are in [another repository](https://anonymous.4open.science/r/BPlusTreeBaselineExp-BF53).
 
 ## Meta-Info at the TsFile Level
 
