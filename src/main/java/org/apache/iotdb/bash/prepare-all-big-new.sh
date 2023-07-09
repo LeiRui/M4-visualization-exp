@@ -90,7 +90,7 @@ cp run-single.sh run-MF03.sh
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single.sh
-$HOME_PATH/tool.sh DATASET TRAIN run-single.sh # todo
+$HOME_PATH/tool.sh DATASET Train run-single.sh # todo
 $HOME_PATH/tool.sh DEVICE "root.group6.d17" run-single.sh # todo
 $HOME_PATH/tool.sh MEASUREMENT "Z765" run-single.sh # todo
 $HOME_PATH/tool.sh DATA_TYPE long run-single.sh # todo
@@ -103,7 +103,7 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
 $HOME_PATH/tool.sh hasHeader true run-single.sh # todo
-cp run-single.sh run-TRAIN.sh
+cp run-single.sh run-Train.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/src/main/java/org/apache/iotdb/bash/run-single.sh .
@@ -124,7 +124,7 @@ $HOME_PATH/tool.sh hasHeader true run-single.sh # todo
 cp run-single.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed" "KOB" "MF03" "RcvTime");
+datasetArray=("BallSpeed" "MF03" "Train" "RcvTime");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
