@@ -33,6 +33,13 @@ public class OverlapGenerator {
     int overlapPercentage = Integer.parseInt(args[6]); // 0-100
     int overlapDepth = Integer.parseInt(args[7]); // 0-50
 
+    boolean hasHeader;
+    if (args.length < 9) {
+      hasHeader = false; // default
+    } else {
+      hasHeader = Boolean.parseBoolean(args[8]);
+    }
+
     if (overlapPercentage < 0 || overlapPercentage > 100) {
       throw new IOException("WRONG overlapPercentage");
     }
@@ -46,6 +53,10 @@ public class OverlapGenerator {
     String line;
     BufferedReader reader = new BufferedReader(new FileReader(f));
     PrintWriter printWriter = new PrintWriter(fileWriter);
+    if (hasHeader) {
+      String header = reader.readLine();
+      printWriter.println(header);
+    }
     int cnt = 0;
     while ((line = reader.readLine()) != null) {
       String[] split = line.split(",");

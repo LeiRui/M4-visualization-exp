@@ -62,6 +62,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
+$HOME_PATH/tool.sh hasHeader false run-single.sh
 cp run-single.sh run-BallSpeed.sh
 
 cd $HOME_PATH
@@ -83,6 +84,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
+$HOME_PATH/tool.sh hasHeader false run-single.sh
 cp run-single.sh run-MF03.sh
 
 cd $HOME_PATH
@@ -100,6 +102,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
+$HOME_PATH/tool.sh hasHeader false run-single.sh
 cp run-single.sh run-KOB.sh
 
 cd $HOME_PATH
@@ -117,6 +120,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-single.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single.sh
+$HOME_PATH/tool.sh hasHeader false run-single.sh
 cp run-single.sh run-RcvTime.sh
 
 #====prepare directory for each dataset====

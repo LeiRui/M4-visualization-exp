@@ -78,6 +78,14 @@ public class WriteData {
     String valueEncoding = args[12]; // RLE, GORILLA, PLAIN
     System.out.println("[WriteData] valueEncoding=" + valueEncoding);
 
+    // TODO hasHeader=false
+    boolean hasHeader;
+    if (args.length < 14) {
+      hasHeader = false; // default
+    } else {
+      hasHeader = Boolean.parseBoolean(args[13]);
+    }
+
     //"CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=INT32, ENCODING=RLE"
     String createSql = String.format("CREATE TIMESERIES %s.%s WITH DATATYPE=%s, ENCODING=%s",
         device,
@@ -152,6 +160,9 @@ public class WriteData {
     File f = new File(filePath);
     String line = null;
     BufferedReader reader = new BufferedReader(new FileReader(f));
+    if (hasHeader) {
+      reader.readLine(); // read header
+    }
     long lastDeleteMinTime = Long.MAX_VALUE;
     long lastDeleteMaxTime = Long.MIN_VALUE;
     int cnt = 0;
