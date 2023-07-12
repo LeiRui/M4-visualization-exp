@@ -1,5 +1,5 @@
-M4_VISUALIZATION_EXP=/home/ubuntu/M4-visualization-exp
-HOME_PATH=/home/ubuntu/v4
+M4_VISUALIZATION_EXP=/root/ubuntu/M4-visualization-exp
+HOME_PATH=/root/ubuntu/v4
 
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
@@ -97,11 +97,11 @@ $HOME_PATH/tool.sh DATA_TYPE long run-single.sh # todo
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-single.sh # todo
 $HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-single.sh # todo
 $HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-single.sh # todo
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802860 run-single.sh # todo
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802860 run-single.sh # todo todo
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single.sh # todo
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single.sh
-$HOME_PATH/tool.sh COMPRESSOR SNAPPY run-single.sh # todo
+$HOME_PATH/tool.sh COMPRESSOR SNAPPY run-single.sh # todo todo
 $HOME_PATH/tool.sh hasHeader true run-single.sh # todo
 cp run-single.sh run-Train.sh
 

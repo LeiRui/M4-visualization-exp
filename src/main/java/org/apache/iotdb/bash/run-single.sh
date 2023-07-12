@@ -384,6 +384,7 @@ do
   $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
@@ -555,6 +556,7 @@ do
   $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
@@ -726,6 +728,7 @@ do
   $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
