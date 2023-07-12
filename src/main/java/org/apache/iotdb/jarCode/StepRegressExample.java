@@ -23,11 +23,12 @@ public class StepRegressExample {
 //    int start = 1;
 //    int end = 81;
 
-    int dataset = 4; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
+    int dataset = 5; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
     String csvData = null;
     int start = 0; // inclusive, counting from 1
     int range = 0;
     int end = 0; // exclusive, counting from 1
+    boolean hasHeader = false;
     StepRegress stepRegress = new StepRegress();
     if (dataset == 1) {
       csvData = "BallSpeed.csv";
@@ -53,6 +54,13 @@ public class StepRegressExample {
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 3;
+    } else if (dataset == 5) {
+      csvData = "D:\\desktop\\tmp7.csv";
+      start = 200; //20000;
+      range = 1000;
+      end = start + range;
+      stepRegress.bigIntervalParam = 3;
+      hasHeader = false;
     } else {
       throw new IOException("wrong parameter!");
     }
@@ -63,6 +71,9 @@ public class StepRegressExample {
     long previousTimestamp = -1;
     long count = 0;
     try (BufferedReader reader = new BufferedReader(new FileReader(csvData))) {
+      if (hasHeader) {
+        reader.readLine();
+      }
       while ((line = reader.readLine()) != null) {
         count++;
         if (count >= start && count < end) {
@@ -102,8 +113,8 @@ public class StepRegressExample {
     System.out.println("startPos=" + start + ";");
     System.out.println("segmentKeys=" + stepRegress.getSegmentKeys() + ";");
     System.out.println("segmentKeysPos=" + segmentKeysPos + ";");
-//    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps + ";");
-//    System.out.println("passingPos=" + stepRegress.passingPos + ";");
+    System.out.println("passingTimestamps=" + stepRegress.passingTimestamps + ";");
+    System.out.println("passingPos=" + stepRegress.passingPos + ";");
 
     DoubleArrayList predicts = new DoubleArrayList();
     for (long t : stepRegress.getTimestamps().toArray()) {

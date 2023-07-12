@@ -27,8 +27,8 @@ public class StepRegress {
   private LongArrayList timestamps = new LongArrayList(); // Pi.t
   private LongArrayList intervals = new LongArrayList(); // Pi+1.t-Pi.t
 
-//  public DoubleArrayList passingTimestamps = new DoubleArrayList(); // for debug
-//  public IntArrayList passingPos = new IntArrayList(); // for debug
+  public DoubleArrayList passingTimestamps = new DoubleArrayList(); // for debug
+  public IntArrayList passingPos = new IntArrayList(); // for debug
 
   public enum IntervalType {
     tilt,
@@ -75,8 +75,8 @@ public class StepRegress {
     this.slope = 1 / this.median;
     this.segmentKeys.add(timestamps.get(0)); // t1
     this.segmentIntercepts.add(1 - slope * timestamps.get(0)); // b1
-//    this.passingTimestamps.add(timestamps.get(0));
-//    this.passingPos.add(1);
+    this.passingTimestamps.add(timestamps.get(0));
+    this.passingPos.add(1);
   }
 
   /**
@@ -135,8 +135,8 @@ public class StepRegress {
       if (isLevel) {
         intervalsType.add(IntervalType.level.ordinal());
         if (previousIntervalType == IntervalType.tilt) { // else do nothing, still level
-//          passingTimestamps.add(t);
-//          passingPos.add(pos);
+          passingTimestamps.add(t);
+          passingPos.add(pos);
           // [[[translate from tilt to level]]]
           previousIntervalType = IntervalType.level;
           // 3) to determine the intercept, let the level function run through (t,pos)
@@ -169,8 +169,8 @@ public class StepRegress {
       } else {
         intervalsType.add(IntervalType.tilt.ordinal());
         if (previousIntervalType == IntervalType.level) { // else do nothing, still tilt
-//          passingTimestamps.add(t);
-//          passingPos.add(pos);
+          passingTimestamps.add(t);
+          passingPos.add(pos);
           // [[[translate form level to tilt]]]
           previousIntervalType = IntervalType.tilt;
           // 3) to determine the intercept, let the tilt function run through (t,pos)
@@ -278,8 +278,8 @@ public class StepRegress {
       }
     }
     segmentKeys.add(timestamps.getLast()); // tm
-//    passingTimestamps.add(timestamps.getLast());
-//    passingPos.add(timestamps.size());
+    passingTimestamps.add(timestamps.getLast());
+    passingPos.add(timestamps.size());
 
     checkOrder();
   }
