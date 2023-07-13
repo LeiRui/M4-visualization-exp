@@ -147,6 +147,7 @@ $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
 $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 
 # properties for cpv
 $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
@@ -390,6 +391,7 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
@@ -562,6 +564,7 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
@@ -734,6 +737,7 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
   # properties for cpv
   $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
   cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
