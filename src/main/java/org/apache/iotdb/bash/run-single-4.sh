@@ -86,52 +86,6 @@ cp ${DATASET}.csv ${DATASET}-O_0
 java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_10 0 1 10 10 ${hasHeader}
 
 ############################
-# O_10_D_0_0
-############################
-
-cd $HOME_PATH/${DATASET}_testspace
-mkdir O_10_D_0_0
-cd O_10_D_0_0
-
-# prepare IoTDB config properties
-$HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
-
-# properties for cpv
-$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
-# properties for moc
-$HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
-
-## [write data]
-#echo "Writing O_10_D_0_0"
-#cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-#cd $HOME_PATH/iotdb-server-0.12.4/sbin
-#./start-server.sh /dev/null 2>&1 &
-#sleep 8s
-## Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-#java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_10 0 0 0 1 ${VALUE_ENCODING} ${hasHeader}
-#sleep 5s
-#./stop-server.sh
-#sleep 5s
-#echo 3 | sudo tee /proc/sys/vm/drop_caches
-
-############################
 # [EXP4] Varying delete percentage
 # (1) w: 1000
 # (2) query range: totalRange
