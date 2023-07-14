@@ -229,9 +229,9 @@ cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
 #cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp2.csv # without the first two columns
 #rm tmp
 
- add varied parameter value and the corresponding estimated chunks per interval for each line
- estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
- for exp2, estimated chunks per interval=k
+# add varied parameter value and the corresponding estimated chunks per interval for each line
+# estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+# for exp2, estimated chunks per interval=k
 sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
 line=2
 for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
