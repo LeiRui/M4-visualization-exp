@@ -118,18 +118,18 @@ cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
 $HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
-# [write data]
-echo "Writing O_10_D_0_0"
-cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-cd $HOME_PATH/iotdb-server-0.12.4/sbin
-./start-server.sh /dev/null 2>&1 &
-sleep 8s
-# Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_10 0 0 0 1 ${VALUE_ENCODING} ${hasHeader}
-sleep 5s
-./stop-server.sh
-sleep 5s
-echo 3 | sudo tee /proc/sys/vm/drop_caches
+## [write data]
+#echo "Writing O_10_D_0_0"
+#cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#cd $HOME_PATH/iotdb-server-0.12.4/sbin
+#./start-server.sh /dev/null 2>&1 &
+#sleep 8s
+## Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
+#java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_10 0 0 0 1 ${VALUE_ENCODING} ${hasHeader}
+#sleep 5s
+#./stop-server.sh
+#sleep 5s
+#echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 ############################
 # [EXP4] Varying delete percentage
