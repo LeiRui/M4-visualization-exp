@@ -226,7 +226,7 @@ cp run-single-${value}.sh run-Steel-${value}.sh
 done;
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed" "MF03" "Train" "RcvTime");
+datasetArray=("BallSpeed" "MF03" "Train" "Steel");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
