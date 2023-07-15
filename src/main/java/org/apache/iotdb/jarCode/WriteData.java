@@ -131,7 +131,7 @@ public class WriteData {
     if (timestamp_precision.toLowerCase().equals("ns")) {
       session.insertRecord(
           device,
-          1644181628000000000L, // ns
+          1683616109697000000L, // ns
           // NOTE UPDATE TIME DATATYPE! [[update]]. DONT USE System.nanoTime()!
           Collections.singletonList(measurement),
           Collections.singletonList(tsDataType), // NOTE UPDATE VALUE DATATYPE!
@@ -139,7 +139,7 @@ public class WriteData {
     } else if (timestamp_precision.toLowerCase().equals("us")) {
       session.insertRecord(
           device,
-          1644181628000000L, // us
+          1683616109697000L, // us
           // NOTE UPDATE TIME DATATYPE! [[update]]. DONT USE System.nanoTime()!
           Collections.singletonList(measurement),
           Collections.singletonList(tsDataType), // NOTE UPDATE VALUE DATATYPE!
@@ -147,7 +147,7 @@ public class WriteData {
     } else { // ms
       session.insertRecord(
           device,
-          1644181628000L, // ms
+          1683616109697L, // ms
           // NOTE UPDATE TIME DATATYPE! [[update]]. DONT USE System.nanoTime()!
           Collections.singletonList(measurement),
           Collections.singletonList(tsDataType), // NOTE UPDATE VALUE DATATYPE!

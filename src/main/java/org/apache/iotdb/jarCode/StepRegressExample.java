@@ -23,7 +23,7 @@ public class StepRegressExample {
 //    int start = 1;
 //    int end = 81;
 
-    int dataset = 5; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
+    int dataset = 6; // 1-ballspeed,2-mf03,3-kob,4-rcvtime
     String csvData = null;
     int start = 0; // inclusive, counting from 1
     int range = 0;
@@ -54,13 +54,21 @@ public class StepRegressExample {
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 3;
-    } else if (dataset == 5) {
+    } else if (dataset == 5) { // train
       csvData = "D:\\desktop\\tmp7.csv";
       start = 200; //20000;
       range = 1000;
       end = start + range;
       stepRegress.bigIntervalParam = 3;
       hasHeader = false;
+    } else if (dataset == 6) { // steel
+      csvData = "D:\\desktop\\dump0.csv";
+      start = 788500; //789500; //788500; //20000;
+      range = 1000;
+      end = start + range;
+      stepRegress.bigIntervalParam =1;
+      hasHeader = false;
+      stepRegress.useMad=false;
     } else {
       throw new IOException("wrong parameter!");
     }
