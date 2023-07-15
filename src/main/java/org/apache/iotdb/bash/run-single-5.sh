@@ -192,7 +192,12 @@ done
 # delete time range 10% exp result (already done in exp4)
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
-cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #带表头
+sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #只是复制表头
+
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
+cd fix
+#cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #带表头
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
 # delete time range 20% exp result
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_20
