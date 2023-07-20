@@ -2,6 +2,19 @@
 
 The code and data of experiments for our paper "Time Series Representation for Visualization in Apache IoTDB" are available here. We provide detailed guidelines below to reproduce our experimental results. The experiments are conducted on machines running Ubuntu.
 
+## Table of Contents
+
+1.   [Download Java](#Download Java)
+2.   [Download `M4-visualization-exp` Folder](#Download `M4-visualization-exp` Folder)
+     1.   [Folder Structure](##Folder Structure)
+     2.   [Download Datasets from Kaggle](##Download Datasets from Kaggle)
+3.   [Guides to "7.2 Experiments with Varying Parameters"](#Guides to \"7.2 Experiments with Varying Parameters\")
+4.   [Guides to "7.3 Ablation Study"](#Guides to \"7.3 Ablation Study\")
+5.   [Guides to "1.1 Motivation"](#Guides to \"1.1 Motivation\")
+     1.   [Environment Setup for Both Nodes](##Environment Setup for Both Nodes)
+     2.   [Populate the Database Server Node](##Populate the Database Server Node)
+     3.   [Experiment on the Rendering Client Node](##Experiment on the Rendering Client Node)
+
 ## Download Java
 
 Java >= 1.8 is needed. Please make sure the JAVA_HOME environment path has been set. You can follow the steps below to install and configure Java.
@@ -163,7 +176,7 @@ This experiments involves communication between two nodes and is a bit more comp
     cp -r iotdb /usr/local/lib/python3.8/dist-packages/. # this step installs iotdb-python-connector
     ```
 
-### Prepare the Database Server Node
+### Populate the Database Server Node
 
 Before doing experiments, follow the steps below to populate the database server with test data.
 
@@ -186,7 +199,7 @@ Before doing experiments, follow the steps below to populate the database server
 
 4. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), preparations are complete.
 
-### Experiments on the Rendering Client Node
+### Experiment on the Rendering Client Node
 
 1.   Go to the rendering client node.
 2.   Enter the `python-exp` folder in the `M4-visualization-exp` folder, and then:
@@ -204,4 +217,6 @@ Before doing experiments, follow the steps below to populate the database server
           -   Update `remote_passwd` as the login password of the database server node.
      3.   Run experiments using `nohup ./run-python-query-plot-exp.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. 
      4.   When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `sumResult-[READ_METHOD].csv`, where `[READ_METHOD]` is `rawQuery`/`mac`/`cpv`. In the csv, the last four columns are server computation time, communication time, client rendering time, and total response time, and each row corresponds to a different number of raw data points.
+
+
 
