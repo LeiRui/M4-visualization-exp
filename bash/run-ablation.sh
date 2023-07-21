@@ -101,7 +101,7 @@ do
   cd $HOME_PATH/${DATASET}_testspace/${workspace}
   mkdir fix
 
-  echo "disableChunkIndex"
+  echo "disableAll"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir disableChunkIndex
   cd disableChunkIndex
@@ -121,7 +121,7 @@ do
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${FIX_W}.txt
   java ProcessResult result_${FIX_W}.txt result_${FIX_W}.out ../sumResult_enableTimeIndexOnly.csv
 
-  echo "enableChunkIndex"
+  echo "enableAll"
   cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
   mkdir enableChunkIndex
   cd enableChunkIndex
@@ -136,11 +136,11 @@ done
 
 cd $HOME_PATH/${DATASET}_testspace/O_90_D_0_0_10000/fix
 header=$(cat sumResult_disableChunkIndex.csv| sed -n 1p)
-echo "numberOfPointsInChunk," "disableChunkIndex" $header "," "enableTimeIndexOnly" $header "," "enableChunkIndex" $header >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
+echo "numberOfPointsInChunk," "disableAll" $header "," "enableTimeIndexOnly" $header "," "enableAll" $header >> $HOME_PATH/${DATASET}_testspace/allMetrics.csv
 
-echo "numberOfPointsInChunk,disableChunkIndex_QueryTime(ns),disableChunkIndex_timeIndex_traversedPointNum,disableChunkIndex_valueIndex_traversedPointNum,\
-enableTimeIndexOnly_QueryTime(ns),enableTimeIndexOnly_timeIndex_traversedPointNum,enableTimeIndexOnly_valueIndex_traversedPointNum,\
-enableChunkIndex_QueryTime(ns),enableChunkIndex_timeIndex_traversedPointNum,enableChunkIndex_valueIndex_traversedPointNum" >> $HOME_PATH/ablationExp_res.csv
+echo "numberOfPointsInChunk,disableAll_QueryTime(ns),disableAll_CTGT_traversedPointNum,disableAll_MV_traversedPointNum,\
+enableTimeIndexOnly_QueryTime(ns),enableTimeIndexOnly_CTGT_traversedPointNum,enableTimeIndexOnly_MV_traversedPointNum,\
+enableAll_QueryTime(ns),enableAll_CTGT_traversedPointNum,enableAll_MV_traversedPointNum" >> $HOME_PATH/ablationExp_res.csv
 for IOTDB_CHUNK_POINT_SIZE in 10000 50000 100000 500000 1000000 3000000 5000000
 do
   workspace="O_90_D_0_0_${IOTDB_CHUNK_POINT_SIZE}"

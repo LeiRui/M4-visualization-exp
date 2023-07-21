@@ -132,19 +132,19 @@ done;
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-all.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
-$HOME_PATH/tool.sh DATASET Train run-all.sh # todo
-$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-all.sh # todo
-$HOME_PATH/tool.sh MEASUREMENT "Z765" run-all.sh # todo
-$HOME_PATH/tool.sh DATA_TYPE long run-all.sh # todo
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-all.sh # todo
-$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-all.sh # todo
-$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-all.sh # todo
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-all.sh # todo todo
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-all.sh # todo
+$HOME_PATH/tool.sh DATASET Train run-all.sh # 
+$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-all.sh # 
+$HOME_PATH/tool.sh MEASUREMENT "Z765" run-all.sh # 
+$HOME_PATH/tool.sh DATA_TYPE long run-all.sh # 
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-all.sh # 
+$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-all.sh # 
+$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-all.sh # 
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-all.sh #  
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-all.sh # 
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh # todo todo
-$HOME_PATH/tool.sh hasHeader true run-all.sh # todo
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh #  
+$HOME_PATH/tool.sh hasHeader true run-all.sh # 
 cp run-all.sh run-Train.sh
 
 idArray=("1" "2" "3" "4" "5");
@@ -153,19 +153,19 @@ do
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-single-${value}.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-single-${value}.sh
-$HOME_PATH/tool.sh DATASET Train run-single-${value}.sh # todo
-$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-single-${value}.sh # todo
-$HOME_PATH/tool.sh MEASUREMENT "Z765" run-single-${value}.sh # todo
-$HOME_PATH/tool.sh DATA_TYPE long run-single-${value}.sh # todo
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-single-${value}.sh # todo
-$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-single-${value}.sh # todo
-$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-single-${value}.sh # todo
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-single-${value}.sh # todo todo
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-${value}.sh # todo
+$HOME_PATH/tool.sh DATASET Train run-single-${value}.sh #
+$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-single-${value}.sh #
+$HOME_PATH/tool.sh MEASUREMENT "Z765" run-single-${value}.sh #
+$HOME_PATH/tool.sh DATA_TYPE long run-single-${value}.sh #
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-single-${value}.sh #
+$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-single-${value}.sh #
+$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-single-${value}.sh #
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-single-${value}.sh #
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-single-${value}.sh #
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-single-${value}.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-single-${value}.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single-${value}.sh # todo todo
-$HOME_PATH/tool.sh hasHeader true run-single-${value}.sh # todo
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-single-${value}.sh #
+$HOME_PATH/tool.sh hasHeader true run-single-${value}.sh #
 cp run-single-${value}.sh run-Train-${value}.sh
 
 done;

@@ -12,7 +12,7 @@ TIMESTAMP_PRECISION=ns
 DATA_MIN_TIME=0  # in the corresponding timestamp precision
 DATA_MAX_TIME=617426057626  # in the corresponding timestamp precision
 TOTAL_POINT_NUMBER=1200000
-let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
+let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} # check what if not +1 what the difference
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
 COMPRESSOR=UNCOMPRESSED
@@ -78,44 +78,6 @@ sleep 5s
 ./stop-server.sh
 sleep 5s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
-
-## [query data]
-#echo "Querying ${workspace}"
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}
-#mkdir fix
-#
-#echo "mac"
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#mkdir mac
-#cd mac
-#cp $HOME_PATH/ProcessResult.* .
-#cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-#$HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_3.txt
-#java ProcessResult result_3.txt result_3.out ../sumResultMAC.csv
-#
-#echo "moc"
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#mkdir moc
-#cd moc
-#cp $HOME_PATH/ProcessResult.* .
-#cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-#$HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} moc >> result_3.txt
-#java ProcessResult result_3.txt result_3.out ../sumResultMOC.csv
-#
-#echo "cpv"
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#mkdir cpv
-#cd cpv
-#cp $HOME_PATH/ProcessResult.* .
-#cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-#$HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_3.txt
-#java ProcessResult result_3.txt result_3.out ../sumResultCPV.csv
-#
-## unify results
-#cd $HOME_PATH/${DATASET}_testspace/${workspace}/fix
-#cp $HOME_PATH/SumResultUnify.* .
-## java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
-#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
 
 echo "ALL FINISHED!"

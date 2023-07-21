@@ -69,7 +69,7 @@ $HOME_PATH/tool.sh use_Mad ${use_Mad} run-ablation.sh
 datasetArray=("MF03");
 for value in ${datasetArray[@]};
 do
-echo "prepare $value directory, this is for data";
+echo "prepare data directory";
 cd $HOME_PATH
 mkdir $value
 cd $value
@@ -82,7 +82,7 @@ mv OverlapGeneratorTmp.java OverlapGenerator2.java
 # then javac it
 javac OverlapGenerator2.java
 
-echo "prepare ${value}_testspace directory, this is for write and query";
+echo "prepare testspace directory";
 cd $HOME_PATH
 mkdir ${value}_testspace
 

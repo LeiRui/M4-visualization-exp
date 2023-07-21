@@ -66,7 +66,7 @@ public class ProcessQueryPlotResult {
     if (!file.exists() || file.length() == 0) { // write header for sumOutFilePath
       sumWriter.write(String.join(",", QueryPlotPrint)
           + ",numberOfRawDataPoints,"
-          + ",server_processing_time_ns,"
+          + "server_processing_time_ns,"
           + "communication_time_ns,"
           + "client_processing_time_ns,"
           + "total_response_time_ns"

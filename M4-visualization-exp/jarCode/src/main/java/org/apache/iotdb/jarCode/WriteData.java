@@ -178,7 +178,7 @@ public class WriteData {
       String[] split = line.split(",");
       long timestamp = Long.parseLong(split[timeIdx]);
 
-      // TODO change to batch mode, iotdb_chunk_point_size
+      //  change to batch mode, iotdb_chunk_point_size
       int row = tablet.rowSize++;
       timestamps[row] = timestamp;
       switch (tsDataType) {

@@ -12,7 +12,7 @@ TIMESTAMP_PRECISION=ns
 DATA_MIN_TIME=0  # in the corresponding timestamp precision
 DATA_MAX_TIME=617426057626  # in the corresponding timestamp precision
 TOTAL_POINT_NUMBER=1200000
-let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} #TODO check what if not +1 what the difference
+let TOTAL_TIME_RANGE=${DATA_MAX_TIME}-${DATA_MIN_TIME} # check what if not +1 what the difference
 VALUE_ENCODING=PLAIN
 TIME_ENCODING=PLAIN
 COMPRESSOR=UNCOMPRESSED
@@ -33,7 +33,7 @@ hasHeader=false # default
 # Experimental parameter design:
 #
 # [EXP1] Varying the number of time spans w
-# (1) w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000,16000
+# (1) w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
 # (2) query range: totalRange
 # (3) overlap percentage: 10%
 # (4) delete percentage: 0%
@@ -174,22 +174,6 @@ echo "Querying O_10_D_0_0 with varied w"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
 
-# echo "moc"
-# cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
-# mkdir moc
-# cd moc
-# cp $HOME_PATH/ProcessResult.* .
-# cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-# i=1
-# for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 12000 16000 20000
-# do
-#   echo "w=$w"
-#   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-#   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w moc >> result_${i}.txt
-#   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMOC.csv
-#   let i+=1
-# done
-
 echo "mac"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir mac
@@ -197,7 +181,7 @@ cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 16000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -213,7 +197,7 @@ cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 16000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -230,7 +214,7 @@ java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
 # export results
 # [EXP1]
-# w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000,16000
+# w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
 # query range: totalRange
 # overlap percentage: 10%
 # delete percentage: 0%
@@ -244,7 +228,7 @@ cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
 # for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000 16000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
