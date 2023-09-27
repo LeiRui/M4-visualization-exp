@@ -46,21 +46,21 @@ javac SumResultUnify.java
 
 #====prepare run bash for test dataset====
 cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-more-baseline.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-more-baseline.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-more-baseline.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-more-baseline.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-more-baseline.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-more-baseline.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-more-baseline.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-more-baseline.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-more-baseline.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-more-baseline.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-more-baseline.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-more-baseline.sh
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-more-baseline.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-more-baseline.sh
-$HOME_PATH/tool.sh hasHeader false run-more-baseline.sh
+cp $M4_VISUALIZATION_EXP/bash/run-more-baselines.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-more-baselines.sh
+$HOME_PATH/tool.sh DATASET BallSpeed run-more-baselines.sh
+$HOME_PATH/tool.sh DEVICE "root.game" run-more-baselines.sh
+$HOME_PATH/tool.sh MEASUREMENT "s6" run-more-baselines.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-more-baselines.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-more-baselines.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-more-baselines.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-more-baselines.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-more-baselines.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-more-baselines.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-more-baselines.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-more-baselines.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-more-baselines.sh
+$HOME_PATH/tool.sh hasHeader false run-more-baselines.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed");
