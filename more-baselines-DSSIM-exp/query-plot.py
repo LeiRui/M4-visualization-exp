@@ -24,7 +24,7 @@ def myDeduplicate(seq): # deduplicate list seq by comparing the first element, e
 parser=argparse.ArgumentParser(description="remote query to csv",
 	formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-r","--read",help="READ_METHOD")
-parser.add_argument("-f","--output",help="output directory")
+parser.add_argument("-o","--output",help="output directory")
 parser.add_argument("-s","--tqs",help="query start time")
 parser.add_argument("-e","--tqe",help="query end time")
 parser.add_argument("-w","--w",help="number of time spans")

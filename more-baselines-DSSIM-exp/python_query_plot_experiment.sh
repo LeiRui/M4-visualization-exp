@@ -16,7 +16,7 @@ bash ${IOTDB_START} >/dev/null 2>&1 &
 sleep 10s
 
 # query and plot
-python3 ${M4_VISUALIZATION_EXP}/more-baselines-DSSIM-exp/query-plot.py -r $method -f ${CSV_DIR} -s ${tqs} -e ${tqe} -w ${w} -t ${remote_IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}
+python3 ${QUERY_PLOT_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w ${w} -t ${IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}
 
 # stop server
 bash ${IOTDB_STOP}
