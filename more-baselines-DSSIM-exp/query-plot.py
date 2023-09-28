@@ -198,7 +198,7 @@ else:
 		df.to_csv(outputCsvPath, sep=',',index=False)
 
 	elif read_method == 'lttb':
-		print(df)
+		# print(df)
 		df.to_csv(outputCsvPath, sep=',',index=False)
 
 	elif read_method == 'minmax_lsm':

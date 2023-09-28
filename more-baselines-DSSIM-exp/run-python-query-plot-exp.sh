@@ -47,7 +47,7 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
 # mac/cpv/minmax/lttb/minmax_lsm
-for w in 1 2 1000
+for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 do
 	echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 	export w=$w
