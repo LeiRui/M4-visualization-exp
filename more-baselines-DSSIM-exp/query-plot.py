@@ -81,7 +81,10 @@ else:
 print(sql)
 
 # --------------------query--------------------------
-if read_method == 'mac' or read_method == 'cpv':
+if read_method == 'rawQuery':
+	os.system("bash {}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q '{}' -td {} -tf timestamp".format(exportToolPath,sql,exportToolPath))
+	os.system("cp {}/dump0.csv {}".format(exportToolPath,outputCsvPath))
+else:
 	ip = "127.0.0.1"
 	port_ = "6667"
 	username_ = "root"
@@ -91,8 +94,8 @@ if read_method == 'mac' or read_method == 'cpv':
 	session.open(False)
 
 	result = session.execute_query_statement(sql) # server execute metrics have been collected by session.execute_finish()
-
 	df = result.todf_noFetch() # Transform to Pandas Dataset
+
 	if read_method == 'mac':
 		# for each row, extract four points, sort and deduplicate, deal with empty
 		ts=[]
@@ -164,16 +167,75 @@ if read_method == 'mac' or read_method == 'cpv':
 
 		df = pd.DataFrame(ts,columns=['time','value'])
 		df.to_csv(outputCsvPath, sep=',',index=False)
+
+	elif read_method == 'minmax':
+		# for each row, extract two points, sort and deduplicate, deal with empty
+		ts=[]
+		for ir in df.itertuples():
+			string = ir[2] # ir[0] is idx
+			# deal with "empty" string
+			if str(string)=="empty":
+				# print("empty")
+				continue
+			# deal with "FirstPoint=(t,v), LastPoint=(t,v), BottomPoint=(t,v), TopPoint=(t,v)"
+			numberStrList = re.findall(r'\d+(?:\.\d+)?',string) # find int or float str
+
+			BP_t=int(numberStrList[0])
+			BP_v=float(numberStrList[1])
+			TP_t=int(numberStrList[2])
+			TP_v=float(numberStrList[3])
+
+			ts.append((BP_t,BP_v))
+			ts.append((TP_t,TP_v))
+
+		# sort
+		ts.sort(key=lambda x: x[0])
+
+		# deduplicate
+		ts=myDeduplicate(ts)
+
+		df = pd.DataFrame(ts,columns=['time','value'])
+		df.to_csv(outputCsvPath, sep=',',index=False)
+
+	elif read_method == 'lttb':
+		print(df)
+		df.to_csv(outputCsvPath, sep=',',index=False)
+
+	elif read_method == 'minmax_lsm':
+		# for each row, extract two points, sort and deduplicate, deal with None
+		ts=[]
+		for ir in df.itertuples():
+			# deal with "None" string
+			string=ir[2] # ir[0] is idx
+			if str(string)=="None" or pd.isnull(ir[2]):
+				# print("None/NaN")
+				continue
+
+			# deal with minValue[bottomTime],maxValue[TopTime]
+			BP_str=ir[2]
+			numberStrList = re.findall(r'\d+(?:\.\d+)?',BP_str) # find int or float str
+			BP_t=int(numberStrList[1])
+			BP_v=float(numberStrList[0])
+			TP_str=ir[3]
+			numberStrList = re.findall(r'\d+(?:\.\d+)?',TP_str) # find int or float str
+			TP_t=int(numberStrList[1])
+			TP_v=float(numberStrList[0])
+
+			ts.append((BP_t,BP_v))
+			ts.append((TP_t,TP_v))
+
+		# sort
+		ts.sort(key=lambda x: x[0])
+
+		# deduplicate
+		ts=myDeduplicate(ts)
+
+		df = pd.DataFrame(ts,columns=['time','value'])
+		df.to_csv(outputCsvPath, sep=',',index=False)
 	else:
 		print("unsupported read_method!")
 
-	# result = session.execute_finish()
-	# print(result) # print metrics from IoTDB server
 	session.close()
-
-else: # rawQuery
-	os.system("bash {}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q '{}' -td {} -tf timestamp".format(exportToolPath,sql,exportToolPath))
-	os.system("cp {}/dump0.csv {}".format(exportToolPath,outputCsvPath))
 
 
 # --------------------plot--------------------------

@@ -30,6 +30,7 @@ echo "begin"
 
 sed -i -e 's/\r$//' $tool_bash
 
+export rawQueryExecuted=false
 for w in 1 2 1000
 do
 	echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
