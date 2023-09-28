@@ -16,6 +16,8 @@ export repetition=1
 export PROCESS_QUERY_PLOT_JAVA_PATH=$M4_VISUALIZATION_EXP/more-baselines-DSSIM-exp/ProcessQueryPlotResult.java
 export tqs=0
 export tqe=4259092178974
+export device='root.game'
+export measurement='s6'
 export local_FILE_PATH=$M4_VISUALIZATION_EXP/more-baselines-DSSIM-exp/localData_${READ_METHOD}.csv
 
 # below are remote data server configurations

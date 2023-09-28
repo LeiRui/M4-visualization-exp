@@ -29,6 +29,8 @@ parser.add_argument("-s","--tqs",help="query start time")
 parser.add_argument("-e","--tqe",help="query end time")
 parser.add_argument("-w","--w",help="number of time spans")
 parser.add_argument("-t","--tool",help="export csv tool directory path")
+parser.add_argument("-d","--device",help="device")
+parser.add_argument("-m","--measurement",help="measurement")
 args = parser.parse_args()
 config = vars(args)
 
@@ -43,14 +45,19 @@ w=int(config.get('w'))
 # post-process, make divisible
 interval=math.ceil((tqe-tqs)/w)
 tqe=tqs+interval*w
+
+device=config.get('device')
+measurement=config.get('measurement')
 if read_method == 'mac': # row-by-row point window
-	sql="SELECT M4(mf03,'tqs'='{}','tqe'='{}','w'='{}') FROM root.debs2012 where time>={} and time<{}".\
-		format(tqs,tqe,w,tqs,tqe)
+	sql="SELECT M4({},'tqs'='{}','tqe'='{}','w'='{}') FROM {} where time>={} and time<{}".\
+		format(measurement,tqs,tqe,w,device,tqs,tqe)
 elif read_method == 'cpv': #cpv
-	sql="select min_time(mf03), max_time(mf03), first_value(mf03), last_value(mf03), min_value(mf03), max_value(mf03) \
-		from root.debs2012 group by ([{}, {}), {}ns)".format(tqs,tqe,interval)
+	sql="select min_time({}), max_time({}), first_value({}), last_value({}), min_value({}), max_value({}) \
+		from {} group by ([{}, {}), {}ns)".\
+		format(measurement,measurement,measurement,measurement,measurement,measurement,\
+					 device,tqs,tqe,interval)
 else: #rawQuery
-	sql="select mf03 from root.debs2012 where time>={} and time<{}".format(tqs,tqe)
+	sql="select {} from {} where time>={} and time<{}".format(measurement,device,tqs,tqe)
 print(sql)
 
 
