@@ -2,13 +2,7 @@
 
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 
-if [ $rawQueryExecuted == false ]
-then
-  methodArray=("rawQuery" "mac" "cpv" "minmax" "lttb"); # rawQuery/mac/cpv/minmax/lttb/minmax_lsm
-  export rawQueryExecuted=true
-else
-  methodArray=("mac" "cpv" "minmax" "lttb"); # rawQuery/mac/cpv/minmax/lttb/minmax_lsm
-fi
+methodArray=("mac" "cpv" "minmax" "lttb");
 
 for method in ${methodArray[@]};
 do

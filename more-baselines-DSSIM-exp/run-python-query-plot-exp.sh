@@ -30,7 +30,23 @@ echo "begin"
 
 sed -i -e 's/\r$//' $tool_bash
 
-export rawQueryExecuted=false
+# rawQuery
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+method='rawQuery'
+echo "[[[[[[[[[[[[[$method]]]]]]]]]]]]]"
+# start server
+bash ${IOTDB_START} >/dev/null 2>&1 &
+sleep 10s
+# query and plot
+python3 ${QUERY_PLOT_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w ${w} \
+-t ${IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}
+# stop server
+bash ${IOTDB_STOP}
+sleep 3s
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+sleep 3s
+
+# mac/cpv/minmax/lttb/minmax_lsm
 for w in 1 2 1000
 do
 	echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
