@@ -24,7 +24,7 @@ def myDeduplicate(seq): # deduplicate list seq by comparing the first element, e
 parser=argparse.ArgumentParser(description="remote query to csv",
 	formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-r","--read",help="READ_METHOD")
-parser.add_argument("-f","--file",help="remote_M4_FILE_PATH")
+parser.add_argument("-f","--output",help="output directory")
 parser.add_argument("-s","--tqs",help="query start time")
 parser.add_argument("-e","--tqe",help="query end time")
 parser.add_argument("-w","--w",help="number of time spans")
@@ -35,9 +35,10 @@ args = parser.parse_args()
 config = vars(args)
 
 read_method=str(config.get('read'))
-outputCsvPath=config.get('file')
-print(read_method)
-print(outputCsvPath)
+outputDir=str(config.get('output'))
+exportToolPath=str(config.get('tool'))
+device=str(config.get('device'))
+measurement=str(config.get('measurement'))
 
 tqs=int(config.get('tqs'))
 tqe=int(config.get('tqe'))
@@ -46,12 +47,16 @@ w=int(config.get('w'))
 interval=math.ceil((tqe-tqs)/w)
 tqe=tqs+interval*w
 
-device=config.get('device')
-measurement=config.get('measurement')
-if read_method == 'mac': # row-by-row point window
+# --------------------output path--------------------------
+outputCsvPath="{}/data-{}-{}.csv".format(outputDir,read_method,w)
+outputFigPath="{}/plot-{}-{}.png".format(outputDir,read_method,w)
+
+# --------------------sql--------------------------
+if read_method == 'mac': # M4 UDF
+	# noinspection PyInterpreter
 	sql="SELECT M4({},'tqs'='{}','tqe'='{}','w'='{}') FROM {} where time>={} and time<{}".\
 		format(measurement,tqs,tqe,w,device,tqs,tqe)
-elif read_method == 'cpv': #cpv
+elif read_method == 'cpv': # M4-LSM
 	sql="select min_time({}), max_time({}), first_value({}), last_value({}), min_value({}), max_value({}) \
 		from {} group by ([{}, {}), {}ns)".\
 		format(measurement,measurement,measurement,measurement,measurement,measurement,\
@@ -60,14 +65,7 @@ else: #rawQuery
 	sql="select {} from {} where time>={} and time<{}".format(measurement,device,tqs,tqe)
 print(sql)
 
-
-if read_method == 'rawQuery':
-	exportCsvPath=str(config.get('tool'))+"/export-csv.sh"
-	start = time.time_ns()
-	os.system("bash {} -h 127.0.0.1 -p 6667 -u root -pw root -q '{}' -td {} -tf timestamp".format(exportCsvPath,sql,str(config.get('tool'))))
-	end = time.time_ns()
-	print(f"[2-ns]Server_Query_Execute,{end - start}") # print metric
-
+# --------------------query--------------------------
 if read_method == 'mac' or read_method == 'cpv':
 	ip = "127.0.0.1"
 	port_ = "6667"
@@ -79,7 +77,6 @@ if read_method == 'mac' or read_method == 'cpv':
 
 	result = session.execute_query_statement(sql) # server execute metrics have been collected by session.execute_finish()
 
-	start = time.time_ns() # for parse_data metric
 	df = result.todf_noFetch() # Transform to Pandas Dataset
 	if read_method == 'mac':
 		# for each row, extract four points, sort and deduplicate, deal with empty
@@ -154,9 +151,27 @@ if read_method == 'mac' or read_method == 'cpv':
 		df.to_csv(outputCsvPath, sep=',',index=False)
 	else:
 		print("unsupported read_method!")
-	end = time.time_ns()
-	print(f"[1-ns]parse_data,{end - start}") # print metric
 
-	result = session.execute_finish() 
-	print(result) # print metrics from IoTDB server
+	# result = session.execute_finish()
+	# print(result) # print metrics from IoTDB server
 	session.close()
+
+else: # rawQuery
+	os.system("bash {}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q '{}' -td {} -tf timestamp".format(exportToolPath,sql,exportToolPath))
+	os.system("cp {}/dump0.csv {}".format(exportToolPath,outputCsvPath))
+
+
+# --------------------plot--------------------------
+df = pd.read_csv(outputCsvPath,engine="pyarrow") # the first line is header; use engine="pyarrow" to accelerate read_csv otherwise is slow
+convert_dict = {
+	df.columns[0]:np.int64,
+	df.columns[1]:np.double,
+}
+df = df.astype(convert_dict)
+x=df[df.columns[0]] # time
+y=df[df.columns[1]] # value
+
+fig=plt.figure(1,dpi=120)
+plt.plot(x,y,linewidth=0.5)
+plt.savefig(outputFigPath,bbox_inches='tight') #specify absolute fig path
+plt.close(fig)
