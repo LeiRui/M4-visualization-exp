@@ -122,7 +122,7 @@ cd $HOME_PATH/${DATASET}_testspace
 (cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_cpv.csv| paste -d, tmp1.csv -) > tmp2.csv
 (cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_minmax.csv| paste -d, tmp2.csv -) > tmp3.csv
 (cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_lttb.csv| paste -d, tmp3.csv -) > tmp4.csv
-echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/${DATASET}_testspace/exp1_res.csv
+echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/${DATASET}_testspace/res.csv
 sed '1d' tmp4.csv >> res.csv
 rm tmp1.csv
 rm tmp2.csv
@@ -131,7 +131,7 @@ rm tmp4.csv
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+# range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/res.csv
 line=2
 #for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
@@ -139,7 +139,7 @@ for w in 1 2 50
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
-  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/exp1.csv
+  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/res.csv
   let line+=1
 done
 
