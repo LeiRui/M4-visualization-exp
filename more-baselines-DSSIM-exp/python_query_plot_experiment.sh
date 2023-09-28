@@ -5,7 +5,7 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 methodArray=("rawQuery" "mac" "cpv" "minmax" "lttb"); # rawQuery/mac/cpv/minmax/lttb/minmax_lsm
 for method in ${methodArray[@]};
 do
-
+echo $method
 if [ $method == "cpv" ] || [ $method == "minmax_lsm" ]
 then
     bash $tool_bash enable_CPV true $IOTDB_CONF_PATH

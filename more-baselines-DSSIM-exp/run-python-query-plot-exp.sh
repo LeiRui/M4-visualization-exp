@@ -21,7 +21,7 @@ export iotdb_username=root
 export iotdb_passwd=root
 
 # below are data parameters
-export tqs=0
+export tqs=511996
 export tqe=4259092178974
 export device='root.game'
 export measurement='s6'
