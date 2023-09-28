@@ -65,16 +65,17 @@ public class QueryData {
     long interval;
     if (range >= (dataMaxTime - dataMinTime)) {
       minTime = dataMinTime;
-      interval = (long) Math.ceil((double) (dataMaxTime - dataMinTime) / w);
+      interval = (long) Math.ceil((double) (dataMaxTime - dataMinTime) / (2 * w)) * 2;
+      // note multiple integer of 2w because MinMax need interval/2
     } else {
       // randomize between [dataMinTime, dataMaxTime-range]
       minTime = (long) Math.ceil(
           dataMinTime + Math.random() * (dataMaxTime - range - dataMinTime + 1));
-      interval = (long) Math.ceil((double) range / w);
+      interval = (long) Math.ceil((double) range / (2 * w)) * 2;
+      // note multiple integer of 2w because MinMax need interval/2
     }
     maxTime = minTime + interval * w;
 
-    // 选择查询执行算法: 1: MAC, 2: MOC, 3: CPV
     String approach = args[7].toLowerCase();
     String sql;
     switch (approach) {
@@ -89,21 +90,15 @@ public class QueryData {
             timestamp_precision);  // note the time precision unit
         break;
       case "minmax":
-        //   private static final String MINMAX_UDF =
-        //      "select MinMax(%1$s,'tqs'='%3$d','tqe'='%4$d','w'='%5$d') from %2$s where time>=%3$d and time<%4$d";
-        sql = String.format(MINMAX_UDF, measurement, device, minTime, maxTime, w);
+        sql = String.format(MINMAX_UDF, measurement, device, minTime, maxTime, 2 * w); // note 2w
         break;
       case "lttb":
-        //  private static final String LTTB_UDF =
-        //      "select Sample(%1$s,'method'='triangle','k'='%5$d') from %2$s where time>=%3$d and time<%4$d";
-        sql = String.format(LTTB_UDF, measurement, device, minTime, maxTime, 4 * w);
+        sql = String.format(LTTB_UDF, measurement, device, minTime, maxTime, 4 * w); // note 4w
         break;
       case "minmax_lsm":
-        // "select min_value(%s), max_value(%s) "
-        //          + "from %s "
-        //          + "group by ([%d, %d), %d%s)"; // note the time precision unit is also parameterized
         sql = String.format(MINMAX_LSM, measurement, measurement, device, minTime, maxTime,
-            interval, timestamp_precision);  // note the time precision unit
+            interval / 2, timestamp_precision);  // note the time precision unit
+        // note the interval/2
         break;
       default:
         throw new IOException("Approach wrong. Only accepts mac/moc/cpv/minmax/lttb/minmax_lsm");

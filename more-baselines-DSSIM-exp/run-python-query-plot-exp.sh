@@ -30,9 +30,9 @@ echo "begin"
 
 sed -i -e 's/\r$//' $tool_bash
 
-for w in 1 2 50
+for w in 1 2 1000
 do
-	echo "w=$w"
+	echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 	export w=$w
 	$EXPERIMENT_PATH
 done

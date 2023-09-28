@@ -44,7 +44,8 @@ tqs=int(config.get('tqs'))
 tqe=int(config.get('tqe'))
 w=int(config.get('w'))
 # post-process, make divisible
-interval=math.ceil((tqe-tqs)/w)
+# note multiple integer of 2w because MinMax need interval/2
+interval=math.ceil((tqe-tqs)/(2*w))*2
 tqe=tqs+interval*w
 
 # --------------------output path--------------------------
@@ -52,17 +53,31 @@ outputCsvPath="{}/data-{}-{}.csv".format(outputDir,read_method,w)
 outputFigPath="{}/plot-{}-{}.png".format(outputDir,read_method,w)
 
 # --------------------sql--------------------------
+# rawQuery/mac/cpv/minmax/lttb/minmax_lsm
+timePrecision = "ns"
 if read_method == 'mac': # M4 UDF
-	# noinspection PyInterpreter
 	sql="SELECT M4({},'tqs'='{}','tqe'='{}','w'='{}') FROM {} where time>={} and time<{}".\
 		format(measurement,tqs,tqe,w,device,tqs,tqe)
 elif read_method == 'cpv': # M4-LSM
 	sql="select min_time({}), max_time({}), first_value({}), last_value({}), min_value({}), max_value({}) \
-		from {} group by ([{}, {}), {}ns)".\
+		from {} group by ([{}, {}), {}{})".\
 		format(measurement,measurement,measurement,measurement,measurement,measurement,\
-					 device,tqs,tqe,interval)
-else: #rawQuery
+					 device,tqs,tqe,interval,timePrecision)
+elif read_method == "rawQuery":
 	sql="select {} from {} where time>={} and time<{}".format(measurement,device,tqs,tqe)
+elif read_method == "minmax":
+	sql="SELECT MinMax({},'tqs'='{}','tqe'='{}','w'='{}') FROM {} where time>={} and time<{}". \
+		format(measurement,tqs,tqe,w*2,device,tqs,tqe)
+elif read_method == "lttb":
+	sql="SELECT Sample({},'method'='triangle','k'='{}') FROM {} where time>={} and time<{}". \
+		format(measurement,4*w,device,tqs,tqe)
+elif read_method == "minmax_lsm":
+	sql="select min_value({}), max_value({}) \
+		from {} group by ([{}, {}), {}{})". \
+		format(measurement,measurement,device,tqs,tqe,interval/2,timePrecision)
+else:
+	print("unsupported read_method!")
+
 print(sql)
 
 # --------------------query--------------------------
