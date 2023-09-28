@@ -19,7 +19,7 @@ for((i=0;i<$repetition;i++)) do
     sleep 10s
 
     # query at remote server and transfom query result to csv
-    sshpass -p "${remote_passwd}" ssh ${remote_user_name}@${remote_ip} "python3 ${remote_M4_VISUALIZATION_EXP}/more-baselines-DSSIM-exp/remote-query-to-csv.py -r ${READ_METHOD} -f ${remote_M4_FILE_PATH} -s ${tqs} -e ${tqe} -w ${w} -t ${remote_IOTDB_EXPORT_CSV_TOOL} "
+    sshpass -p "${remote_passwd}" ssh ${remote_user_name}@${remote_ip} "python3 ${remote_M4_VISUALIZATION_EXP}/more-baselines-DSSIM-exp/remote-query-to-csv.py -r ${READ_METHOD} -f ${remote_M4_FILE_PATH} -s ${tqs} -e ${tqe} -w ${w} -t ${remote_IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}"
     
     # stop remote iotdb server
     sshpass -p "${remote_passwd}" ssh ${remote_user_name}@${remote_ip} "bash ${remote_IOTDB_STOP}"
