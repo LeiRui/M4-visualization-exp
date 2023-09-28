@@ -38,7 +38,7 @@ echo "[[[[[[[[[[[[[$method]]]]]]]]]]]]]"
 bash ${IOTDB_START} >/dev/null 2>&1 &
 sleep 10s
 # query and plot
-python3 ${QUERY_PLOT_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w ${w} \
+python3 ${QUERY_PLOT_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w 1 \
 -t ${IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}
 # stop server
 bash ${IOTDB_STOP}
