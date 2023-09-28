@@ -10,7 +10,7 @@ export tool_bash=$EXP_DIR/tool.sh
 export QUERY_PLOT_PATH=$EXP_DIR/query-plot.py
 
 # below are data server configurations
-export IOTDB_HOME_PATH=${HOME_PATH}/moreBaselinesExp # the dir is already populated after running run-more-baselines.sh
+export IOTDB_HOME_PATH=${HOME_PATH}/moreBaselinesQueryExp # the dir is already populated after running run-more-baselines.sh
 export IOTDB_SBIN_HOME=$IOTDB_HOME_PATH/iotdb-server-0.12.4/sbin
 export IOTDB_CONF_PATH=$IOTDB_HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 export IOTDB_START=$IOTDB_SBIN_HOME/start-server.sh
