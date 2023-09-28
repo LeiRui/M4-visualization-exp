@@ -6,7 +6,7 @@ QUERY_JAR_PATH=$HOME_PATH/QueryData-0.12.4.jar
 
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 cd $IOTDB_SBIN_HOME
-a=40
+a=1
 for((i=0;i<a;i++)) do
     ./start-server.sh /dev/null 2>&1 &
     sleep 15s

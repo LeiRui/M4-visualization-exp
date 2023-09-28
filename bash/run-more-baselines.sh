@@ -117,13 +117,13 @@ done
 
 done;
 
-cd $HOME_PATH/${DATASET}_testspace
-(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_mac.csv) > tmp1.csv
-(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_cpv.csv| paste -d, tmp1.csv -) > tmp2.csv
-(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_minmax.csv| paste -d, tmp2.csv -) > tmp3.csv
-(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_lttb.csv| paste -d, tmp3.csv -) > tmp4.csv
-echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/${DATASET}_testspace/res.csv
-sed '1d' tmp4.csv >> res.csv
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
+(cut -f 2 -d "," sumResult_mac.csv) > tmp1.csv
+(cut -f 2 -d "," sumResult_cpv.csv| paste -d, tmp1.csv -) > tmp2.csv
+(cut -f 2 -d "," sumResult_minmax.csv| paste -d, tmp2.csv -) > tmp3.csv
+(cut -f 2 -d "," sumResult_lttb.csv| paste -d, tmp3.csv -) > tmp4.csv
+echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/res.csv
+sed '1d' tmp4.csv >> $HOME_PATH/res.csv
 rm tmp1.csv
 rm tmp2.csv
 rm tmp3.csv
@@ -132,60 +132,17 @@ rm tmp4.csv
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/res.csv
+sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
 #for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
 for w in 1 2 50
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
-  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/res.csv
+  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/res.csv
   let line+=1
 done
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
 free -m
-
-## unify results
-#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
-#cp $HOME_PATH/SumResultUnify.* .
-## java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
-#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
-
-## export results
-## [EXP1]
-## w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
-## query range: totalRange
-## overlap percentage: 10%
-## delete percentage: 0%
-## delete time range: 0
-#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-#cd vary_w
-#cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
-#
-## add varied parameter value and the corresponding estimated chunks per interval for each line
-## estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-## for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-#sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
-#line=2
-#for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
-#do
-#  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
-#  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
-#  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/exp1.csv
-#  let line+=1
-#done
-
-#(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv) > tmp1.csv
-#(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp1.csv -) > tmp2.csv
-#(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp2.csv -) > tmp3.csv
-#echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp1_res.csv
-#sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp1_res.csv
-#rm tmp1.csv
-#rm tmp2.csv
-#rm tmp3.csv
-#
-#echo "ALL FINISHED!"
-#echo 3 |sudo tee /proc/sys/vm/drop_caches
-#free -m
