@@ -29,56 +29,12 @@ FIX_DELETE_RANGE=10
 
 hasHeader=false # default
 
-############################
-# Experimental parameter design:
-#
-# [EXP1] Varying the number of time spans w
-# (1) w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
-# (2) query range: totalRange
-# (3) overlap percentage: 10%
-# (4) delete percentage: 0%
-# (5) delete time range: 0
-#
-############################
-# O_10_D_0_0
-
-# O_0_D_0_0
-# O_20_D_0_0
-# O_30_D_0_0
-# O_40_D_0_0
-# O_50_D_0_0
-# O_60_D_0_0
-# O_70_D_0_0
-# O_80_D_0_0
-# O_90_D_0_0
-
-# O_10_D_9_10
-# O_10_D_19_10
-# O_10_D_29_10
-# O_10_D_39_10
-# O_10_D_49_10
-# O_10_D_59_10
-# O_10_D_69_10
-# O_10_D_79_10
-# O_10_D_89_10
-
-# O_10_D_49_20
-# O_10_D_49_30
-# O_10_D_49_40
-# O_10_D_49_50
-# O_10_D_49_60
-# O_10_D_49_70
-# O_10_D_49_80
-# O_10_D_49_90
-############################
-
 echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
 echo "Begin experiment!"
 
 ############################
 # prepare out-of-order source data.
-# Vary overlap percentage: 0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%
 ############################
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
@@ -149,40 +105,37 @@ cd $approach
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+# for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+for w in 1 2 50
 do
   echo "w=$w"
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
-  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
+  java ProcessResult result_${i}.txt result_${i}.out ../sumResult_${approach}.csv
   let i+=1
 done
 
 done;
 
-# unify results
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
-cp $HOME_PATH/SumResultUnify.* .
-# java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
-java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
-
-# export results
-# [EXP1]
-# w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
-# query range: totalRange
-# overlap percentage: 10%
-# delete percentage: 0%
-# delete time range: 0
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-cd vary_w
-cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
+cd $HOME_PATH/${DATASET}_testspace
+(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_mac.csv) > tmp1.csv
+(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_cpv.csv| paste -d, tmp1.csv -) > tmp2.csv
+(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_minmax.csv| paste -d, tmp2.csv -) > tmp3.csv
+(cut -f 2 -d "," O_10_D_0_0/vary_w/sumResult_lttb.csv| paste -d, tmp3.csv -) > tmp4.csv
+echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/${DATASET}_testspace/exp1_res.csv
+sed '1d' tmp4.csv >> res.csv
+rm tmp1.csv
+rm tmp2.csv
+rm tmp3.csv
+rm tmp4.csv
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
 # for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
+sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/res.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+#for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+for w in 1 2 50
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
@@ -190,15 +143,49 @@ do
   let line+=1
 done
 
-(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv) > tmp1.csv
-(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp1.csv -) > tmp2.csv
-(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp2.csv -) > tmp3.csv
-echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp1_res.csv
-sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp1_res.csv
-rm tmp1.csv
-rm tmp2.csv
-rm tmp3.csv
-
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
 free -m
+
+## unify results
+#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
+#cp $HOME_PATH/SumResultUnify.* .
+## java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+
+## export results
+## [EXP1]
+## w: 1,2,5,10,20,50,100,200,500,1000,2000,4000,8000
+## query range: totalRange
+## overlap percentage: 10%
+## delete percentage: 0%
+## delete time range: 0
+#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+#cd vary_w
+#cat result.csv >$HOME_PATH/${DATASET}_testspace/exp1.csv
+#
+## add varied parameter value and the corresponding estimated chunks per interval for each line
+## estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+## for exp1, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+#sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp1.csv
+#line=2
+#for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+#do
+#  #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
+#  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
+#  sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/${DATASET}_testspace/exp1.csv
+#  let line+=1
+#done
+
+#(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv) > tmp1.csv
+#(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp1.csv -) > tmp2.csv
+#(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp1.csv| paste -d, tmp2.csv -) > tmp3.csv
+#echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp1_res.csv
+#sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp1_res.csv
+#rm tmp1.csv
+#rm tmp2.csv
+#rm tmp3.csv
+#
+#echo "ALL FINISHED!"
+#echo 3 |sudo tee /proc/sys/vm/drop_caches
+#free -m
