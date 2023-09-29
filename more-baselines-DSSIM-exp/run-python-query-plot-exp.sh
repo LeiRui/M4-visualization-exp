@@ -5,9 +5,9 @@ export HOME_PATH=/root/ubuntu
 # below are exp directory configurations
 export M4_VISUALIZATION_EXP=${HOME_PATH}/M4-visualization-exp
 export EXP_DIR=$M4_VISUALIZATION_EXP/more-baselines-DSSIM-exp
-export EXPERIMENT_PATH=$EXP_DIR/python_query_plot_experiment.sh
+export EXPERIMENT_PATH=$EXP_DIR/python_query_save_experiment.sh
 export tool_bash=$EXP_DIR/tool.sh
-export QUERY_PLOT_PATH=$EXP_DIR/query-plot.py
+export QUERY_SAVE_PATH=$EXP_DIR/query-save.py
 
 # below are data server configurations
 export IOTDB_HOME_PATH=${HOME_PATH}/moreBaselinesQueryExp # the dir is already populated after running run-more-baselines.sh
@@ -37,8 +37,8 @@ echo "[[[[[[[[[[[[[$method]]]]]]]]]]]]]"
 # start server
 bash ${IOTDB_START} >/dev/null 2>&1 &
 sleep 10s
-# query and plot
-python3 ${QUERY_PLOT_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w 1 \
+# query and save csv
+python3 ${QUERY_SAVE_PATH} -r $method -o ${EXP_DIR} -s ${tqs} -e ${tqe} -w 1 \
 -t ${IOTDB_EXPORT_CSV_TOOL} -d ${device} -m ${measurement}
 # stop server
 bash ${IOTDB_STOP}
