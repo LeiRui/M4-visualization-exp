@@ -7,7 +7,7 @@ QUERY_JAR_PATH=$HOME_PATH/QueryData-0.12.4.jar
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 cd $IOTDB_SBIN_HOME
 
-if [ $# -eq 8]
+if [ $# -eq 8 ]
 then # default
   a=2
 else
