@@ -85,9 +85,8 @@ def mydssim(imfil1,imfil2):
   return (1-myssim(imfil1,imfil2))/2
 
 output="{}/dssim.csv".format(home_path)
-# wArray = [1,2,5,10,20,50,100,200,500,1000,2000,4000,8000]
-# 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
-wArray = [10,20,50,100,200,400,800,1200,1600,2000,3000,4000]
+# wArray = [10,20,50,100,200,400,800,1200,1600,2000,3000,4000]
+wArray = [10,50]
 with open(output, 'w', newline='') as f:
   writer = csv.writer(f)
   header = ['w', 'DSSIM(M4,raw)', 'DSSIM(M4-LSM,raw)', 'DSSIM(MinMax,raw)','DSSIM(LTTB,raw)','n_raw','n_m4','n_m4_lsm','n_minmax','n_lttb']

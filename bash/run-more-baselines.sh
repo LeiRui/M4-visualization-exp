@@ -105,7 +105,8 @@ cd $approach
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+# for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+for w in 1 10
 do
   echo "w=$w"
 
@@ -141,7 +142,8 @@ rm tmp4.csv
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+# for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+for w in 1 10
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
