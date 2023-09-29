@@ -103,13 +103,21 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir $approach
 cd $approach
 cp $HOME_PATH/ProcessResult.* .
-cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-for w in 1 2 5 10 20 50 100 200 500 # 1000 2000 4000
+for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 do
   echo "w=$w"
-  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
+
+  if [ $approach == "lttb" ]
+  then # rep=1 is enough
+    # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach rep
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach 1 >> result_${i}.txt
+  else # default rep
+    # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
+  fi
+
   java ProcessResult result_${i}.txt result_${i}.out ../sumResult_${approach}.csv
   let i+=1
 done
@@ -133,7 +141,7 @@ rm tmp4.csv
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 500 # 1000 2000 4000
+for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )

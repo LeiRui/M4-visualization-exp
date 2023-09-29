@@ -7,6 +7,16 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import math
+import argparse
+
+parser=argparse.ArgumentParser(description="plot and compute DSSIM",
+                               formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("-i","--input",help="input csv directory")
+args = parser.parse_args()
+config = vars(args)
+home_path=str(config.get('input'))
+# home_path="D:\github\mid"
+print(home_path)
 
 def full_frame(width=None, height=None, dpi=None):
   import matplotlib as mpl
@@ -30,16 +40,13 @@ def full_frame(width=None, height=None, dpi=None):
 def myplot(csvPath,width,anti,lw):
   height=width
   full_frame(width,height,16)
-  df=pd.read_csv(csvPath)
+  df=pd.read_csv(csvPath,engine="pyarrow") # the first line is header; use engine="pyarrow" to accelerate read_csv otherwise is slow
   t=df.iloc[:,0]
   v=df.iloc[:,1]
 
   v_min=min(v)
   v_max=max(v)
-  # t_min=min(t)
-  #t_max_temp=max(t)
-  #t_max=math.ceil((t_max_temp-t_min)/width)*width+t_min
-  # t_max=max(t)
+
   t_min=511996
   t_max_temp=4259092178974
   t_max=math.ceil((t_max_temp-t_min)/(2*width))*2*width+t_min
@@ -77,10 +84,10 @@ def myssim(imfil1,imfil2):
 def mydssim(imfil1,imfil2):
   return (1-myssim(imfil1,imfil2))/2
 
-home_path="D:\github\mid"
-output="dssim.csv"
+output="{}/dssim.csv".format(home_path)
 # wArray = [1,2,5,10,20,50,100,200,500,1000,2000,4000,8000]
-wArray = [100,200,500,1000,2000,4000]
+# 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+wArray = [10,20,50,100,200,400,800,1200,1600,2000,3000,4000]
 with open(output, 'w', newline='') as f:
   writer = csv.writer(f)
   header = ['w', 'DSSIM(M4,raw)', 'DSSIM(M4-LSM,raw)', 'DSSIM(MinMax,raw)','DSSIM(LTTB,raw)','n_raw','n_m4','n_m4_lsm','n_minmax','n_lttb']
@@ -104,7 +111,7 @@ with open(output, 'w', newline='') as f:
     ]
     writer.writerow(data)
 
-
+# plot dssim res
 with open(output,"r") as i:
   # rawdata = list(csv.reader(i,delimiter=","))
   reader=csv.reader(i,delimiter=",")
@@ -134,7 +141,7 @@ plt.ylabel("DSSIM",fontsize=20)
 plt.xscale("log")
 plt.yscale("log")
 
-plt.plot(w,dssim_m4_raw,label="M4",marker='s',markersize=12,linestyle='--',linewidth=2.5)
+plt.plot(w,dssim_m4_raw,label="M4",marker='s',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_m4_lsm_raw,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_minmax_raw,label="MinMax",marker='o',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_lttb_raw,label="LTTB",marker='P',markersize=12,linewidth=2.5)
@@ -146,8 +153,8 @@ plt.plot(w,dssim_lttb_raw,label="LTTB",marker='P',markersize=12,linewidth=2.5)
 
 #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
 plt.legend(fontsize=20);
-plt.savefig('dssim-vary-w.eps',bbox_inches='tight')
-plt.savefig('dssim-vary-w.png',bbox_inches='tight')
+plt.savefig("{}/dssim-vary-w.eps".format(home_path),bbox_inches='tight')
+plt.savefig("{}/dssim-vary-w.png".format(home_path),bbox_inches='tight')
 plt.show()
 plt.close()
 
@@ -174,8 +181,8 @@ plt.plot(w,n_raw,label="raw",marker='+',markersize=12,linewidth=2.5)
 
 #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
 plt.legend(fontsize=20);
-plt.savefig('n-vary-w.eps',bbox_inches='tight')
-plt.savefig('n-vary-w.png',bbox_inches='tight')
+plt.savefig("{}/n-vary-w.eps".format(home_path),bbox_inches='tight')
+plt.savefig("{}/n-vary-w.png".format(home_path),bbox_inches='tight')
 plt.show()
 plt.close()
 

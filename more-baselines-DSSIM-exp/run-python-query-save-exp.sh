@@ -8,6 +8,8 @@ export EXP_DIR=$M4_VISUALIZATION_EXP/more-baselines-DSSIM-exp
 export EXPERIMENT_PATH=$EXP_DIR/python_query_save_experiment.sh
 export tool_bash=$EXP_DIR/tool.sh
 export QUERY_SAVE_PATH=$EXP_DIR/query-save.py
+export DSSIM_PATH=$EXP_DIR/computeDSSIM.py
+export PLOT_QUERY_RES_PATH=$EXP_DIR/plot-query-exp-res.py
 
 # below are data server configurations
 export IOTDB_HOME_PATH=${HOME_PATH}/moreBaselinesQueryExp # the dir is already populated after running run-more-baselines.sh
@@ -30,6 +32,7 @@ echo "begin"
 
 sed -i -e 's/\r$//' $tool_bash
 
+# ----------query and save csv----------
 # rawQuery
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 method='rawQuery'
@@ -46,13 +49,26 @@ sleep 3s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
-# mac/cpv/minmax/lttb/minmax_lsm
-for w in 1 2 5 10 20 50 100 200 500 1000 2000 4000 8000
+# mac/cpv/minmax/lttb/minmax_lsm under different w parameters
+# [100,200,400,800,1200,1600,2000,3000,4000]
+for w in 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 do
 	echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 	export w=$w
 	$EXPERIMENT_PATH
 done
+
+# ----------plot and compute DSSIM----------
+echo 3 |sudo tee /proc/sys/vm/drop_caches
+free -m
+sleep 3s
+python3 ${DSSIM_PATH} -i ${EXP_DIR}
+
+# ----------plot query exp res by the way----------
+echo 3 |sudo tee /proc/sys/vm/drop_caches
+free -m
+sleep 3s
+python3 ${PLOT_QUERY_RES_PATH} -i ${IOTDB_HOME_PATH}/res.csv
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
