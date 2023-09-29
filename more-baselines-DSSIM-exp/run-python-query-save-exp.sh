@@ -68,7 +68,7 @@ python3 ${DSSIM_PATH} -i ${EXP_DIR}
 echo 3 |sudo tee /proc/sys/vm/drop_caches
 free -m
 sleep 3s
-python3 ${PLOT_QUERY_RES_PATH} -i ${IOTDB_HOME_PATH}/res.csv
+python3 ${PLOT_QUERY_RES_PATH} -i ${IOTDB_HOME_PATH}/res.csv -o ${EXP_DIR}
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches

@@ -7,11 +7,14 @@ import argparse
 parser=argparse.ArgumentParser(description="plot query exp result",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="input query result csv path")
+parser.add_argument("-o","--output",help="output directory")
 args = parser.parse_args()
 config = vars(args)
 res=str(config.get('input'))
 # res="D:\github\mid\res.csv"
 print(res)
+
+output=str(config.get('output'))
 
 df=pd.read_csv(res)
 print(df)
@@ -45,7 +48,7 @@ plt.plot(w,query_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
 
 #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
 plt.legend(fontsize=20);
-plt.savefig("{}/query-vary-w.eps".format(home_path),bbox_inches='tight')
-plt.savefig("{}/query-vary-w.png".format(home_path),bbox_inches='tight')
+plt.savefig("{}/query-vary-w.eps".format(output),bbox_inches='tight')
+plt.savefig("{}/query-vary-w.png".format(output),bbox_inches='tight')
 plt.show()
 plt.close()
