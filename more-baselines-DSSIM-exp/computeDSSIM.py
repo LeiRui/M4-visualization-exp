@@ -79,7 +79,7 @@ def myssim(imfil1,imfil2):
   # print(img1.dtype)
   img1=img_as_float(cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)) # img_as_float: the dtype is uint8, means convert [0, 255] to [0, 1]
   img2=img_as_float(cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY))
-  return ssim(img1,img2)
+  return ssim(img1,img2,data_range=img2.max() - img2.min())
 
 def mydssim(imfil1,imfil2):
   return (1-myssim(imfil1,imfil2))/2
