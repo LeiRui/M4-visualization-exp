@@ -9,7 +9,7 @@ cd $IOTDB_SBIN_HOME
 
 if [ $# -eq 8 ]
 then # default
-  a=2
+  a=20
 else
   a=$9
 fi
