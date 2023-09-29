@@ -47,9 +47,9 @@ def myplot(csvPath,width,anti,lw):
   v_min=min(v)
   v_max=max(v)
 
-  t_min=511996
-  t_max_temp=4259092178974
-  t_max=math.ceil((t_max_temp-t_min)/(2*width))*2*width+t_min
+  t_min=511996 # BallSpeed dataset, corresponds to tqs in run-python-query-save-exp.sh
+  t_max_temp=4259092178974 # BallSpeed dataset, corresponds to tqe in run-python-query-save-exp.sh
+  t_max=math.ceil((t_max_temp-t_min)/(2*width))*2*width+t_min # corresponds to tqe in query-save.py
 
   plt.plot(t,v,color='k',linewidth=lw,antialiased=anti)
   plt.xlim(t_min, t_max)
