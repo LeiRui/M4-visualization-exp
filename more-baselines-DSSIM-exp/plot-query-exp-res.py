@@ -20,11 +20,12 @@ df=pd.read_csv(res)
 print(df)
 
 w=df.iloc[:,0]
+# M4(ns),M4-LSM(ns),MINMAX(ns),MINMAX_LSM(ns),LTTB(ns)
 query_m4=df.iloc[:,2].div(1000000000) # ns to s
 query_m4_lsm=df.iloc[:,3].div(1000000000) # ns to s
 query_minmax=df.iloc[:,4].div(1000000000) # ns to s
-query_lttb=df.iloc[:,5].div(1000000000) # ns to s
-
+query_minmax_lsm=df.iloc[:,5].div(1000000000) # ns to s
+query_lttb=df.iloc[:,6].div(1000000000) # ns to s
 
 plt.figure(1,dpi=120)
 
@@ -40,6 +41,7 @@ plt.plot(w,query_m4,label="M4",marker='s',markersize=12,linewidth=2.5)
 plt.plot(w,query_m4_lsm,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
 plt.plot(w,query_minmax,label="MinMax",marker='o',markersize=12,linewidth=2.5)
 plt.plot(w,query_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
+plt.plot(w,query_minmax_lsm,label="MinMax_LSM",marker='^',markersize=12,linewidth=2.5)
 
 # plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
 # plt.plot(x,grafana,label="Grafana",marker='P',markersize=15,linewidth=2.5,color='#9467bd') #1

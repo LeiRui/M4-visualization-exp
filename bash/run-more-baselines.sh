@@ -97,7 +97,7 @@ echo "Querying O_10_D_0_0 with varied w"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
 
-approachArray=("mac" "cpv" "minmax" "lttb" "minmax_lsm");
+approachArray=("mac" "cpv" "minmax" "minmax_lsm" "lttb");
 # mac/moc/cpv/minmax/lttb/minmax_lsm
 for approach in ${approachArray[@]};
 do
@@ -139,13 +139,15 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 (cut -f 2 -d "," sumResult_mac.csv) > tmp1.csv
 (cut -f 2 -d "," sumResult_cpv.csv| paste -d, tmp1.csv -) > tmp2.csv
 (cut -f 2 -d "," sumResult_minmax.csv| paste -d, tmp2.csv -) > tmp3.csv
-(cut -f 2 -d "," sumResult_lttb.csv| paste -d, tmp3.csv -) > tmp4.csv
-echo "M4(ns),M4-LSM(ns),MINMAX(ns),LTTB(ns)" > $HOME_PATH/res.csv
-sed '1d' tmp4.csv >> $HOME_PATH/res.csv
+(cut -f 2 -d "," sumResult_minmax_lsm.csv| paste -d, tmp3.csv -) > tmp4.csv
+(cut -f 2 -d "," sumResult_lttb.csv| paste -d, tmp4.csv -) > tmp5.csv
+echo "M4(ns),M4-LSM(ns),MINMAX(ns),MINMAX_LSM(ns),LTTB(ns)" > $HOME_PATH/res.csv
+sed '1d' tmp5.csv >> $HOME_PATH/res.csv
 rm tmp1.csv
 rm tmp2.csv
 rm tmp3.csv
 rm tmp4.csv
+rm tmp5.csv
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
