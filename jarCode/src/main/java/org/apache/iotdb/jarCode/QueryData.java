@@ -1,11 +1,13 @@
 package org.apache.iotdb.jarCode;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.Session;
 import org.apache.iotdb.session.SessionDataSet;
 import org.apache.iotdb.session.SessionDataSet.DataIterator;
+import org.apache.iotdb.tsfile.read.common.RowRecord;
 import org.apache.thrift.TException;
 
 public class QueryData {
@@ -117,6 +119,12 @@ public class QueryData {
           "MAKE SURE you have set the enable_CPV and enableMinMaxLSM as true in `iotdb-engine.properties` for CPV!");
     }
 
+    boolean save_query_result = Boolean.parseBoolean(args[8]);
+    System.out.println("[QueryData] save_query_result=" + save_query_result);
+
+    String save_query_path = args[9];
+    System.out.println("[QueryData] save_query_path=" + save_query_path);
+
     session = new Session("127.0.0.1", 6667, "root", "root");
     session.open(false);
 
@@ -126,23 +134,47 @@ public class QueryData {
     // query result size is no more than 8000*4=32000.
     session.setFetchSize(1000000);
 
-    long c = 0;
-    long startTime = System.nanoTime();
-    SessionDataSet dataSet = session.executeQueryStatement(sql);
-    DataIterator ite = dataSet.iterator();
-    while (ite.next()) { // this way avoid constructing rowRecord
-      c++;
+    if (!save_query_result) {
+      long c = 0;
+      long startTime = System.nanoTime();
+      SessionDataSet dataSet = session.executeQueryStatement(sql);
+      DataIterator ite = dataSet.iterator();
+      while (ite.next()) { // this way avoid constructing rowRecord
+        c++;
+      }
+      long elapsedTimeNanoSec = System.nanoTime() - startTime;
+      System.out.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
+
+      dataSet = session.executeFinish();
+      String info = dataSet.getFinishResult();
+      // don't add more string to this output, as ProcessResult code depends on this.
+      System.out.println(info);
+      System.out.println("[QueryData] query result line number=" + c);
+
+      dataSet.closeOperationHandle();
+      session.close();
+    } else {
+      PrintWriter printWriter = new PrintWriter(save_query_path);
+      long c = 0;
+      long startTime = System.nanoTime();
+      SessionDataSet dataSet = session.executeQueryStatement(sql);
+      while (dataSet.hasNext()) { // this way avoid constructing rowRecord
+        RowRecord rowRecord = dataSet.next();
+        printWriter.print(rowRecord); // \t separator
+        c++;
+      }
+      long elapsedTimeNanoSec = System.nanoTime() - startTime;
+      System.out.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
+
+      dataSet = session.executeFinish();
+      String info = dataSet.getFinishResult();
+      // don't add more string to this output, as ProcessResult code depends on this.
+      System.out.println(info);
+      System.out.println("[QueryData] query result line number=" + c);
+
+      dataSet.closeOperationHandle();
+      session.close();
+      printWriter.close();
     }
-    long elapsedTimeNanoSec = System.nanoTime() - startTime;
-    System.out.println("[1-ns]ClientElapsedTime," + elapsedTimeNanoSec);
-
-    dataSet = session.executeFinish();
-    String info = dataSet.getFinishResult();
-    // don't add more string to this output, as ProcessResult code depends on this.
-    System.out.println(info);
-    System.out.println("[QueryData] query result line number=" + c);
-
-    dataSet.closeOperationHandle();
-    session.close();
   }
 }

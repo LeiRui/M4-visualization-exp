@@ -115,17 +115,29 @@ else
 fi
 
 i=1
-for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+# for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 #for w in 1 10
 do
   echo "w=$w"
 
+  $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-${approach}-${w}.csv $HOME_PATH/query_experiment.sh
+
   if [ $approach == "lttb" ]
-  then # rep=1 is enough
-    # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach rep
-    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach 1 >> result_${i}.txt
+  then # rep=1 is enough for slow LTTB
+    # for both saving query result and query latency exp
+    $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
+    # Note the following command print info is appended into result_${i}.txt, because LTTB is very slow, so run once is enough for query latency exp
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
   else # default rep
-    # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+    # for saving query result
+    # Note the following command print info is NOT appended into result_${i}.txt
+    $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach
+
+    # for query latency exp
+    # Note the following command print info is appended into result_${i}.txt
+    $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT false $HOME_PATH/query_experiment.sh
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
   fi
 
@@ -154,7 +166,7 @@ rm tmp5.csv
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
-for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
+for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 #for w in 1 10
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
