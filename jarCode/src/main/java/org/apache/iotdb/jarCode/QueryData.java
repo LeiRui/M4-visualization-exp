@@ -160,7 +160,7 @@ public class QueryData {
       SessionDataSet dataSet = session.executeQueryStatement(sql);
       while (dataSet.hasNext()) { // this way avoid constructing rowRecord
         RowRecord rowRecord = dataSet.next();
-        printWriter.print(rowRecord); // \t separator
+        printWriter.println(rowRecord); // \t separator
         c++;
       }
       long elapsedTimeNanoSec = System.nanoTime() - startTime;

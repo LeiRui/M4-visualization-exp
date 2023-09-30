@@ -101,7 +101,8 @@ approachArray=("mac" "cpv" "minmax" "minmax_lsm" "lttb");
 # mac/moc/cpv/minmax/lttb/minmax_lsm
 for approach in ${approachArray[@]};
 do
-echo $approach
+echo "[[[[[[[[[[[[[$approach]]]]]]]]]]]]]"
+
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir $approach
 cd $approach
@@ -119,7 +120,7 @@ for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 # for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 #for w in 1 10
 do
-  echo "w=$w"
+  echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 
   $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-${approach}-${w}.csv $HOME_PATH/query_experiment.sh
 
@@ -127,17 +128,20 @@ do
   then # rep=1 is enough for slow LTTB
     # for both saving query result and query latency exp
     $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
+    find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     # Note the following command print info is appended into result_${i}.txt, because LTTB is very slow, so run once is enough for query latency exp
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
   else # default rep
     # for saving query result
     # Note the following command print info is NOT appended into result_${i}.txt
     $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
+    find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach
 
     # for query latency exp
     # Note the following command print info is appended into result_${i}.txt
     $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT false $HOME_PATH/query_experiment.sh
+    find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
   fi
 
