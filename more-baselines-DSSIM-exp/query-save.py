@@ -74,7 +74,8 @@ elif read_method == "lttb":
 elif read_method == "minmax_lsm":
 	sql="select min_value({}), max_value({}) \
 		from {} group by ([{}, {}), {}{})". \
-		format(measurement,measurement,device,tqs,tqe,interval/2,timePrecision)
+		format(measurement,measurement,device,tqs,tqe,math.ceil(interval/2),timePrecision)
+	# note the math.ceil, otherwise has .0 endings
 else:
 	print("unsupported read_method!")
 

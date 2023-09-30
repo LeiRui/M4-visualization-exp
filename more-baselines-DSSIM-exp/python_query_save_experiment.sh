@@ -17,6 +17,7 @@ then
     bash $tool_bash enable_CPV true $IOTDB_CONF_PATH
     bash $tool_bash enableMinMaxLSM true $IOTDB_CONF_PATH
 fi
+# mac minmax lttb are UDF
 
 # start server
 bash ${IOTDB_START} >/dev/null 2>&1 &
