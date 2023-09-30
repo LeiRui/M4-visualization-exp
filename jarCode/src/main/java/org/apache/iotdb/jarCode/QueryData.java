@@ -109,9 +109,12 @@ public class QueryData {
     if (approach.equals("moc")) {
       System.out.println(
           "MAKE SURE you have set the enable_CPV as false in `iotdb-engine.properties` for MOC!");
-    } else if (approach.equals("cpv") || approach.equals("minmax_lsm")) {
+    } else if (approach.equals("cpv")) {
       System.out.println(
-          "MAKE SURE you have set the enable_CPV as true in `iotdb-engine.properties` for CPV!");
+          "MAKE SURE you have set the enable_CPV as true and enableMinMaxLSM as false in `iotdb-engine.properties` for CPV!");
+    } else if (approach.equals("minmax_lsm")) {
+      System.out.println(
+          "MAKE SURE you have set the enable_CPV and enableMinMaxLSM as true in `iotdb-engine.properties` for CPV!");
     }
 
     session = new Session("127.0.0.1", 6667, "root", "root");

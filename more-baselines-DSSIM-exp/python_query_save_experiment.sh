@@ -2,14 +2,20 @@
 
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 
-methodArray=("mac" "cpv" "minmax" "lttb");
+methodArray=("mac" "cpv" "minmax" "lttb" "minmax_lsm");
 
 for method in ${methodArray[@]};
 do
 echo "[[[[[[[[[[[[[$method]]]]]]]]]]]]]"
-if [ $method == "cpv" ] || [ $method == "minmax_lsm" ]
+if [ $method == "cpv" ]
 then
     bash $tool_bash enable_CPV true $IOTDB_CONF_PATH
+    bash $tool_bash enableMinMaxLSM false $IOTDB_CONF_PATH
+fi
+if [ $method == "minmax_lsm" ]
+then
+    bash $tool_bash enable_CPV true $IOTDB_CONF_PATH
+    bash $tool_bash enableMinMaxLSM true $IOTDB_CONF_PATH
 fi
 
 # start server

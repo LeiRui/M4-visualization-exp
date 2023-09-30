@@ -70,14 +70,17 @@ $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 
 # properties for cpv
 $HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
-# properties for moc
-$HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
+$HOME_PATH/tool.sh enableMinMaxLSM false ../../iotdb-engine-example.properties
+cp ../../iotdb-engine-example.properties iotdb-engine-enableCPV.properties
+
+# properties for minmax_lsm
+$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
+$HOME_PATH/tool.sh enableMinMaxLSM true ../../iotdb-engine-example.properties
+cp ../../iotdb-engine-example.properties iotdb-engine-enableMinMaxLSM.properties
 
 # [write data]
 echo "Writing O_10_D_0_0"
-cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cp iotdb-engine-enableCPV.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 cd $HOME_PATH/iotdb-server-0.12.4/sbin
 ./start-server.sh /dev/null 2>&1 &
 sleep 8s
@@ -94,7 +97,7 @@ echo "Querying O_10_D_0_0 with varied w"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_w
 
-approachArray=("mac" "cpv" "minmax" "lttb");
+approachArray=("mac" "cpv" "minmax" "lttb" "minmax_lsm");
 # mac/moc/cpv/minmax/lttb/minmax_lsm
 for approach in ${approachArray[@]};
 do
@@ -103,7 +106,14 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_w
 mkdir $approach
 cd $approach
 cp $HOME_PATH/ProcessResult.* .
-cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+
+if [ $approach == "minmax_lsm" ]
+then
+  cp ../../iotdb-engine-enableMinMaxLSM.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+else
+  cp ../../iotdb-engine-enableCPV.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+fi
+
 i=1
 for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
 #for w in 1 10
