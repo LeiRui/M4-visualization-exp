@@ -14,8 +14,7 @@ parser=argparse.ArgumentParser(description="plot and compute DSSIM",
 parser.add_argument("-i","--input",help="input csv directory")
 args = parser.parse_args()
 config = vars(args)
-home_path=str(config.get('input'))
-# home_path="D:\github\mid"
+home_path=str(config.get('input')) # home_path="D:\github\mid"
 print(home_path)
 
 def full_frame(width=None, height=None, dpi=None):
@@ -111,78 +110,78 @@ with open(output, 'w', newline='') as f:
     ]
     writer.writerow(data)
 
-# plot dssim res
-with open(output,"r") as i:
-  # rawdata = list(csv.reader(i,delimiter=","))
-  reader=csv.reader(i,delimiter=",")
-  next(reader, None)  # skip the headers
-  rawdata = list(reader)
-
-a=np.array(rawdata[:],dtype=float)
-print(a)
-w=a[:,0]
-dssim_m4_raw=a[:,1]
-dssim_m4_lsm_raw=a[:,2]
-dssim_minmax_raw=a[:,3]
-dssim_lttb_raw=a[:,4]
-n_raw=a[:,5]
-n_m4=a[:,6]
-n_m4_lsm=a[:,7]
-n_minmax=a[:,8]
-n_lttb=a[:,9]
-
-plt.figure(1,dpi=120)
-
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
-plt.xlabel("w",fontsize=20)
-plt.ylabel("DSSIM",fontsize=20)
-
-plt.xscale("log")
-plt.yscale("log")
-
-plt.plot(w,dssim_m4_raw,label="M4",marker='s',markersize=12,linewidth=2.5)
-plt.plot(w,dssim_m4_lsm_raw,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
-plt.plot(w,dssim_minmax_raw,label="MinMax",marker='o',markersize=12,linewidth=2.5)
-plt.plot(w,dssim_lttb_raw,label="LTTB",marker='P',markersize=12,linewidth=2.5)
-
-# plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
-# plt.plot(x,grafana,label="Grafana",marker='P',markersize=15,linewidth=2.5,color='#9467bd') #1
-# plt.plot(x,grafanaM4,label="Grafana with M4-LSM",marker='s',markersize=15,linewidth=2.5,color='green') #2
-# plt.plot(x,pythonM4,label="Python with M4-LSM",marker='X',markersize=15,linewidth=2.5,color='#ff7f0e') #3
-
-#plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
-plt.legend(fontsize=20);
-plt.savefig("{}/dssim-vary-w.eps".format(home_path),bbox_inches='tight')
-plt.savefig("{}/dssim-vary-w.png".format(home_path),bbox_inches='tight')
-plt.show()
-plt.close()
-
-plt.figure(1,dpi=120)
-
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
-plt.xlabel("w",fontsize=20)
-plt.ylabel("number of points",fontsize=20)
-
-plt.xscale("log")
-plt.yscale("log")
-
-plt.plot(w,n_m4,label="M4",marker='s',markersize=12,linestyle='--',linewidth=2.5)
-plt.plot(w,n_m4_lsm,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
-plt.plot(w,n_minmax,label="MinMax",marker='o',markersize=12,linewidth=2.5)
-plt.plot(w,n_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
-plt.plot(w,n_raw,label="raw",marker='+',markersize=12,linewidth=2.5)
-
-# plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
-# plt.plot(x,grafana,label="Grafana",marker='P',markersize=15,linewidth=2.5,color='#9467bd') #1
-# plt.plot(x,grafanaM4,label="Grafana with M4-LSM",marker='s',markersize=15,linewidth=2.5,color='green') #2
-# plt.plot(x,pythonM4,label="Python with M4-LSM",marker='X',markersize=15,linewidth=2.5,color='#ff7f0e') #3
-
-#plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
-plt.legend(fontsize=20);
-plt.savefig("{}/n-vary-w.eps".format(home_path),bbox_inches='tight')
-plt.savefig("{}/n-vary-w.png".format(home_path),bbox_inches='tight')
-plt.show()
-plt.close()
+# # plot dssim res
+# with open(output,"r") as i:
+#   # rawdata = list(csv.reader(i,delimiter=","))
+#   reader=csv.reader(i,delimiter=",")
+#   next(reader, None)  # skip the headers
+#   rawdata = list(reader)
+#
+# a=np.array(rawdata[:],dtype=float)
+# print(a)
+# w=a[:,0]
+# dssim_m4_raw=a[:,1]
+# dssim_m4_lsm_raw=a[:,2]
+# dssim_minmax_raw=a[:,3]
+# dssim_lttb_raw=a[:,4]
+# n_raw=a[:,5]
+# n_m4=a[:,6]
+# n_m4_lsm=a[:,7]
+# n_minmax=a[:,8]
+# n_lttb=a[:,9]
+#
+# plt.figure(1,dpi=120)
+#
+# plt.xticks(fontsize=20)
+# plt.yticks(fontsize=20)
+# plt.xlabel("w",fontsize=20)
+# plt.ylabel("DSSIM",fontsize=20)
+#
+# plt.xscale("log")
+# plt.yscale("log")
+#
+# plt.plot(w,dssim_m4_raw,label="M4",marker='s',markersize=12,linewidth=2.5)
+# plt.plot(w,dssim_m4_lsm_raw,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
+# plt.plot(w,dssim_minmax_raw,label="MinMax",marker='o',markersize=12,linewidth=2.5)
+# plt.plot(w,dssim_lttb_raw,label="LTTB",marker='P',markersize=12,linewidth=2.5)
+#
+# # plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
+# # plt.plot(x,grafana,label="Grafana",marker='P',markersize=15,linewidth=2.5,color='#9467bd') #1
+# # plt.plot(x,grafanaM4,label="Grafana with M4-LSM",marker='s',markersize=15,linewidth=2.5,color='green') #2
+# # plt.plot(x,pythonM4,label="Python with M4-LSM",marker='X',markersize=15,linewidth=2.5,color='#ff7f0e') #3
+#
+# #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
+# plt.legend(fontsize=20);
+# plt.savefig("{}/dssim-vary-w.eps".format(home_path),bbox_inches='tight')
+# plt.savefig("{}/dssim-vary-w.png".format(home_path),bbox_inches='tight')
+# plt.show()
+# plt.close()
+#
+# plt.figure(1,dpi=120)
+#
+# plt.xticks(fontsize=20)
+# plt.yticks(fontsize=20)
+# plt.xlabel("w",fontsize=20)
+# plt.ylabel("number of points",fontsize=20)
+#
+# plt.xscale("log")
+# plt.yscale("log")
+#
+# plt.plot(w,n_m4,label="M4",marker='s',markersize=12,linestyle='--',linewidth=2.5)
+# plt.plot(w,n_m4_lsm,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
+# plt.plot(w,n_minmax,label="MinMax",marker='o',markersize=12,linewidth=2.5)
+# plt.plot(w,n_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
+# plt.plot(w,n_raw,label="raw",marker='+',markersize=12,linewidth=2.5)
+#
+# # plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
+# # plt.plot(x,grafana,label="Grafana",marker='P',markersize=15,linewidth=2.5,color='#9467bd') #1
+# # plt.plot(x,grafanaM4,label="Grafana with M4-LSM",marker='s',markersize=15,linewidth=2.5,color='green') #2
+# # plt.plot(x,pythonM4,label="Python with M4-LSM",marker='X',markersize=15,linewidth=2.5,color='#ff7f0e') #3
+#
+# #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
+# plt.legend(fontsize=20);
+# plt.savefig("{}/n-vary-w.eps".format(home_path),bbox_inches='tight')
+# plt.savefig("{}/n-vary-w.png".format(home_path),bbox_inches='tight')
+# plt.show()
+# plt.close()
 

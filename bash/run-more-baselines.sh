@@ -179,6 +179,25 @@ do
   let line+=1
 done
 
+# export raw data for dssim exp later
+IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
+IOTDB_START=$IOTDB_SBIN_HOME/start-server.sh
+IOTDB_STOP=$IOTDB_SBIN_HOME/stop-server.sh
+IOTDB_EXPORT_CSV_TOOL_HOME=$HOME_PATH/iotdb-cli-0.12.4/tools
+# start server
+bash ${IOTDB_START} >/dev/null 2>&1 &
+sleep 10s
+# export
+sql="select ${MEASUREMENT} from ${DEVICE} where time>=${DATA_MIN_TIME} and time<${DATA_MAX_TIME}"
+bash ${IOTDB_EXPORT_CSV_TOOL_HOME}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q "${sql}" -td ${IOTDB_EXPORT_CSV_TOOL_HOME} -tf timestamp
+cp ${IOTDB_EXPORT_CSV_TOOL_HOME}/dump0.csv $HOME_PATH/data-rawQuery-1.csv
+# stop server
+bash ${IOTDB_STOP}
+sleep 3s
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+sleep 3s
+
+
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
 free -m

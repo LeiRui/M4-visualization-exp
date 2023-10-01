@@ -6,12 +6,11 @@ import argparse
 
 parser=argparse.ArgumentParser(description="plot query exp result",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-i","--input",help="input query result csv path")
+parser.add_argument("-i","--input",help="input result csv path")
 parser.add_argument("-o","--output",help="output directory")
 args = parser.parse_args()
 config = vars(args)
-res=str(config.get('input'))
-# res="D:\github\mid\res.csv"
+res=str(config.get('input')) # res="D:\github\mid\res.csv"
 print(res)
 
 output=str(config.get('output'))
