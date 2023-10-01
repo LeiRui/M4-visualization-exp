@@ -19,8 +19,8 @@ parser.add_argument("-tqe","--tqe",help="query end time")
 args = parser.parse_args()
 config = vars(args)
 input=str(config.get('input'))
-tqs=str(config.get('tqs'))
-tqe=str(config.get('tqe'))
+tqs=int(config.get('tqs'))
+tqe=int(config.get('tqe'))
 
 DSSIM_res="{}/dssim.csv".format(input)
 
@@ -98,7 +98,7 @@ def mydssim(imfil1,imfil2):
 # TODO
 approachArray=["mac","cpv","minmax","minmax_lsm","lttb"] # should be same as in run-more-baselines.sh
 # wArray=[10,20,50,80,100,200,400,600,800,1200,1600,2000,3000,4000] # should be same as in run-more-baselines.sh
-wArray=[1,2]
+wArray=[10,15]
 
 with open(DSSIM_res, 'w', newline='') as f:
   writer = csv.writer(f)
@@ -106,7 +106,7 @@ with open(DSSIM_res, 'w', newline='') as f:
   writer.writerow(header)
   # plot figure according to specified w
   for w in wArray:
-    print("========="+str(w)+"=========")
+    print("==============="+str(w)+"===============")
     n_arr=[]
     dssim_arr=[]
 

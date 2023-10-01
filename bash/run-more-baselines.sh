@@ -118,7 +118,7 @@ fi
 i=1
 # TODO
 # for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
-for w in 1 2
+for w in 10 15
 do
   echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 
@@ -172,7 +172,7 @@ sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
 # for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 # TODO
-for w in 1 2
+for w in 10 15
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
@@ -183,7 +183,9 @@ done
 # plot query exp res
 python3 $HOME_PATH/plot-query-exp-res.py -i $HOME_PATH/res.csv -o $HOME_PATH
 
-# export raw data for dssim exp later
+# the above steps perform query exp, with queried result csv stored for later DSSIM exp
+# -------------------begin DSSIM exp----------------------------
+# first export raw data
 IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
 IOTDB_START=$IOTDB_SBIN_HOME/start-server.sh
 IOTDB_STOP=$IOTDB_SBIN_HOME/stop-server.sh
@@ -201,7 +203,7 @@ sleep 3s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
-# compute dssim
+# parse queries csv, plot png, compute dssim
 python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH -tqs ${DATA_MIN_TIME} -tqe ${DATA_MAX_TIME}
 
 # plot dssim exp res
