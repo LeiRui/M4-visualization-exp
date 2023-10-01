@@ -117,8 +117,8 @@ fi
 
 i=1
 # TODO
-# for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
-for w in 10 15
+for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+#for w in 10 15
 do
   echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 
@@ -129,7 +129,8 @@ do
     # for both saving query result and query latency exp
     $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
     find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
-    # Note the following command print info is appended into result_${i}.txt, because LTTB is very slow, so run once is enough for query latency exp
+    # Note the following command print info is appended into result_${i}.txt for query latency exp,
+    # because LTTB is very slow, so run once is enough for query latency exp
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
   else # default rep
     # for saving query result
@@ -139,7 +140,7 @@ do
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach
 
     # for query latency exp
-    # Note the following command print info is appended into result_${i}.txt
+    # Note the following command print info is appended into result_${i}.txt for query latency exp
     $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT false $HOME_PATH/query_experiment.sh
     find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $w $approach >> result_${i}.txt
@@ -170,9 +171,10 @@ rm tmp5.csv
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
-# for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+
 # TODO
-for w in 10 15
+#for w in 10 15
+for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
