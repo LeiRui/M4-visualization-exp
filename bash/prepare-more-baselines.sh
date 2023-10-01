@@ -50,6 +50,7 @@ cp $M4_VISUALIZATION_EXP/tools/parse.py .
 cp $M4_VISUALIZATION_EXP/tools/computeDSSIM.py .
 cp $M4_VISUALIZATION_EXP/tools/plot-dssim-exp-res.py .
 cp $M4_VISUALIZATION_EXP/tools/plot-query-exp-res.py .
+cp $M4_VISUALIZATION_EXP/tools/plot-dssim-query-exp-res.py .
 
 #====prepare run bash for test dataset====
 cd $HOME_PATH

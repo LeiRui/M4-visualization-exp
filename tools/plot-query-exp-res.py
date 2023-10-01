@@ -39,7 +39,7 @@ plt.yscale("log")
 plt.plot(w,query_m4,label="M4",marker='s',markersize=12,linewidth=2.5)
 plt.plot(w,query_m4_lsm,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
 plt.plot(w,query_minmax,label="MinMax",marker='o',markersize=12,linewidth=2.5)
-plt.plot(w,query_minmax_lsm,label="MinMax_LSM",marker='^',markersize=12,linewidth=2.5)
+plt.plot(w,query_minmax_lsm,label="MinMax-LSM",marker='^',markersize=12,linewidth=2.5)
 plt.plot(w,query_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
 
 # plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0

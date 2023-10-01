@@ -55,7 +55,7 @@ plt.yscale("log")
 plt.plot(w,dssim_m4_raw,label="M4",marker='s',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_m4_lsm_raw,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_minmax_raw,label="MinMax",marker='o',markersize=12,linewidth=2.5)
-plt.plot(w,dssim_minmax_raw,label="MinMax-LSM",marker='^',markersize=12,linewidth=2.5)
+plt.plot(w,dssim_minmax_lsm_raw,label="MinMax-LSM",marker='^',markersize=12,linewidth=2.5)
 plt.plot(w,dssim_lttb_raw,label="LTTB",marker='P',markersize=12,linewidth=2.5)
 
 # plt.plot(x,python,label="Python",marker='o',markersize=15,linewidth=2.5,color='red') #0
@@ -83,7 +83,7 @@ plt.yscale("log")
 plt.plot(w,n_m4,label="M4",marker='s',markersize=12,linestyle='--',linewidth=2.5)
 plt.plot(w,n_m4_lsm,label="M4-LSM",marker='X',markersize=12,linewidth=2.5)
 plt.plot(w,n_minmax,label="MinMax",marker='o',markersize=12,linewidth=2.5)
-plt.plot(w,n_minmax,label="MinMax-LSM",marker='^',markersize=12,linewidth=2.5)
+plt.plot(w,n_minmax_lsm,label="MinMax-LSM",marker='^',markersize=12,linewidth=2.5)
 plt.plot(w,n_lttb,label="LTTB",marker='P',markersize=12,linewidth=2.5)
 plt.plot(w,n_raw,label="raw",marker='+',markersize=12,linewidth=2.5)
 

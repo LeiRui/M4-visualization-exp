@@ -185,7 +185,7 @@ do
 done
 
 # plot query exp res
-python3 $HOME_PATH/plot-query-exp-res.py -i $HOME_PATH/res.csv -o $HOME_PATH
+#python3 $HOME_PATH/plot-query-exp-res.py -i $HOME_PATH/res.csv -o $HOME_PATH
 
 # the above steps perform query exp, with queried result csv stored for later DSSIM exp
 # -------------------begin DSSIM exp----------------------------
@@ -211,7 +211,10 @@ sleep 3s
 python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH -tqs ${DATA_MIN_TIME} -tqe ${DATA_MAX_TIME}
 
 # plot dssim exp res
-python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH
+#python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH
+
+# plot dssim and query exp res
+python3 $HOME_PATH/plot-dssim-query-exp-res.py -d $HOME_PATH/dssim.csv -q $HOME_PATH/res.csv -o $HOME_PATH
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
