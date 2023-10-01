@@ -46,6 +46,11 @@ mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
 
+cp $M4_VISUALIZATION_EXP/tools/parse.py .
+cp $M4_VISUALIZATION_EXP/tools/computeDSSIM.py .
+cp $M4_VISUALIZATION_EXP/tools/plot-dssim-exp-res.py .
+cp $M4_VISUALIZATION_EXP/tools/plot-query-exp-res.py .
+
 #====prepare run bash for test dataset====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-more-baselines.sh .

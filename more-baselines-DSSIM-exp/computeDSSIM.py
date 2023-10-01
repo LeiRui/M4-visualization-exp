@@ -8,14 +8,21 @@ import numpy as np
 import pandas as pd
 import math
 import argparse
+import sys
+import os
 
 parser=argparse.ArgumentParser(description="plot and compute DSSIM",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="input csv directory")
+parser.add_argument("-o","--output",help="output res directory")
 args = parser.parse_args()
 config = vars(args)
-home_path=str(config.get('input')) # home_path="D:\github\mid"
-print(home_path)
+input=str(config.get('input'))
+output=str(config.get('output'))
+print(input)
+print(output)
+
+outputDSSIM="{}/dssim.csv".format(output)
 
 def full_frame(width=None, height=None, dpi=None):
   import matplotlib as mpl
@@ -36,7 +43,7 @@ def full_frame(width=None, height=None, dpi=None):
   # to make sure the data gets scaled to the full extents of the axes.
   plt.autoscale(tight=True)
 
-def myplot(csvPath,width,anti,lw):
+def myplot(csvPath,width):
   height=width
   full_frame(width,height,16)
   df=pd.read_csv(csvPath,engine="pyarrow") # the first line is header; use engine="pyarrow" to accelerate read_csv otherwise is slow
@@ -46,11 +53,13 @@ def myplot(csvPath,width,anti,lw):
   v_min=min(v)
   v_max=max(v)
 
-  t_min=511996 # BallSpeed dataset, corresponds to tqs in run-python-query-save-exp.sh
-  t_max_temp=4259092178974 # BallSpeed dataset, corresponds to tqe in run-python-query-save-exp.sh
+  t_min=min(t)
+  t_max_temp=max(t)
+  # t_min=511996 # BallSpeed dataset, corresponds to tqs in run-python-query-save-exp.sh
+  # t_max_temp=4259092178974 # BallSpeed dataset, corresponds to tqe in run-python-query-save-exp.sh
   t_max=math.ceil((t_max_temp-t_min)/(2*width))*2*width+t_min # corresponds to tqe in query-save.py
 
-  plt.plot(t,v,color='k',linewidth=lw,antialiased=anti)
+  plt.plot(t,v,color='k',linewidth=0.1,antialiased=False)
   plt.xlim(t_min, t_max)
   plt.ylim(v_min, v_max)
   plt.savefig("{}-{}.png".format(csvPath,width),backend='agg')
@@ -83,29 +92,27 @@ def myssim(imfil1,imfil2):
 def mydssim(imfil1,imfil2):
   return (1-myssim(imfil1,imfil2))/2
 
-output="{}/dssim.csv".format(home_path)
-# wArray = [10,20,50,100,200,400,800,1200,1600,2000,3000,4000]
-# wArray = [10,20,50,100,200,400,800,1000,2000,4000]
 wArray = [10,20,50,80,100,200,400,600,800,1200,1600,2000,3000,4000]
-with open(output, 'w', newline='') as f:
+with open(outputDSSIM, 'w', newline='') as f:
   writer = csv.writer(f)
-  header = ['w', 'DSSIM(M4,raw)', 'DSSIM(M4-LSM,raw)', 'DSSIM(MinMax,raw)','DSSIM(LTTB,raw)','n_raw','n_m4','n_m4_lsm','n_minmax','n_lttb']
+  header = ['w', 'DSSIM(M4,raw)', 'DSSIM(M4-LSM,raw)', 'DSSIM(MinMax,raw)','DSSIM(MinMax-LSM,raw)','DSSIM(LTTB,raw)','n_raw','n_m4','n_m4_lsm','n_minmax','n_minmax_lsm','n_lttb']
   writer.writerow(header)
   for w in wArray:
     # plot figure according to specified w
-    n_raw=myplot("{}/data-rawQuery-1.csv".format(home_path),w,False,0.1)
-    n_m4=myplot("{}/data-mac-{}.csv".format(home_path,w),w,False,0.1)
-    n_m4_lsm=myplot("{}/data-cpv-{}.csv".format(home_path,w),w,False,0.1)
-    n_minmax=myplot("{}/data-minmax-{}.csv".format(home_path,w),w,False,0.1)
-    n_lttb=myplot("{}/data-lttb-{}.csv".format(home_path,w),w,False,0.1)
+    os.system("python3 {}/ {}".format(input,outputCsvPath))
+    n_raw=myplot("{}/data-rawQuery-1.csv".format(input),w)
+    n_m4=myplot("{}/data-mac-{}.csv".format(input,w),w,False,0.1)
+    n_m4_lsm=myplot("{}/data-cpv-{}.csv".format(input,w),w,False,0.1)
+    n_minmax=myplot("{}/data-minmax-{}.csv".format(input,w),w,False,0.1)
+    n_lttb=myplot("{}/data-lttb-{}.csv".format(input,w),w,False,0.1)
 
     # compute dssim
     data=[
       w,
-      mydssim("{}/data-rawQuery-1.csv-{}.png".format(home_path,w),"{}/data-mac-{}.csv-{}.png".format(home_path,w,w)),
-      mydssim("{}/data-rawQuery-1.csv-{}.png".format(home_path,w),"{}/data-cpv-{}.csv-{}.png".format(home_path,w,w)),
-      mydssim("{}/data-rawQuery-1.csv-{}.png".format(home_path,w),"{}/data-minmax-{}.csv-{}.png".format(home_path,w,w)),
-      mydssim("{}/data-rawQuery-1.csv-{}.png".format(home_path,w),"{}/data-lttb-{}.csv-{}.png".format(home_path,w,w)),
+      mydssim("{}/data-rawQuery-1.csv-{}.png".format(input,w),"{}/data-mac-{}.csv-{}.png".format(input,w,w)),
+      mydssim("{}/data-rawQuery-1.csv-{}.png".format(input,w),"{}/data-cpv-{}.csv-{}.png".format(input,w,w)),
+      mydssim("{}/data-rawQuery-1.csv-{}.png".format(input,w),"{}/data-minmax-{}.csv-{}.png".format(input,w,w)),
+      mydssim("{}/data-rawQuery-1.csv-{}.png".format(input,w),"{}/data-lttb-{}.csv-{}.png".format(input,w,w)),
       n_raw,n_m4,n_m4_lsm,n_minmax,n_lttb
     ]
     writer.writerow(data)
@@ -152,8 +159,8 @@ with open(output, 'w', newline='') as f:
 #
 # #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
 # plt.legend(fontsize=20);
-# plt.savefig("{}/dssim-vary-w.eps".format(home_path),bbox_inches='tight')
-# plt.savefig("{}/dssim-vary-w.png".format(home_path),bbox_inches='tight')
+# plt.savefig("{}/dssim-vary-w.eps".format(input),bbox_inches='tight')
+# plt.savefig("{}/dssim-vary-w.png".format(input),bbox_inches='tight')
 # plt.show()
 # plt.close()
 #
@@ -180,8 +187,8 @@ with open(output, 'w', newline='') as f:
 #
 # #plt.legend(ncol=3,fontsize=20,bbox_to_anchor=(0.5,1.20), loc='upper center');
 # plt.legend(fontsize=20);
-# plt.savefig("{}/n-vary-w.eps".format(home_path),bbox_inches='tight')
-# plt.savefig("{}/n-vary-w.png".format(home_path),bbox_inches='tight')
+# plt.savefig("{}/n-vary-w.eps".format(input),bbox_inches='tight')
+# plt.savefig("{}/n-vary-w.png".format(input),bbox_inches='tight')
 # plt.show()
 # plt.close()
 

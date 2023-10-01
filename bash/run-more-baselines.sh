@@ -116,9 +116,9 @@ else
 fi
 
 i=1
-for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
-# for w in 1 2 5 10 20 50 100 200 400 800 1200 1600 2000 3000 4000
-#for w in 1 10
+# TODO
+# for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+for w in 1 2
 do
   echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 
@@ -170,14 +170,18 @@ rm tmp5.csv
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
-for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
-#for w in 1 10
+# for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+# TODO
+for w in 1 2
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
   sed -i -e ${line}"s/^/${w},${c},/" $HOME_PATH/res.csv
   let line+=1
 done
+
+# plot query exp res
+python3 $HOME_PATH/plot-query-exp-res.py -i $HOME_PATH/res.csv -o $HOME_PATH
 
 # export raw data for dssim exp later
 IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
@@ -190,13 +194,18 @@ sleep 10s
 # export
 sql="select ${MEASUREMENT} from ${DEVICE} where time>=${DATA_MIN_TIME} and time<${DATA_MAX_TIME}"
 bash ${IOTDB_EXPORT_CSV_TOOL_HOME}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q "${sql}" -td ${IOTDB_EXPORT_CSV_TOOL_HOME} -tf timestamp
-cp ${IOTDB_EXPORT_CSV_TOOL_HOME}/dump0.csv $HOME_PATH/data-rawQuery-1.csv
+cp ${IOTDB_EXPORT_CSV_TOOL_HOME}/dump0.csv $HOME_PATH/data-rawQuery-1.csv # do not change the file name as it is used later in computeDSSIM.py
 # stop server
 bash ${IOTDB_STOP}
 sleep 3s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
+# compute dssim
+python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH
+
+# plot dssim exp res
+python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
