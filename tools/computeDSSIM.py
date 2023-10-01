@@ -97,8 +97,9 @@ def mydssim(imfil1,imfil2):
 
 # TODO
 approachArray=["mac","cpv","minmax","minmax_lsm","lttb"] # should be same as in run-more-baselines.sh
-wArray=[10,20,50,80,100,200,400,600,800,1200,1600,2000,3000,4000] # should be same as in run-more-baselines.sh
+# wArray=[10,20,50,80,100,200,400,600,800,1200,1600,2000,3000,4000] # should be same as in run-more-baselines.sh
 # wArray=[10,15]
+wArray=[100,200,400,600,1200,2000,3000,4000]
 
 with open(DSSIM_res, 'w', newline='') as f:
   writer = csv.writer(f)

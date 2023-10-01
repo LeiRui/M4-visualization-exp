@@ -117,7 +117,8 @@ fi
 
 i=1
 # TODO
-for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+for w in 100 200 400 600 1200 2000 3000 4000
+#for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 #for w in 10 15
 do
   echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
@@ -174,7 +175,8 @@ line=2
 
 # TODO
 #for w in 10 15
-for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+#for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
+for w in 100 200 400 600 1200 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$w) | bc )
