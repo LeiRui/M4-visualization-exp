@@ -202,7 +202,7 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
 # compute dssim
-python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH
+python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH -tqs ${DATA_MIN_TIME} -tqe ${DATA_MAX_TIME}
 
 # plot dssim exp res
 python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH

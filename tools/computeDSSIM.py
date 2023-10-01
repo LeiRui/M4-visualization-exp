@@ -14,10 +14,13 @@ import os
 parser=argparse.ArgumentParser(description="plot and compute DSSIM",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="input csv directory")
+parser.add_argument("-tqs","--tqs",help="query start time")
+parser.add_argument("-tqe","--tqe",help="query end time")
 args = parser.parse_args()
 config = vars(args)
 input=str(config.get('input'))
-print(input)
+tqs=str(config.get('tqs'))
+tqe=str(config.get('tqe'))
 
 DSSIM_res="{}/dssim.csv".format(input)
 
@@ -40,7 +43,7 @@ def full_frame(width=None, height=None, dpi=None):
   # to make sure the data gets scaled to the full extents of the axes.
   plt.autoscale(tight=True)
 
-def myplot(csvPath,width):
+def myplot(csvPath,width,tqs,tqe):
   height=width
   full_frame(width,height,16)
   df=pd.read_csv(csvPath,engine="pyarrow") # the first line is header; use engine="pyarrow" to accelerate read_csv otherwise is slow
@@ -50,11 +53,14 @@ def myplot(csvPath,width):
   v_min=min(v)
   v_max=max(v)
 
-  t_min=min(t)
-  t_max_temp=max(t)
+  # use the same t_min and t_max as used in downsampling algorithm
+  t_min=tqs
+  t_max_temp=tqe # not use max(t) because downsampling result may not cover the target end point
   # t_min=511996 # BallSpeed dataset, corresponds to tqs in run-python-query-save-exp.sh
   # t_max_temp=4259092178974 # BallSpeed dataset, corresponds to tqe in run-python-query-save-exp.sh
   t_max=math.ceil((t_max_temp-t_min)/(2*width))*2*width+t_min # corresponds to tqe in query-save.py
+  print(t_min)
+  print(t_max)
 
   plt.plot(t,v,color='k',linewidth=0.1,antialiased=False)
   plt.xlim(t_min, t_max)
@@ -98,19 +104,21 @@ with open(DSSIM_res, 'w', newline='') as f:
   writer = csv.writer(f)
   header = ['w', 'DSSIM(M4,raw)', 'DSSIM(M4-LSM,raw)', 'DSSIM(MinMax,raw)','DSSIM(MinMax-LSM,raw)','DSSIM(LTTB,raw)','n_raw','n_m4','n_m4_lsm','n_minmax','n_minmax_lsm','n_lttb']
   writer.writerow(header)
-  # plot figure according to specified w and approach
+  # plot figure according to specified w
   for w in wArray:
+    print("========="+str(w)+"=========")
     n_arr=[]
     dssim_arr=[]
 
     # rawQuery
-    os.system("python3 {}/parse.py -i {} -a {} -w {}".format(input,input,"rawQuery",1)) # corresponds to the file exported in run-more-baselines.sh
-    n=myplot("{}/ts-rawQuery-1.csv".format(input),w) # no need to parse actually
+    os.system("python3 {}/parse.py -i {} -a {} -w {}".format(input,input,"rawQuery",1)) # "data-rawQuery-1.csv" corresponds to the file exported in run-more-baselines.sh
+    n=myplot("{}/ts-rawQuery-1.csv".format(input),w,tqs,tqe) # no need to parse actually
     n_arr.append(n)
 
     for approach in approachArray:
+      print("========="+approach+"=========")
       os.system("python3 {}/parse.py -i {} -a {} -w {}".format(input,input,approach,w))
-      n=myplot("{}/ts-{}-{}.csv".format(input,approach,w),w)
+      n=myplot("{}/ts-{}-{}.csv".format(input,approach,w),w,tqs,tqe)
       n_arr.append(n)
       dssim=mydssim("{}/ts-rawQuery-1.csv-{}.png".format(input,w),"{}/ts-{}-{}.csv-{}.png".format(input,approach,w,w))
       # the first w is used for downsampling parameter, the second w is used for chart pixel width
