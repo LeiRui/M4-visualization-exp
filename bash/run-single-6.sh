@@ -55,7 +55,7 @@ cp ${DATASET}.csv ${DATASET}-O_0
 ############################
 
 #for update_percentage in 0 10 20 30 40 50 60 70 80 90
-for update_percentage in 0 10 50 90
+for update_percentage in 0 10 50 90 100
 do
   workspace="O_0_D_0_0_U_${update_percentage}"
   cd $HOME_PATH/${DATASET}_testspace
@@ -164,7 +164,7 @@ sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp6.csv #only copy h
 #rm tmp
 
 #for update_percentage in 0 10 20 30 40 50 60 70 80 90
-for update_percentage in 0 10 50 90
+for update_percentage in 0 10 50 90 100
 do
   cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0_U_${update_percentage}
   cd fix
@@ -177,7 +177,7 @@ done
 sed -i -e 1's/^/update percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp6.csv
 line=2
 #for update_percentage in 0 10 20 30 40 50 60 70 80 90
-for update_percentage in 0 10 50 90
+for update_percentage in 0 10 50 90 100
 do
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
   sed -i -e ${line}"s/^/${update_percentage},${c},/" $HOME_PATH/${DATASET}_testspace/exp6.csv
