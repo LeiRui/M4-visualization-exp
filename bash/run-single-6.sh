@@ -24,9 +24,9 @@ IOTDB_CHUNK_POINT_SIZE=100
 # exp controlled parameter design
 FIX_W=1000
 FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
-FIX_update_percentage=10
-FIX_DELETE_PERCENTAGE=49
-FIX_DELETE_RANGE=10
+#FIX_update_percentage=10
+#FIX_DELETE_PERCENTAGE=49
+#FIX_DELETE_RANGE=10
 
 hasHeader=false # default
 
@@ -93,7 +93,7 @@ do
   sleep 8s
   # Usage: java -jar WriteUpdate*.jar device measurement dataType timestamp_precision iotdb_chunk_point_size filePath updatePercentage timeIdx valueIdx VALUE_ENCODING hasHeader
   # Example: "root.game" "s6" long ns 100 "D:\full-game\tmp.csv" 50 0 1 PLAIN true
-  java -jar $HOME_PATH/WriteUpdate*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_${update_percentage} ${update_percentage} 0 1 ${VALUE_ENCODING} ${hasHeader}
+  java -jar $HOME_PATH/WriteUpdate*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_0 ${update_percentage} 0 1 ${VALUE_ENCODING} ${hasHeader}
   sleep 5s
   ./stop-server.sh
   sleep 5s
