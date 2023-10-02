@@ -163,6 +163,7 @@ public class WriteUpdateData {
           long[] long_sensor = (long[]) values[0];
           long_sensor[row] = long_value;
           if (long_value > longTopV) {
+            longSecTopV = longTopV;  // note this
             longTopV = long_value; // update top v
           } else if (long_value > longSecTopV) {
             longSecTopV = long_value; // update second top v
@@ -173,6 +174,7 @@ public class WriteUpdateData {
           double[] double_sensor = (double[]) values[0];
           double_sensor[row] = double_value;
           if (double_value > doubleTopV) {
+            doubleSecTopV = doubleTopV; // note this
             doubleTopV = double_value; // update top v
           } else if (double_value > doubleSecTopV) {
             doubleSecTopV = double_value; // update second top v
