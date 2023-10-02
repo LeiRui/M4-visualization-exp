@@ -184,20 +184,15 @@ public class WriteUpdateData {
           throw new IOException("not supported data type!");
       }
       if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
-        System.out.println("write a tablet!"); // TODO debug
 
         session.insertTablet(tablet, false);
 
         // update tablet
         if (new Random().nextDouble() < updatePercentage / 100.0) {
-          System.out.println("update!"); // TODO debug
-
           // not <=, as updatePercentage=0 means no update
           // do not reset tablet here
           switch (tsDataType) {
             case INT64:
-              System.out.println("TP.v=" + longTopV); // TODO debug
-              System.out.println("secTP.v=" + longSecTopV); // TODO debug
               long long_unit = 1;
               long[] long_sensor = (long[]) values[0];
               for (int i = 0; i < long_sensor.length; i++) {
@@ -209,8 +204,6 @@ public class WriteUpdateData {
               }
               break;
             case DOUBLE:
-              System.out.println("TP.v=" + doubleTopV); // TODO debug
-              System.out.println("secTP.v=" + doubleSecTopV); // TODO debug
               double double_unit = 0.01;
               double[] double_sensor = (double[]) values[0];
               for (int i = 0; i < double_sensor.length; i++) {
