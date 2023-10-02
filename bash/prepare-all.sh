@@ -23,6 +23,7 @@ fi
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/jars/WriteData-*.jar .
+cp $M4_VISUALIZATION_EXP/jars/WriteUpdateData-*.jar .
 cp $M4_VISUALIZATION_EXP/jars/QueryData-*.jar .
 cp $M4_VISUALIZATION_EXP/tools/query_experiment.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment.sh
@@ -63,7 +64,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
 $HOME_PATH/tool.sh hasHeader false run-all.sh
 cp run-all.sh run-BallSpeed.sh
 
-idArray=("1" "2" "3" "4" "5");
+idArray=("1" "2" "3" "4" "5" "6");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -105,7 +106,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
 $HOME_PATH/tool.sh hasHeader false run-all.sh
 cp run-all.sh run-MF03.sh
 
-idArray=("1" "2" "3" "4" "5");
+idArray=("1" "2" "3" "4" "5" "6");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -147,7 +148,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh #
 $HOME_PATH/tool.sh hasHeader true run-all.sh # 
 cp run-all.sh run-Train.sh
 
-idArray=("1" "2" "3" "4" "5");
+idArray=("1" "2" "3" "4" "5" "6");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -189,7 +190,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
 $HOME_PATH/tool.sh hasHeader true run-all.sh
 cp run-all.sh run-Steel.sh
 
-idArray=("1" "2" "3" "4" "5");
+idArray=("1" "2" "3" "4" "5" "6");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
