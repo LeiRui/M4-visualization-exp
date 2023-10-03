@@ -162,6 +162,7 @@ public class WriteUpdateData {
           long long_value = Long.parseLong(split[valueIdx]); // get value from real data
           long[] long_sensor = (long[]) values[0];
           long_sensor[row] = long_value;
+          // assume more than one point in tablet
           if (long_value > longTopV) {
             longSecTopV = longTopV;  // note this
             longTopV = long_value; // update top v
@@ -173,6 +174,7 @@ public class WriteUpdateData {
           double double_value = Double.parseDouble(split[valueIdx]); // get value from real data
           double[] double_sensor = (double[]) values[0];
           double_sensor[row] = double_value;
+          // assume more than one point in tablet
           if (double_value > doubleTopV) {
             doubleSecTopV = doubleTopV; // note this
             doubleTopV = double_value; // update top v
