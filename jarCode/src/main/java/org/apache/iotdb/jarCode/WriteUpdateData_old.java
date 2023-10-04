@@ -16,8 +16,7 @@ import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
 import org.apache.iotdb.tsfile.write.record.Tablet;
 import org.apache.iotdb.tsfile.write.schema.MeasurementSchema;
 
-
-public class WriteUpdateData {
+public class WriteUpdateData_old {
 
   /**
    * Before writing data, make sure check the server parameter configurations.
@@ -37,9 +36,6 @@ public class WriteUpdateData {
   // java -jar WriteUpdateData-jar-with-dependencies.jar "root.game" "s6" long ns 100 "D:\full-game\tmp.csv" 50 0 1 PLAIN true
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, IOException {
-//    Random random = new Random();
-//    System.out.println((long) (new Random().nextGaussian() * 10));
-
     String device = args[0];
     System.out.println("[WriteData] device=" + device);
 
@@ -199,17 +195,26 @@ public class WriteUpdateData {
           // do not reset tablet here
           switch (tsDataType) {
             case INT64:
+              long long_unit = 1;
               long[] long_sensor = (long[]) values[0];
               for (int i = 0; i < long_sensor.length; i++) {
-                long_sensor[i] = long_sensor[i] - (long) (new Random().nextGaussian() * (longTopV
-                    - longSecTopV));
+                if (new Random().nextDouble() < 0.5) {
+                  long_sensor[i] = long_sensor[i] - long_unit;
+                } else {
+                  long_sensor[i] = long_sensor[i] - (longTopV - (longSecTopV - long_unit));
+                }
               }
               break;
             case DOUBLE:
+              double double_unit = 0.01;
               double[] double_sensor = (double[]) values[0];
               for (int i = 0; i < double_sensor.length; i++) {
-                double_sensor[i] = double_sensor[i] - (new Random().nextGaussian() * (doubleTopV
-                    - doubleSecTopV));
+                if (new Random().nextDouble() < 0.5) {
+                  double_sensor[i] = double_sensor[i] - double_unit;
+                } else {
+                  double_sensor[i] =
+                      double_sensor[i] - (doubleTopV - (doubleSecTopV - double_unit));
+                }
               }
               break;
             default:
