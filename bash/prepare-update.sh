@@ -61,8 +61,8 @@ $HOME_PATH/tool.sh DATA_MIN_TIME 1415624015125 run-update.sh
 #$HOME_PATH/tool.sh DATA_MAX_TIME 1415624625125 run-update.sh
 #$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 244 run-update.sh
 #$HOME_PATH/tool.sh FIX_W 1 run-update.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1416239010125 run-update.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 244000 run-update.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1421774010125 run-update.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 2440000 run-update.sh
 $HOME_PATH/tool.sh FIX_W 100 run-update.sh
 
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-update.sh
