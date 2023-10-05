@@ -1,5 +1,7 @@
-M4_VISUALIZATION_EXP=/root/ubuntu/M4-visualization-exp
-HOME_PATH=/root/ubuntu/updateExp
+BASE_HOME=/root/ubuntu
+
+M4_VISUALIZATION_EXP=${BASE_HOME}/M4-visualization-exp
+HOME_PATH=${BASE_HOME}/updateExp
 
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
@@ -49,7 +51,7 @@ javac SumResultUnify.java
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-update.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-update.sh
-$HOME_PATH/tool.sh DATASET MF03 run-update.sh
+$HOME_PATH/tool.sh DATASET OOOCQ run-update.sh
 $HOME_PATH/tool.sh DEVICE "root.ooo" run-update.sh
 $HOME_PATH/tool.sh MEASUREMENT "cq" run-update.sh
 $HOME_PATH/tool.sh DATA_TYPE double run-update.sh
@@ -57,12 +59,12 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-update.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1415624015125 run-update.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 1415624625125 run-update.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 244 run-update.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-update.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-update.sh
 $HOME_PATH/tool.sh FIX_W 1 run-update.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-update.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-update.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-update.sh
-$HOME_PATH/tool.sh hasHeader false run-all.sh
+$HOME_PATH/tool.sh hasHeader false run-update.sh
 
 #====prepare directory for each dataset====
 datasetArray=("OOOCQ");
@@ -80,9 +82,9 @@ rm AppendTool.java
 mv AppendTool2.java AppendTool.java
 # then javac it
 javac AppendTool.java
-#java AppendTool $value.csv $value-cp10.csv 10
+#java AppendTool $value.csv $value-cp.csv 4000
 #rm $value.csv
-#mv $value-cp10.csv $value.csv
+#mv $value-cp.csv $value.csv
 
 #cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator.java .
 ## remove the line starting with "package" in the java file
