@@ -87,9 +87,9 @@ rm AppendTool.java
 mv AppendTool2.java AppendTool.java
 # then javac it
 javac AppendTool.java
-#java AppendTool $value.csv $value-cp.csv 4000
-#rm $value.csv
-#mv $value-cp.csv $value.csv
+java AppendTool $value.csv $value-cp.csv 10000
+rm $value.csv
+mv $value-cp.csv $value.csv
 
 #cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator.java .
 ## remove the line starting with "package" in the java file
