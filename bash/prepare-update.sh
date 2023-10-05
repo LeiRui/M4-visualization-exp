@@ -65,7 +65,7 @@ $HOME_PATH/tool.sh DATA_MAX_TIME 1421774010125 run-update.sh
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 2440000 run-update.sh
 $HOME_PATH/tool.sh FIX_W 100 run-update.sh
 
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100 run-update.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-update.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-update.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-update.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-update.sh

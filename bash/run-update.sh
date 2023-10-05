@@ -110,8 +110,8 @@ cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableTraceFalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-#for per in 1 5 10 20 40 60 80 100
-for per in 1 20 60 100
+for per in 1 5 10 20 40 60 80 100
+#for per in 1 20 60 100
 do
   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
   echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
@@ -128,8 +128,8 @@ cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableTraceFalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 i=1
-#for per in 1 5 10 20 40 60 80 100
-for per in 1 20 60 100
+for per in 1 5 10 20 40 60 80 100
+#for per in 1 20 60 100
 do
   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
   echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
@@ -163,8 +163,8 @@ cat result.csv >$HOME_PATH/${DATASET}_testspace/exp.csv
 # for exp, estimated chunks per interval=k
 sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp.csv
 line=2
-#for per in 1 5 10 20 40 60 80 100
-for per in 1 20 60 100
+for per in 1 5 10 20 40 60 80 100
+#for per in 1 20 60 100
 do
   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
   c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
@@ -190,8 +190,8 @@ cp iotdb-engine-enableTraceTrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/i
 $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 i=1
-#for per in 1 5 10 20 40 60 80 100
-for per in 1 20 60 100
+for per in 1 5 10 20 40 60 80 100
+#for per in 1 20 60 100
 do
   $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-mac-${per}.csv $HOME_PATH/query_experiment.sh
   find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
