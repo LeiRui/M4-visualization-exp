@@ -161,7 +161,7 @@ cat result.csv >$HOME_PATH/${DATASET}_testspace/exp.csv
 # for exp, estimated chunks per interval=k
 sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp.csv
 line=2
-for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
+for per in 1 5 10 20 40 60 80 100
 do
   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
   c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
@@ -182,21 +182,28 @@ rm tmp3.csv
 echo "update rate with varied tqe"
 
 echo "mac"
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe/mac
-cp ../../iotdb-engine-enableTraceTrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+cp iotdb-engine-enableTraceTrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experiment.sh
+find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 i=1
 for per in 1 5 10 20 40 60 80 100
 do
   $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-mac-${per}.csv $HOME_PATH/query_experiment.sh
+  find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+
   range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
   echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
+
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
   $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_W} mac
   let i+=1
 done
 $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT false $HOME_PATH/query_experiment.sh
-cat $HOME_PATH/iotdb-server-0.12.4/data/tracing/tracing.txt
+find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+
+cat $HOME_PATH/iotdb-server-0.12.4/data/tracing/tracing.txt # "Rate of updated points"
+
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
