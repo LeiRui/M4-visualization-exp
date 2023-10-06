@@ -2,7 +2,7 @@ clear all;close all;clc
 format long g
 filename = 'D:\\github\\mid\\dataset_with_updates\\d1.xlsx';
 sheet = 1;
-data = xlsread(filename,sheet);
+[data,text] = xlsread(filename,sheet);
 
 S_arrivalTime=data(:,1); % sorted by this
 C_sendTime=data(:,12);
@@ -11,6 +11,15 @@ S_sendTime=data(:,16);
 C_arrivalTime=data(:,13);
 
 durationMetric=data(:,17);
+
+deviceID=text(2:end,4);
+seqID=data(:,4);
+
+tmp=find(strcmp(deviceID, 'dev_15'));
+S_arrivalTime=S_arrivalTime(tmp); 
+C_sendTime=C_sendTime(tmp);
+S_sendTime=S_sendTime(tmp); 
+C_arrivalTime=C_arrivalTime(tmp);
 
 %figure,plot(S_arrivalTime(1:100),C_sendTime(1:100))
 %figure,plot(C_arrivalTime(1:100),S_sendTime(1:100))
