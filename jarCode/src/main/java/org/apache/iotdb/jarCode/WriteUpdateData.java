@@ -199,6 +199,10 @@ public class WriteUpdateData {
           // do not reset tablet here
           switch (tsDataType) {
             case INT64:
+              if (longTopV == longSecTopV) {
+                longSecTopV = longTopV - 1;
+              }
+
               long[] long_sensor = (long[]) values[0];
               for (int i = 0; i < long_sensor.length; i++) {
                 long_sensor[i] = long_sensor[i] - (long) (new Random().nextGaussian() * (longTopV
@@ -206,6 +210,10 @@ public class WriteUpdateData {
               }
               break;
             case DOUBLE:
+              if (doubleTopV == doubleSecTopV) {
+                doubleSecTopV = doubleTopV - 0.01;
+              }
+
               double[] double_sensor = (double[]) values[0];
               for (int i = 0; i < double_sensor.length; i++) {
                 double_sensor[i] = double_sensor[i] - (new Random().nextGaussian() * (doubleTopV
