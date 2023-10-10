@@ -74,7 +74,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 echo "time(ns)" >> ../sumResultMAC.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 2
+for nts in 1 2 5 10
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range nts approach
@@ -92,7 +92,7 @@ cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/co
 echo "time(ns)" >> ../sumResultCPV.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 2
+for nts in 1 2 5 10
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -107,6 +107,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
 cp $HOME_PATH/SumResultUnify.* .
 # java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
 java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+cp result.csv $HOME_PATH/result.csv
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
