@@ -31,14 +31,14 @@ $HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment_multiseries.
 scp -r $M4_VISUALIZATION_EXP/iotdb-server-0.12.4 .
 scp -r $M4_VISUALIZATION_EXP/iotdb-cli-0.12.4 .
 cp $M4_VISUALIZATION_EXP/tools/iotdb-engine-example.properties .
-cp $M4_VISUALIZATION_EXP/tools/ProcessResult.java .
+cp $M4_VISUALIZATION_EXP/tools/ProcessResultMultiSeries.java .
 cp $M4_VISUALIZATION_EXP/tools/SumResultUnify.java .
 # remove the line starting with "package" in the java file
-sed '/^package/d' ProcessResult.java > ProcessResult2.java
-rm ProcessResult.java
-mv ProcessResult2.java ProcessResult.java
+sed '/^package/d' ProcessResultMultiSeries.java > ProcessResultMultiSeries2.java
+rm ProcessResultMultiSeries.java
+mv ProcessResultMultiSeries2.java ProcessResultMultiSeries.java
 # then javac it
-javac ProcessResult.java
+javac ProcessResultMultiSeries.java
 # remove the line starting with "package" in the java file
 sed '/^package/d' SumResultUnify.java > SumResultUnify2.java
 rm SumResultUnify.java
