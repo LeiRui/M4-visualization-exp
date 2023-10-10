@@ -49,30 +49,31 @@ javac SumResultUnify.java
 #====prepare run bash for each dataset====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-motivation.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-motivation.sh
-$HOME_PATH/tool.sh DATASET MF03 run-motivation.sh
-#$HOME_PATH/tool.sh DEVICE "root.debs2012" run-motivation.sh
-$HOME_PATH/tool.sh MEASUREMENT "mf03" run-motivation.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-motivation.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-motivation.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-motivation.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1331034235275774600 run-motivation.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-motivation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-motivation.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-motivation.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-motivation.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation.sh
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
+$HOME_PATH/tool.sh DATASET BallSpeed run-all.sh
+#$HOME_PATH/tool.sh DEVICE "root.game" run-all.sh
+$HOME_PATH/tool.sh MEASUREMENT "s6" run-all.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-all.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-all.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-all.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-all.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-all.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-all.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
 
-for i in {1..1000}
+for i in {1..2}
 do
-$HOME_PATH/tool.sh DEVICE "root.debs${i}" run-motivation.sh
+$HOME_PATH/tool.sh DEVICE "root.game${i}" run-motivation.sh
 cp run-motivation.sh run-write-$i.sh
-echo "./run-write-$i.sh" >> run.sh
+echo "./run-write-$i.sh" >> run.sh # Serial write data to avoid memory contention
 done;
+rm run-motivation.sh
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 
 #====prepare directory for each dataset====
-datasetArray=("MF03");
+datasetArray=("BallSpeed");
 for value in ${datasetArray[@]};
 do
 echo "prepare data directory";
