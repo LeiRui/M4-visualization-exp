@@ -71,6 +71,7 @@ mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+echo "time(ns)" >> ../sumResultMAC.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
 for nts in 1 2
@@ -88,6 +89,7 @@ mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResult.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+echo "time(ns)" >> ../sumResultCPV.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
 for nts in 1 2

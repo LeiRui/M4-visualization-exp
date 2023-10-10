@@ -22,8 +22,12 @@ for((i=0;i<a;i++)) do
     ts=$(date +%s%N) ;
     for ((deviceID=1; deviceID<=$7; deviceID++)); # query $7 number of time series simultaneously
     do
-      java -jar $QUERY_JAR_PATH "$1${deviceID}" $2 $3 $4 $5 $6 $w $8 false NONE >>/dev/null 2>&1
+      java -jar $QUERY_JAR_PATH "$1${deviceID}" $2 $3 $4 $5 $6 $w $8 false NONE >>/dev/null 2>&1 &
+      pids[${deviceID}]=$!
     done;
+    for pid in ${pids[*]}; do
+        wait $pid
+    done
     # tt=$((($(date +%s%N) - $ts)/1000000)) ; echo "Time taken: $tt milliseconds"
     tt=$((($(date +%s%N) - $ts))) ; echo "$tt" # ns
 
