@@ -74,7 +74,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 echo "time(ns)" >> ../sumResultMAC.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 2 5 10
+for nts in 1 5 10 15 20 25 30 35 40 45
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range nts approach
@@ -92,7 +92,7 @@ cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/co
 echo "time(ns)" >> ../sumResultCPV.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 2 5 10
+for nts in 1 5 10 15 20 25 30 35 40 45
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
@@ -110,7 +110,7 @@ cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/c
 echo "time(ns)" >> ../sumResultRAW.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 2 5 10
+for nts in 1 5 10 15 20 25 30 35 40 45
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range nts approach

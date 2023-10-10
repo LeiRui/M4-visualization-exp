@@ -63,7 +63,7 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-motivation.sh # four dat
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-motivation.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation.sh
 
-for i in {1..10}
+for i in {1..50}
 do
 $HOME_PATH/tool.sh DEVICE "root.debs${i}" run-motivation.sh
 cp run-motivation.sh run-write-$i.sh
