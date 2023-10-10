@@ -46,7 +46,7 @@ mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
 
-#====prepare run bash for each dataset====
+#====prepare write bash====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-motivation.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-motivation.sh
@@ -67,10 +67,29 @@ for i in {1..2}
 do
 $HOME_PATH/tool.sh DEVICE "root.game${i}" run-motivation.sh
 cp run-motivation.sh run-write-$i.sh
-echo "./run-write-$i.sh" >> run.sh # Serial write data to avoid memory contention
+echo "./run-write-$i.sh" >> run-write.sh # Serial write data to avoid memory contention
 done;
 rm run-motivation.sh
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+
+#====prepare query bash====
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-multi-series.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-multi-series.sh
+$HOME_PATH/tool.sh DATASET BallSpeed run-multi-series.sh
+$HOME_PATH/tool.sh DEVICE "root.game" run-multi-series.sh
+$HOME_PATH/tool.sh MEASUREMENT "s6" run-multi-series.sh
+$HOME_PATH/tool.sh DATA_TYPE long run-multi-series.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-multi-series.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-multi-series.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-multi-series.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-multi-series.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-multi-series.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-multi-series.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-multi-series.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-multi-series.sh
+mv run-multi-series.sh run-query.sh
+rm run-multi-series.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed");
