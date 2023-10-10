@@ -50,14 +50,14 @@ javac SumResultUnify.java
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-motivation.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-motivation.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-motivation.sh
-#$HOME_PATH/tool.sh DEVICE "root.game" run-motivation.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-motivation.sh
+$HOME_PATH/tool.sh DATASET MF03 run-motivation.sh
+#$HOME_PATH/tool.sh DEVICE "root.debs2012" run-motivation.sh
+$HOME_PATH/tool.sh MEASUREMENT "mf03" run-motivation.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-motivation.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-motivation.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-motivation.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-motivation.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-motivation.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-motivation.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-motivation.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-motivation.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-motivation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-motivation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-motivation.sh
@@ -65,7 +65,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation.sh
 
 for i in {1..10}
 do
-$HOME_PATH/tool.sh DEVICE "root.game${i}" run-motivation.sh
+$HOME_PATH/tool.sh DEVICE "root.debs${i}" run-motivation.sh
 cp run-motivation.sh run-write-$i.sh
 echo "./run-write-$i.sh" >> run-write.sh # Serial write data to avoid memory contention
 done;
@@ -76,14 +76,14 @@ find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-multi-series.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-multi-series.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-multi-series.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-multi-series.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-multi-series.sh
+$HOME_PATH/tool.sh DATASET MF03 run-multi-series.sh
+$HOME_PATH/tool.sh DEVICE "root.debs" run-multi-series.sh
+$HOME_PATH/tool.sh MEASUREMENT "mf03" run-multi-series.sh
 $HOME_PATH/tool.sh DATA_TYPE long run-multi-series.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-multi-series.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-multi-series.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-multi-series.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-multi-series.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-multi-series.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-multi-series.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-multi-series.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-multi-series.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-multi-series.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-multi-series.sh
@@ -91,7 +91,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-multi-series.sh
 mv run-multi-series.sh run-query.sh
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed");
+datasetArray=("MF03");
 for value in ${datasetArray[@]};
 do
 echo "prepare data directory";
