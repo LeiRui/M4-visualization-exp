@@ -25,7 +25,7 @@ fi
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/jars/WriteData-*.jar .
-cp $M4_VISUALIZATION_EXP/jars/QueryData-*.jar .
+cp $M4_VISUALIZATION_EXP/jars/QueryDataMultiSeries*.jar .
 cp $M4_VISUALIZATION_EXP/tools/query_experiment_multiseries.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment_multiseries.sh
 scp -r $M4_VISUALIZATION_EXP/iotdb-server-0.12.4 .

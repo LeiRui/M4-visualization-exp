@@ -2,7 +2,7 @@
 HOME_PATH=/data/rl/v1
 
 IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
-QUERY_JAR_PATH=$HOME_PATH/QueryData-0.12.4.jar
+QUERY_JAR_PATH=$HOME_PATH/QueryDataMultiSeries-jar-with-dependencies.jar
 
 echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
 cd $IOTDB_SBIN_HOME

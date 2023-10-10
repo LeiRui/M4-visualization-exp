@@ -50,14 +50,14 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>WriteUpdateData</finalName>
+    <finalName>QueryDataMultiSeries</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.WriteUpdateData</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.QueryDataMultiSeries</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
