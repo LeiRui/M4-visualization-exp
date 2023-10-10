@@ -19,9 +19,9 @@ for((i=0;i<a;i++)) do
     ./start-server.sh /dev/null 2>&1 &
     sleep 12s
 
-    for i in {1..$7} # query $7 number of time series simultaneously
+    for deviceID in {1..$7} # query $7 number of time series simultaneously
     do
-      java -jar $QUERY_JAR_PATH "$1$7" $2 $3 $4 $5 $6 $w $8 false NONE
+      java -jar $QUERY_JAR_PATH "$1${deviceID}" $2 $3 $4 $5 $6 $w $8 false NONE
     done;
 
     ./stop-server.sh
