@@ -2,6 +2,8 @@
 
 echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
 
+remote_passwd='xxx' # do not use double quotes
+
 # #prepare data files to be transferred
 #for i in {1..50}
 #do
@@ -11,8 +13,8 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
 ts=$(date +%s%N) ;
 for ((i=1; i<=$1; i++)); # transfer $1 number of time series in parallel
 do
-  sshpass -p "JiaYou123" scp MF03-${i}.csv root@182.92.84.230:~/data/. &
-  pids[${deviceID}]=$!
+  sshpass -p "${remote_passwd}" scp MF03-${i}.csv root@182.92.84.230:~/data/. &
+  pids[${i}]=$!
 done;
 for pid in ${pids[*]}; do
     wait $pid
@@ -21,4 +23,4 @@ tt=$((($(date +%s%N) - $ts)/1000000000)) ; echo "Number of time series transferr
 #tt=$((($(date +%s%N) - $ts))) ; echo "$tt ns" # ns
 
 # be careful with the following command if you have important data on that machine
-sshpass -p "JiaYou123" ssh root@182.92.84.230 "rm ~/data/*"
+sshpass -p "${remote_passwd}" ssh root@182.92.84.230 "rm ~/data/*"
