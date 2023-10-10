@@ -69,7 +69,7 @@ echo "mac"
 cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
 mkdir mac
 cd mac
-cp $HOME_PATH/ProcessResult.* .
+cp $HOME_PATH/ProcessResultMultiSeries.* .
 cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 echo "time(ns)" >> ../sumResultMAC.csv
 i=1
@@ -87,7 +87,7 @@ echo "cpv"
 cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
 mkdir cpv
 cd cpv
-cp $HOME_PATH/ProcessResult.* .
+cp $HOME_PATH/ProcessResultMultiSeries.* .
 cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 echo "time(ns)" >> ../sumResultCPV.csv
 i=1
