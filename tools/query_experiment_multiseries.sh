@@ -44,7 +44,7 @@ for((i=0;i<a;i++)) do
         ts=$(date +%s%N) ;
         for ((deviceID=1; deviceID<=$7; deviceID++)); # query $7 number of time series simultaneously
         do
-          bash ${IOTDB_EXPORT_CSV_HOME}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q "select $2 from $1${deviceID} where time<1683616109697000000" -td ${IOTDB_EXPORT_CSV_HOME} -tf timestamp >>/dev/null 2>&1 &
+          bash ${IOTDB_EXPORT_CSV_HOME}/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -q "select $2 from $1${deviceID} where time<1683616109697000000" -td ${IOTDB_EXPORT_CSV_HOME} -tf timestamp -f ${deviceID} >>/dev/null 2>&1 &
           pids[${deviceID}]=$!
         done;
         for pid in ${pids[*]}; do
