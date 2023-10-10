@@ -11,7 +11,7 @@ cd $IOTDB_SBIN_HOME
 a=1
 #echo "rep=$a"
 
-w=100
+w=100 # 10 00 0000
 
 #echo "n_ts=$7"
 
