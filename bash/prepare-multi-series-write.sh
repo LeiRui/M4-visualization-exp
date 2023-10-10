@@ -89,7 +89,6 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-multi-series.sh # four d
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-multi-series.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-multi-series.sh
 mv run-multi-series.sh run-query.sh
-rm run-multi-series.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed");
