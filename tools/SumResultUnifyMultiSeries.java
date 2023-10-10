@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class SumResultUnify {
+public class SumResultUnifyMultiSeries {
 
   public static void main(String[] args) throws IOException {
     String raw = args[0]; // sumResultRAW.csv

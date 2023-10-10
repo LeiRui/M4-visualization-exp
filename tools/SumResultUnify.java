@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class SumResultUnifyMultiSeries {
+public class SumResultUnify {
 
   public static void main(String[] args) throws IOException {
     String mac = args[0]; // sumResultMAC.csv
