@@ -16,7 +16,7 @@ w=100
 #echo "n_ts=$7"
 
 for((i=0;i<a;i++)) do
-    if [ $8 == "mac" ] || [ $8== "cpv" ]
+    if [ $8 == "mac" ] || [ $8 == "cpv" ]
     then
         ./start-server.sh >>/dev/null 2>&1 &
         sleep 12s

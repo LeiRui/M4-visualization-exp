@@ -101,11 +101,28 @@ do
   let i+=1
 done
 
+echo "raw"
+cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
+mkdir raw
+cd raw
+cp $HOME_PATH/ProcessResultMultiSeries.* .
+cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+echo "time(ns)" >> ../sumResultRAW.csv
+i=1
+# for nts in 1 10 50 100 200 300 400 500 600 700 800
+for nts in 1 2 5 10
+do
+  echo "number of time series=$nts"
+  # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range nts approach
+  $HOME_PATH/query_experiment_multiseries.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $nts raw >> result_${i}.txt
+  java ProcessResultMultiSeries result_${i}.txt ../sumResultRAW.csv # average and append into sumResultRAW.csv
+  let i+=1
+done
+
 # unify results
 cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
-cp $HOME_PATH/SumResultUnify.* .
-# java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
-java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+cp $HOME_PATH/SumResultUnifyMultiSeries.* .
+java SumResultUnifyMultiSeries sumResultRAW.csv sumResultMAC.csv sumResultCPV.csv result.csv
 cp result.csv $HOME_PATH/result.csv
 
 echo "ALL FINISHED!"
