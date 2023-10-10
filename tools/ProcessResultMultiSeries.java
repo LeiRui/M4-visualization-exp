@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProcessResult {
+public class ProcessResultMultiSeries {
 
   public static void main(String[] args) throws IOException {
 
@@ -37,29 +37,4 @@ public class ProcessResult {
     reader.close();
     sumWriter.close();
   }
-
-  public static String whichMetric(String line) {
-    for (String metricName : QueryDataPrint) {
-      if (line.contains(metricName)) {
-        return metricName;
-      }
-    }
-    return null;
-  }
-
-  public static void sumMetric(String metric, long ns_or_cnt, Map<String, Long> metrics_ns) {
-    if (metrics_ns.containsKey(metric)) {
-      metrics_ns.put(metric, ns_or_cnt + metrics_ns.get(metric));
-    } else {
-      metrics_ns.put(metric, ns_or_cnt);
-    }
-  }
-
-//  public static void sumMetric(String metric, long op_cnt, Map<String, Long> metrics_cnt) {
-//    if (metrics_cnt.containsKey(metric)) {
-//      metrics_cnt.put(metric, op_cnt + metrics_cnt.get(metric));
-//    } else {
-//      metrics_cnt.put(metric, op_cnt);
-//    }
-//  }
 }
