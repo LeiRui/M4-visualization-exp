@@ -94,8 +94,9 @@ for nts in 1 2
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment_multiseries.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $nts cpv >> result_${i}.txt
-  java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV.csv
+  $HOME_PATH/query_experiment_multiseries.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $nts cpv >> sumResultCPV.csv
+  # >> result_${i}.txt
+#  java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV.csv
   let i+=1
 done
 
