@@ -6,6 +6,7 @@ HOME_PATH=$BASE_PATH/multiSeriesExp
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=UNCOMPRESSED #SNAPPY
+overlap_percentage=0
 
 mkdir -p $HOME_PATH
 
@@ -62,6 +63,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-motivation.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-motivation.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-motivation.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation.sh
+$HOME_PATH/tool.sh overlap_percentage ${overlap_percentage} run-motivation.sh
 
 for i in {1..50}
 do
@@ -88,6 +90,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-multi-series.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-multi-series.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-multi-series.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-multi-series.sh
+$HOME_PATH/tool.sh overlap_percentage ${overlap_percentage} run-multi-series.sh
 mv run-multi-series.sh run-query.sh
 
 #====prepare directory for each dataset====
