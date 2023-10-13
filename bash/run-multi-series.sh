@@ -61,12 +61,12 @@ $HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
 # [query data]
-echo "Querying O_0_D_0_0 with varied number of time series"
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0
+echo "Querying O_${overlap_percentage}_D_0_0 with varied number of time series"
+cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0
 mkdir vary_ts
 
 echo "mac"
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
+cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResultMultiSeries.* .
@@ -84,7 +84,7 @@ do
 done
 
 echo "cpv"
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
+cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResultMultiSeries.* .
@@ -102,7 +102,7 @@ do
 done
 
 echo "raw"
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
+cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 mkdir raw
 cd raw
 cp $HOME_PATH/ProcessResultMultiSeries.* .
@@ -120,7 +120,7 @@ do
 done
 
 # unify results
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0/vary_ts
+cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 cp $HOME_PATH/SumResultUnifyMultiSeries.* .
 java SumResultUnifyMultiSeries sumResultRAW.csv sumResultMAC.csv sumResultCPV.csv result.csv
 cp result.csv $HOME_PATH/result.csv
