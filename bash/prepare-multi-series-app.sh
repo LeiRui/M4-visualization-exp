@@ -75,6 +75,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation-app.sh
 $HOME_PATH/tool.sh overlap_percentage ${overlap_percentage} run-motivation-app.sh
 
 # prepare IoTDB config properties
+workspace="O_${overlap_percentage}_D_0_0"
 $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system iotdb-engine-example.properties
 $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data iotdb-engine-example.properties
 $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal iotdb-engine-example.properties
