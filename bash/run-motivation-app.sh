@@ -28,20 +28,20 @@ FIX_DELETE_PERCENTAGE=49
 FIX_DELETE_RANGE=10
 overlap_percentage=0
 
-echo 3 |sudo tee /proc/sys/vm/drop_cache
-free -m
+#echo 3 |sudo tee /proc/sys/vm/drop_cache
+#free -m
 echo "Begin experiment!"
 
-echo "prepare out-of-order source data"
-cd $HOME_PATH/${DATASET}
-cp ${DATASET}.csv ${DATASET}-O_0
-## java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
-java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_${overlap_percentage} 0 1 ${overlap_percentage} 10
+#echo "prepare out-of-order source data"
+#cd $HOME_PATH/${DATASET}
+#cp ${DATASET}.csv ${DATASET}-O_0
+### java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
+#java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_${overlap_percentage} 0 1 ${overlap_percentage} 10
 
-workspace="O_${overlap_percentage}_D_0_0"
-cd $HOME_PATH/${DATASET}_testspace
-mkdir ${workspace}
-cd ${workspace}
+#workspace="O_${overlap_percentage}_D_0_0"
+#cd $HOME_PATH/${DATASET}_testspace
+#mkdir ${workspace}
+#cd ${workspace}
 
 ## prepare IoTDB config properties
 #$HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties

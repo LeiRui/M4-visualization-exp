@@ -97,6 +97,10 @@ cp iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
 $HOME_PATH/tool.sh enable_CPV false iotdb-engine-example.properties
 cp iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
+echo "prepare out-of-order source data" >> run-write.sh
+echo "cd $HOME_PATH/${DATASET}" >> run-write.sh
+echo "cp ${DATASET}.csv ${DATASET}-O_0" >> run-write.sh
+echo "java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_${overlap_percentage} 0 1 ${overlap_percentage} 10" >> run-write.sh
 echo "cp $HOME_PATH/iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties" >> run-write.sh
 echo "cd $HOME_PATH/iotdb-server-0.12.4/sbin" >> run-write.sh
 echo "./start-server.sh /dev/null 2>&1 &" >> run-write.sh
