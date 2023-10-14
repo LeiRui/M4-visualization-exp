@@ -7,6 +7,15 @@ VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=UNCOMPRESSED #SNAPPY
 overlap_percentage=0
+DATASET=MF03
+DEVICE="root.debs2012"
+MEASUREMENT="mf03"
+DATA_TYPE=long
+TIMESTAMP_PRECISION=ns
+DATA_MIN_TIME=1329929188967032000
+DATA_MAX_TIME=1330029647713284600
+TOTAL_POINT_NUMBER=10000000
+IOTDB_CHUNK_POINT_SIZE=10000
 
 mkdir -p $HOME_PATH
 
@@ -51,15 +60,15 @@ javac SumResultUnify.java
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-motivation-app.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-motivation-app.sh
-$HOME_PATH/tool.sh DATASET MF03 run-motivation-app.sh
-$HOME_PATH/tool.sh DEVICE "root.debs2012" run-motivation-app.sh
-$HOME_PATH/tool.sh MEASUREMENT "mf03" run-motivation-app.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-motivation-app.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-motivation-app.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-motivation-app.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-motivation-app.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-motivation-app.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-motivation-app.sh
+$HOME_PATH/tool.sh DATASET ${DATASET} run-motivation-app.sh
+$HOME_PATH/tool.sh DEVICE ${DEVICE} run-motivation-app.sh
+$HOME_PATH/tool.sh MEASUREMENT ${MEASUREMENT} run-motivation-app.sh
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-motivation-app.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ${TIMESTAMP_PRECISION} run-motivation-app.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME ${DATA_MIN_TIME} run-motivation-app.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME ${DATA_MAX_TIME} run-motivation-app.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER ${TOTAL_POINT_NUMBER} run-motivation-app.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE ${IOTDB_CHUNK_POINT_SIZE} run-motivation-app.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-motivation-app.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-motivation-app.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-motivation-app.sh
@@ -88,8 +97,7 @@ cp iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
 $HOME_PATH/tool.sh enable_CPV false iotdb-engine-example.properties
 cp iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
-cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-
+echo "cp $HOME_PATH/iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties" >> run-write.sh
 echo "cd $HOME_PATH/iotdb-server-0.12.4/sbin" >> run-write.sh
 echo "./start-server.sh /dev/null 2>&1 &" >> run-write.sh
 echo "sleep 8s" >> run-write.sh
@@ -108,15 +116,15 @@ find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-multi-series-app.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-multi-series-app.sh
-$HOME_PATH/tool.sh DATASET MF03 run-multi-series-app.sh
-$HOME_PATH/tool.sh DEVICE "root.debs2012" run-multi-series-app.sh
-$HOME_PATH/tool.sh MEASUREMENT "mf03" run-multi-series-app.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-multi-series-app.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-multi-series-app.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-multi-series-app.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-multi-series-app.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-multi-series-app.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-multi-series-app.sh
+$HOME_PATH/tool.sh DATASET ${DATASET} run-multi-series-app.sh
+$HOME_PATH/tool.sh DEVICE ${DEVICE} run-multi-series-app.sh
+$HOME_PATH/tool.sh MEASUREMENT ${MEASUREMENT} run-multi-series-app.sh
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-multi-series-app.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ${TIMESTAMP_PRECISION} run-multi-series-app.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME ${DATA_MIN_TIME} run-multi-series-app.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME ${DATA_MAX_TIME} run-multi-series-app.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER ${TOTAL_POINT_NUMBER} run-multi-series-app.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE ${IOTDB_CHUNK_POINT_SIZE} run-multi-series-app.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-multi-series-app.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-multi-series-app.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-multi-series-app.sh

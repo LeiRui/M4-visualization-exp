@@ -37,28 +37,28 @@ cd $HOME_PATH/${DATASET}_testspace
 mkdir ${workspace}
 cd ${workspace}
 
-# prepare IoTDB config properties
-$HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
-$HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-# properties for cpv
-$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
-# properties for moc
-$HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
-cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
+## prepare IoTDB config properties
+#$HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/system ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace/${DATASET}_${workspace}/data ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace/${DATASET}_${workspace}/wal ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+#$HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+## properties for cpv
+#$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
+#cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVtrue.properties
+## properties for moc
+#$HOME_PATH/tool.sh enable_CPV false ../../iotdb-engine-example.properties
+#cp ../../iotdb-engine-example.properties iotdb-engine-enableCPVfalse.properties
 
 # [query data]
 echo "Querying O_${overlap_percentage}_D_0_0 with varied number of time series"
@@ -70,7 +70,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 mkdir mac
 cd mac
 cp $HOME_PATH/ProcessResultMultiSeries.* .
-cp ../../iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cp $HOME_PATH/iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 echo "time(ns)" >> ../sumResultMAC.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
@@ -88,7 +88,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 mkdir cpv
 cd cpv
 cp $HOME_PATH/ProcessResultMultiSeries.* .
-cp ../../iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+cp $HOME_PATH/iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 echo "time(ns)" >> ../sumResultCPV.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
