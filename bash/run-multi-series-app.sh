@@ -74,7 +74,7 @@ cp $HOME_PATH/iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.1
 echo "time(ns)" >> ../sumResultMAC.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 45
+for nts in 1 2
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries_app.sh device measurement timestamp_precision dataMinTime dataMaxTime range nts approach
@@ -92,7 +92,7 @@ cp $HOME_PATH/iotdb-engine-enableCPVtrue.properties $HOME_PATH/iotdb-server-0.12
 echo "time(ns)" >> ../sumResultCPV.csv
 i=1
 # for nts in 1 10 50 100 200 300 400 500 600 700 800
-for nts in 1 45
+for nts in 1 2
 do
   echo "number of time series=$nts"
   # Usage: ./query_experiment_multiseries_app.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
