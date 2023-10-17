@@ -51,7 +51,7 @@ javac SumResultUnify.java
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-update.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-update.sh
-$HOME_PATH/tool.sh DATASET OOOCQ run-update.sh
+$HOME_PATH/tool.sh DATASET CQD1 run-update.sh
 $HOME_PATH/tool.sh DEVICE "root.ooo" run-update.sh
 $HOME_PATH/tool.sh MEASUREMENT "cq" run-update.sh
 $HOME_PATH/tool.sh DATA_TYPE double run-update.sh
@@ -72,7 +72,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-update.sh
 $HOME_PATH/tool.sh hasHeader false run-update.sh
 
 #====prepare directory for each dataset====
-datasetArray=("OOOCQ");
+datasetArray=("CQD1");
 for value in ${datasetArray[@]};
 do
 echo "prepare data directory";
