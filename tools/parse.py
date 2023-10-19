@@ -22,6 +22,7 @@ def myDeduplicate(seq): # deduplicate list seq by comparing the first element, e
 parser=argparse.ArgumentParser(description="remote query to csv",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="input directory")
+parser.add_argument("-o","--output",help="output directory")
 parser.add_argument("-a","--approach",help="approach")
 parser.add_argument("-w","--width",help="width")
 parser.add_argument("-H","--height",help="height")
@@ -32,6 +33,7 @@ args = parser.parse_args()
 config = vars(args)
 
 inputDir=str(config.get('input'))
+outputDir=str(config.get('output'))
 approach=str(config.get('approach'))
 w=int(config.get('width'))
 h=int(config.get('height'))
@@ -49,7 +51,7 @@ print(t_max)
 inputCsvPath="{}/data-{}-{}.csv".format(inputDir,approach,w)
 
 # --------------------output path--------------------------
-outputCsvPath="{}/ts-{}-{}.csv".format(inputDir,approach,w)
+outputCsvPath="{}/ts-{}-{}.csv".format(outputDir,approach,w)
 
 # --------------------parse--------------------------
 if approach == 'rawQuery': # hasHeader
