@@ -50,14 +50,14 @@ def myplot(csvPath,width,tqs,tqe):
   t=df.iloc[:,0]
   v=df.iloc[:,1]
 
-  # restrict data to be plotted because raw data export use original tqe, not adapted tqe
-  idx=0
-  for index in reversed(range(len(t))):
-    idx=index
-    if t.loc[index]<tqe:
-      break
-  t=t.loc[:idx]
-  v=v.loc[:idx]
+  # # restrict data to be plotted because raw data export use original tqe, not adapted tqe
+  # idx=0
+  # for index in reversed(range(len(t))):
+  #   idx=index
+  #   if t.loc[index]<tqe:
+  #     break
+  # t=t.loc[:idx]
+  # v=v.loc[:idx]
 
   v_min=min(v)
   v_max=max(v)
