@@ -23,16 +23,27 @@ parser=argparse.ArgumentParser(description="remote query to csv",
                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="input directory")
 parser.add_argument("-a","--approach",help="approach")
-parser.add_argument("-w","--w",help="w parameter")
-# parser.add_argument("-h","--header",help="has header")
+parser.add_argument("-w","--width",help="width")
+parser.add_argument("-H","--height",help="height")
+parser.add_argument("-tqs","--tqs",help="query start time")
+parser.add_argument("-tqe","--tqe",help="query end time")
 
 args = parser.parse_args()
 config = vars(args)
 
 inputDir=str(config.get('input'))
 approach=str(config.get('approach'))
-w=str(config.get('w'))
-# hasHeader=str(config.get('header'))
+w=int(config.get('width'))
+h=int(config.get('height'))
+tqs=int(config.get('tqs'))
+tqe=int(config.get('tqe'))
+
+t_min=tqs
+t_max_temp=tqe # not use max(t) because downsampling result may not cover the target end point
+# t_min=511996 # BallSpeed dataset, corresponds to tqs in run-python-query-save-exp.sh
+# t_max_temp=4259092178974 # BallSpeed dataset, corresponds to tqe in run-python-query-save-exp.sh
+t_max=math.ceil((t_max_temp-t_min)/(2*w))*2*w+t_min # corresponds to tqe in query-save.py
+print(t_max)
 
 # --------------------input path--------------------------
 inputCsvPath="{}/data-{}-{}.csv".format(inputDir,approach,w)
@@ -42,7 +53,21 @@ outputCsvPath="{}/ts-{}-{}.csv".format(inputDir,approach,w)
 
 # --------------------parse--------------------------
 if approach == 'rawQuery': # hasHeader
-  os.system("cp {} {}".format(inputCsvPath,outputCsvPath))
+  inputCsvPath="{}/data-{}-{}.csv".format(inputDir,approach,1) # rawQuery source only w=1
+  # os.system("cp {} {}".format(inputCsvPath,outputCsvPath)
+  df = pd.read_csv(inputCsvPath)
+  t=df.iloc[:,0]
+  v=df.iloc[:,1]
+  # scale t -> x
+  x=(t-t_min)/(t_max-t_min)*w
+  # scale v -> y
+  y=(v-v.min())/(v.max()-v.min())*h
+  print(x)
+  print(y)
+  df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+  df['time'] = df['time'].apply(np.floor)
+  df.to_csv(outputCsvPath, sep=',',index=False)
+
 else: # no header
   df = pd.read_csv(inputCsvPath, sep='\t', header=None)
 
@@ -79,6 +104,18 @@ else: # no header
     ts=myDeduplicate(ts)
 
     df = pd.DataFrame(ts,columns=['time','value']) # output csv has header
+
+    t=df.iloc[:,0]
+    v=df.iloc[:,1]
+    # scale t -> x
+    x=(t-t_min)/(t_max-t_min)*w
+    x=x.apply(np.floor)
+    # scale v -> y
+    y=(v-v.min())/(v.max()-v.min())*h
+    print(x)
+    print(y)
+    df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+
     df.to_csv(outputCsvPath, sep=',',index=False)
   elif approach == 'cpv':
     # for each row, extract four points, sort and deduplicate, deal with None
@@ -113,9 +150,22 @@ else: # no header
     ts.sort(key=lambda x: x[0])
 
     # deduplicate
-    ts=myDeduplicate(ts)
+    # ts=myDeduplicate(ts)
 
     df = pd.DataFrame(ts,columns=['time','value'])
+
+    t=df.iloc[:,0]
+    v=df.iloc[:,1]
+    # scale t -> x
+    x=(t-t_min)/(t_max-t_min)*w
+    x=x.apply(np.floor)
+
+    # scale v -> y
+    y=(v-v.min())/(v.max()-v.min())*h
+    print(x)
+    print(y)
+    df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+
     df.to_csv(outputCsvPath, sep=',',index=False)
 
   elif approach == 'minmax':
@@ -145,6 +195,18 @@ else: # no header
     ts=myDeduplicate(ts)
 
     df = pd.DataFrame(ts,columns=['time','value'])
+
+    t=df.iloc[:,0]
+    v=df.iloc[:,1]
+    # scale t -> x
+    x=(t-t_min)/(t_max-t_min)*w
+    x=x.apply(np.floor)
+    # scale v -> y
+    y=(v-v.min())/(v.max()-v.min())*h
+    print(x)
+    print(y)
+    df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+
     df.to_csv(outputCsvPath, sep=',',index=False)
 
   elif approach == 'minmax_lsm':
@@ -177,11 +239,37 @@ else: # no header
     ts=myDeduplicate(ts)
 
     df = pd.DataFrame(ts,columns=['time','value'])
+
+    t=df.iloc[:,0]
+    v=df.iloc[:,1]
+    # scale t -> x
+    x=(t-t_min)/(t_max-t_min)*w
+    x=x.apply(np.floor)
+    # scale v -> y
+    y=(v-v.min())/(v.max()-v.min())*h
+    print(x)
+    print(y)
+    df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+
     df.to_csv(outputCsvPath, sep=',',index=False)
 
   elif approach == 'lttb':
     # print(df)
+    t=df.iloc[:,0]
+    v=df.iloc[:,1]
+    # scale t -> x
+    x=(t-t_min)/(t_max-t_min)*w
+    x=x.apply(np.floor)
+    # scale v -> y
+    y=(v-v.min())/(v.max()-v.min())*h
+    print(x)
+    print(y)
+    df = pd.DataFrame({'time':x,'value':y}) # output csv has header
+
     df.to_csv(outputCsvPath, sep=',',index=False,header=['time','value'])
   else:
     print("unsupported approach!")
+
+
+
 
