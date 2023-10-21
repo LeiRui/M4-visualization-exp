@@ -47,6 +47,7 @@ for((i=0;i<a;i++)) do
 #    fi
 
     ./stop-server.sh
+    sleep 5s
     echo 3 | sudo tee /proc/sys/vm/drop_caches
-    sleep 3s
+    sleep 5s
 done
