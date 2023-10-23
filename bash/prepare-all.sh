@@ -163,7 +163,7 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-update.sh # four dataset
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-update.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-update.sh
 $HOME_PATH/tool.sh hasHeader false run-update.sh
-mv run-update.sh run-CQD1.sh
+mv run-update.sh run-CQD1-2.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed" "MF03" "Train" "Steel" "CQD1");

@@ -47,12 +47,13 @@ mv SumResultUnify2.java SumResultUnify.java
 javac SumResultUnify.java
 
 cp $M4_VISUALIZATION_EXP/tools/parse.py .
-cp $M4_VISUALIZATION_EXP/tools/computeDSSIM.py .
-cp $M4_VISUALIZATION_EXP/tools/plot-dssim-exp-res.py .
-cp $M4_VISUALIZATION_EXP/tools/plot-query-exp-res.py .
-cp $M4_VISUALIZATION_EXP/tools/plot-dssim-query-exp-res.py .
+cp $M4_VISUALIZATION_EXP/tools/calcDSSIM.py .
+#cp $M4_VISUALIZATION_EXP/tools/computeDSSIM.py .
+#cp $M4_VISUALIZATION_EXP/tools/plot-dssim-exp-res.py .
+#cp $M4_VISUALIZATION_EXP/tools/plot-query-exp-res.py .
+#cp $M4_VISUALIZATION_EXP/tools/plot-dssim-query-exp-res.py .
 
-#====prepare run bash for test dataset====
+#====prepare run bash for query exp====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-more-baselines.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-more-baselines.sh
@@ -69,6 +70,12 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-more-baselines.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-more-baselines.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-more-baselines.sh
 $HOME_PATH/tool.sh hasHeader false run-more-baselines.sh
+
+#====prepare run bash for dssim exp====
+cp $M4_VISUALIZATION_EXP/bash/runDSSIMexp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH runDSSIMexp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 0 runDSSIMexp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 runDSSIMexp.sh
 
 #====prepare directory for each dataset====
 datasetArray=("BallSpeed");

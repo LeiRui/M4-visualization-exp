@@ -49,6 +49,5 @@ public class AppendTool {
       reader.close();
     }
     writer.close();
-    System.out.println("finish copy.");
   }
 }

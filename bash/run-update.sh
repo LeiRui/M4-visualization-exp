@@ -191,7 +191,6 @@ $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT true $HOME_PATH/query_experime
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 i=1
 for per in 1 5 10 20 40 60 80 100
-#for per in 1 20 60 100
 do
   $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-mac-${per}.csv $HOME_PATH/query_experiment.sh
   find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;

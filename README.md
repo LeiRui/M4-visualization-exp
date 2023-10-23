@@ -193,18 +193,63 @@ Steps:
 
     3. Run `prepare-all.sh` and then the folder at `HOME_PATH` will be ready for experiments.
 
-2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName]-[N].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`, `N`=1/2/3/4/5 stands for the N-th experiment. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
-3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/[datasetName]_testspace` as follows:
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time for the N-th experiment are in `HOME_PATH/[datasetName]_testspace/exp[N]_res.csv` as follows:
+
     - `exp1_res.csv` for varying the number of time spans, 
     - `exp2_res.csv` for varying query time range, 
     - `exp3_res.csv` for varying chunk overlap percentage, 
     - `exp4_res.csv` for varying delete percentage, 
-    - `exp5_res.csv` for varying delete time range.
-4. In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
-5. `run-[datasetName].sh` is a script that runs all experiments (from exp1 to exp5). If you want to run a single experiment expN (N=1/2/3/4/5), you can run `run-[datasetName]-[N].sh`. Again, the result csv is `exp[N]_res.csv`.
+    - `exp5_res.csv` for varying update percentage.
+
+    In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
+
+4.   For Figures 17~22 in the paper:
+
+     -   Figure 17: (a) run-BallSpeed-1.sh, (b) run-MF03-1.sh, (c) run-Train-1.sh, (d) run-Steel-1.sh
+
+     -   Figure 18: (a) run-BallSpeed-2.sh, (b) run-MF03-2.sh, (c) run-Train-2.sh, (d) run-Steel-2.sh
+
+     -   Figure 19: (a) run-BallSpeed-3.sh, (b) run-MF03-3.sh, (c) run-Train-3.sh, (d) run-Steel-3.sh
+
+     -   Figure 20: (a) run-BallSpeed-4.sh, (b) run-MF03-4.sh, (c) run-Train-4.sh, (d) run-Steel-4.sh
+
+     -   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
+     -   Figure 22: run-CDQ1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described above.
 
 ## 5. Guides to "8.2 Applications to Other Visualizations"
+
+### 5.1 Apply to MinMax Representation
+
+#### 5.1.1 Query Time Experiment
+
+Steps:
+
+1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
+
+    1. Make all scripts executable by executing `chmod +x *.sh`.
+
+    2. Update `prepare-more-baselines.sh` as follows:
+
+        -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
+
+        -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
+
+    3. Run `prepare-more-baselines.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-more-baselines.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time are in `HOME_PATH/res.csv`, and the data csv for the DSSIM experiment later are ready in `HOME_PATH`.
+
+#### 5.1.2 DSSIM Experiment
+
+1.   When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`.
+2.   Enter the folder at `HOME_PATH`, and then:
+     1.   Run `runDSSIMexp.sh` to prepare commands
+     2.   Download `line-density` from `xxxxxx anony github`
+
+
+
+### 5.2 Apply to DenseLines Visualization
 
 
 

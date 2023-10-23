@@ -184,12 +184,8 @@ do
   let line+=1
 done
 
-# plot query exp res
-#python3 $HOME_PATH/plot-query-exp-res.py -i $HOME_PATH/res.csv -o $HOME_PATH
-
 # the above steps perform query exp, with queried result csv stored for later DSSIM exp
-# -------------------begin DSSIM exp----------------------------
-# first export raw data
+# -------------------prepare for DSSIM exp: export raw data----------------------------
 IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
 IOTDB_START=$IOTDB_SBIN_HOME/start-server.sh
 IOTDB_STOP=$IOTDB_SBIN_HOME/stop-server.sh
@@ -207,14 +203,14 @@ sleep 3s
 echo 3 | sudo tee /proc/sys/vm/drop_caches
 sleep 3s
 
-# parse queries csv, plot png, compute dssim
-python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH -tqs ${DATA_MIN_TIME} -tqe ${DATA_MAX_TIME}
-
-# plot dssim exp res
-#python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH
-
-# plot dssim and query exp res
-python3 $HOME_PATH/plot-dssim-query-exp-res.py -d $HOME_PATH/dssim.csv -q $HOME_PATH/res.csv -o $HOME_PATH
+## parse queries csv, plot png, compute dssim
+#python3 $HOME_PATH/computeDSSIM.py -i $HOME_PATH -tqs ${DATA_MIN_TIME} -tqe ${DATA_MAX_TIME}
+#
+## plot dssim exp res
+##python3 $HOME_PATH/plot-dssim-exp-res.py -i $HOME_PATH/dssim.csv -o $HOME_PATH
+#
+## plot dssim and query exp res
+#python3 $HOME_PATH/plot-dssim-query-exp-res.py -d $HOME_PATH/dssim.csv -q $HOME_PATH/res.csv -o $HOME_PATH
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
