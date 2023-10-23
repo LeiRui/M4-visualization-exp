@@ -64,8 +64,8 @@ if approach == 'rawQuery': # hasHeader
   x=(t-t_min)/(t_max-t_min)*w
   # scale v -> y
   y=(v-v.min())/(v.max()-v.min())*h
-  print(x)
-  print(y)
+  # print(x)
+  # print(y)
   df = pd.DataFrame({'time':x,'value':y}) # output csv has header
   df['time'] = df['time'].apply(np.floor)
   df.to_csv(outputCsvPath, sep=',',index=False)
@@ -114,8 +114,8 @@ else: # no header
     x=x.apply(np.floor)
     # scale v -> y
     y=(v-v.min())/(v.max()-v.min())*h
-    print(x)
-    print(y)
+    # print(x)
+    # print(y)
     df = pd.DataFrame({'time':x,'value':y}) # output csv has header
 
     df.to_csv(outputCsvPath, sep=',',index=False)
@@ -164,8 +164,8 @@ else: # no header
 
     # scale v -> y
     y=(v-v.min())/(v.max()-v.min())*h
-    print(x)
-    print(y)
+    # print(x)
+    # print(y)
     df = pd.DataFrame({'time':x,'value':y}) # output csv has header
 
     df.to_csv(outputCsvPath, sep=',',index=False)
@@ -205,8 +205,8 @@ else: # no header
     x=x.apply(np.floor)
     # scale v -> y
     y=(v-v.min())/(v.max()-v.min())*h
-    print(x)
-    print(y)
+    # print(x)
+    # print(y)
     df = pd.DataFrame({'time':x,'value':y}) # output csv has header
 
     df.to_csv(outputCsvPath, sep=',',index=False)
@@ -249,8 +249,8 @@ else: # no header
     x=x.apply(np.floor)
     # scale v -> y
     y=(v-v.min())/(v.max()-v.min())*h
-    print(x)
-    print(y)
+    # print(x)
+    # print(y)
     df = pd.DataFrame({'time':x,'value':y}) # output csv has header
 
     df.to_csv(outputCsvPath, sep=',',index=False)
@@ -264,8 +264,8 @@ else: # no header
     x=x.apply(np.floor)
     # scale v -> y
     y=(v-v.min())/(v.max()-v.min())*h
-    print(x)
-    print(y)
+    # print(x)
+    # print(y)
     df = pd.DataFrame({'time':x,'value':y}) # output csv has header
 
     df.to_csv(outputCsvPath, sep=',',index=False,header=['time','value'])

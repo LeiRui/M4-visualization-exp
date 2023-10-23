@@ -84,7 +84,7 @@ unzip exp-datasets.zip
 
 ### 2.3 Real Datasets with Updates
 
-TODO
+We also include a dataset CQD1 with updates from real usage. The name of CQD1 comes from applying a Continuous Query on the real-world D-1 dataset. For more details, please see [].
 
 
 
@@ -242,14 +242,16 @@ Steps:
 
 #### 5.1.2 DSSIM Experiment
 
-1.   When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`.
-2.   Enter the folder at `HOME_PATH`, and then:
-     1.   Run `runDSSIMexp.sh` to prepare commands
-     2.   Download `line-density` from `xxxxxx anony github`
+When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`. Enter the folder at `HOME_PATH`, and then:
 
-
+1.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-2E29/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+2.   Run `runDSSIMexp.sh` to prepare csv and scripts.
+3.   Run `rustPlot.sh` to render line charts.
+4.   Run `dssimCompare.sh` to calculate DSSIM. The corresponding experimental results of DSSIM are printed to the console.
 
 ### 5.2 Apply to DenseLines Visualization
+
+
 
 
 

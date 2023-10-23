@@ -116,10 +116,7 @@ else
 fi
 
 i=1
-# TODO
 for w in 100 200 400 600 1200 2000 3000 4000
-#for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
-#for w in 10 15
 do
   echo "[[[[[[[[[[[[[w=$w]]]]]]]]]]]]]"
 
@@ -173,9 +170,6 @@ rm tmp5.csv
 sed -i -e 1's/^/w,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
 
-# TODO
-#for w in 10 15
-#for w in 10 20 50 80 100 200 400 600 800 1200 1600 2000 3000 4000
 for w in 100 200 400 600 1200 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$w # note bash only does the integer division
