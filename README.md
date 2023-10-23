@@ -6,9 +6,9 @@ The code and data of experiments for our paper "Time Series Representation for V
 
 1.   Download Java
 2.   Download `M4-visualization-exp` Folder
-3.   Guides to "7.2 Experiments with Varying Parameters"
-4.   Guides to "7.3 Ablation Study"
-5.   Guides to "1.1 Motivation"
+3.   Guides to "1.1 Motivation"
+4.   Guides to "8.1 Experiments with Varying Parameters"
+5.   Guides to "8.2 Applications to Other Visualizations"
 
 
 
@@ -33,20 +33,29 @@ source /etc/profile
 
 ## 2. Download `M4-visualization-exp` Folder
 
-The first step is to download this `M4-visualization-exp` folder. For easy download, we provide a compressed zip format, which can be downloaded using the following command:
+The first step is to download this `M4-visualization-exp` folder. For easy download, we provide a compressed zip on Kaggle, which can be downloaded using the following commands:
 
 ```shell
-# In the following, we assume that the downloaded path of this folder is /root/ubuntu/M4-visualization-exp.
+# First install kaggle.
+pip install kaggle
+pip show kaggle 
+
+# Then set up kaggle API credentials.
+mkdir ~/.kaggle # or /root/.kaggle
+cd ~/.kaggle # or /root/.kaggle
+vim kaggle.json # input your Kaggle API, in the format of {"username":"xx","key":"xx"}
+
+# In the following, we assume that the downloaded path is /root/ubuntu/M4-visualization-exp.
 cd /root/ubuntu
-wget https://anonymous.4open.science/r/M4-visualization-exp-D378/M4-visualization-exp.zip
-unzip M4-visualization-exp.zip 
+kaggle datasets download xxx123456789/m4-visualization-exp
+unzip m4-visualization-exp.zip
 ```
 
 ### 2.1 Folder Structure
 
 -   `README.md`: This file.
 -   `bash`: Folder of scripts for running experiments.
--   `datasets`: Folder of datasets used in experiments. **Note that this folder is empty right after unzipping. Please follow the instructions in the "Download datasets from Kaggle" section of this README to download datasets from Kaggle before doing experiments.**
+-   `datasets`: Folder of datasets used in experiments. **Note that this folder is empty right after unzipping. Please follow the instructions in the "Download datasets from Kaggle" and "Download CQD1 Dataset" sections of this README to download datasets before doing experiments.**
 -   `iotdb-cli-0.12.4`: Folder of the IoTDB client.
 -   `iotdb-server-0.12.4`: Folder of the IoTDB server.
 -   `jarCode`: Folder of JAVA source codes for jars used in experiments.
@@ -71,6 +80,8 @@ cd ~/.kaggle # or /root/.kaggle
 vim kaggle.json # input your Kaggle API, in the format of {"username":"xx","key":"xx"}
 
 # Finally you can download datasets.
+cd /root/ubuntu/M4-visualization-exp
+mkdir datasets
 cd /root/ubuntu/M4-visualization-exp/datasets
 kaggle datasets download xxx123456789/exp-datasets
 unzip exp-datasets.zip 
