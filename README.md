@@ -228,7 +228,7 @@ Steps:
 
 
         -   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
-
+    
         -   Figure 22: run-CQD1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described below.
 
 3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time for the N-th experiment are in `HOME_PATH/[datasetName]_testspace/exp[N]_res.csv` as follows:
@@ -272,7 +272,7 @@ Steps:
 
 When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`. After that, enter the folder at `HOME_PATH`, and then:
 
-1.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-2E29/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+1.   Download line chart plot tool by the command: `wget https://anonymous.4open.science/r/line-density-rust-2E29/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 2.   Run `runDSSIMexp.sh` to prepare csv and scripts.
 3.   Run `rustPlot.sh` to render line charts.
 4.   Run `dssimCompare.sh` to calculate DSSIM. The corresponding experimental results of DSSIM are printed to the console.
@@ -289,7 +289,7 @@ Steps:
 
 1.   Download the stock exchange dataset from https://www.kaggle.com/datasets/dgawlik/nyse.
 2.   Using `parsePrice.py` in the `M4-visualization-exp/tools` folder to extract the closing price time series of each stock from the `prices.csv`. Assume below that these extracted csv are placed under the empty folder `/root/csvDir`.
-3.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+3.   Download DenseLines plot tool by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 4.   Draw DensLines using the command: `./line-density 45 10 160 100 true /root/csvDir true`, which plots the DenseLines of 45 time series each containing 1600 points from /root/csvDir on a `160*100` canvas, using raw data points and M4 representation points to render `output-i45-k10-w160-h100-utrue-dfalse.png` and `output-i45-k10-w160-h100-utrue-dtrue.png`, respectively. The two pngs are identical thanks to the visual representativeness of M4.
 
 #### 5.2.2 Cost of Visualizing DenseLines From a Database
@@ -321,5 +321,5 @@ Communication time is calculated using the empirical bandwith measured in the `3
 
 Steps:
 
-1.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+1.   Download DenseLines plot tool by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 2.   Test the rendering speed of DenseLines under different number of time series using the command: `./line-density [N] 100000 100 100`, where `N` is the number of time series, N=1/5/10/15/20/25/30/35/40/45. The corresponding rendering time without and with M4 are printed to the console.
