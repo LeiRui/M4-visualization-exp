@@ -283,11 +283,11 @@ When the query time experiment in the previous section is done, the data csv for
 
 >   Corresponding to Figure 24(a) in the paper.
 
-Figure 24(a) is an example of DenseLines using 45 stock exchange time series. 
+Figure 24(a) is an example of DenseLines using 45 public stock exchange time series. 
 
 Steps:
 
-1.   Download the stock exchange dataset from https://www.kaggle.com/datasets/dgawlik/nyse.
+1.   Download the public stock exchange dataset on Kaggle: https://www.kaggle.com/datasets/dgawlik/nyse
 2.   Using `parsePrice.py` in the `M4-visualization-exp/tools` folder to extract the closing price time series of each stock from the `prices.csv`. Assume below that these extracted csv are placed under the empty folder `/root/csvDir`.
 3.   Download DenseLines plot tool by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 4.   Draw DensLines using the command: `./line-density 45 10 160 100 true /root/csvDir true`, which plots the DenseLines of 45 time series each containing 1600 points from /root/csvDir on a `160*100` canvas, using raw data points and M4 representation points to render `output-i45-k10-w160-h100-utrue-dfalse.png` and `output-i45-k10-w160-h100-utrue-dtrue.png`, respectively. The two pngs are identical thanks to the visual representativeness of M4.
