@@ -17,15 +17,15 @@ echo $REP_ONCE_AND_SAVE_QUERY_RESULT
 if $REP_ONCE_AND_SAVE_QUERY_RESULT
 then
   a=1
-else # default TODO
-  a=1
+else # default
+  a=30
 fi
 echo "rep=$a"
 
 for((i=0;i<a;i++)) do
     echo $i
     ./start-server.sh /dev/null 2>&1 &
-    sleep 12s
+    sleep 15s
 
     if ${REP_ONCE_AND_SAVE_QUERY_RESULT}
     then

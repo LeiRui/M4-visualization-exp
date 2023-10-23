@@ -8,7 +8,7 @@ IOTDB_EXPORT_CSV_HOME=$HOME_PATH/iotdb-cli-0.12.4/tools
 echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
 cd $IOTDB_SBIN_HOME
 
-a=1
+a=30
 #echo "rep=$a"
 
 w=100 # 10 00 0000
@@ -19,7 +19,7 @@ for((i=0;i<a;i++)) do
     if [ $8 == "mac" ] || [ $8 == "cpv" ]
     then
         ./start-server.sh >>/dev/null 2>&1 &
-        sleep 12s
+        sleep 15s
 
         ts=$(date +%s%N) ;
         for ((deviceID=1; deviceID<=$7; deviceID++)); # query $7 number of time series simultaneously
@@ -34,12 +34,13 @@ for((i=0;i<a;i++)) do
         tt=$((($(date +%s%N) - $ts))) ; echo "$tt" # ns
 
         ./stop-server.sh >>/dev/null 2>&1
+        sleep 5s
         echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
-        sleep 3s
+        sleep 5s
 
     else # rawQuery
         ./start-server.sh >>/dev/null 2>&1 &
-        sleep 12s
+        sleep 15s
 
         ts=$(date +%s%N) ;
         for ((deviceID=1; deviceID<=$7; deviceID++)); # query $7 number of time series simultaneously
@@ -53,7 +54,8 @@ for((i=0;i<a;i++)) do
         tt=$((($(date +%s%N) - $ts))) ; echo "$tt" # ns
 
         ./stop-server.sh >>/dev/null 2>&1
+        sleep 5s
         echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
-        sleep 3s
+        sleep 5s
     fi
 done
