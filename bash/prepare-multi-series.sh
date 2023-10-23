@@ -71,6 +71,7 @@ $HOME_PATH/tool.sh DEVICE "root.debs${i}" run-motivation.sh
 cp run-motivation.sh run-write-$i.sh
 echo "./run-write-$i.sh" >> run-write.sh # Serial write data to avoid memory contention
 done;
+echo "WRITE ALL FINISHED!" >> run-write.sh
 rm run-motivation.sh
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 

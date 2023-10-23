@@ -82,11 +82,18 @@ unzip exp-datasets.zip
 -   Train dataset, with 127,802,876 points, is a 5-month train monitoring data collected by a vibration sensor at around 20Hz frequency, provided by real customers of Apache IoTDB.
 -   Steel dataset,  with 314,572,100 points, is 7-month steel production monitoring data collected by a vibration sensor at around 20Hz frequency, provided by real customers of Apache IoTDB.
 
-### 2.3 Real Datasets with Updates
+### 2.3 Download CQD1 Dataset
 
-We also include a dataset CQD1 with updates from real usage. The name of CQD1 comes from applying a Continuous Query on the real-world D-1 dataset. For more details, please see [].
+We also include a dataset CQD1 with updates from real usage. 
 
+Use the following commands to download CQD1 dataset:
 
+```shell
+cd /root/ubuntu/M4-visualization-exp/datasets
+wget https://anonymous.4open.science/r/dataset_with_updates-E014/CQD1.csv
+```
+
+For more details of CQD1, please see https://anonymous.4open.science/r/dataset_with_updates-E014.
 
 
 ## 3. Guides to "1.1 Motivation"
@@ -193,7 +200,7 @@ Steps:
 
     3. Run `prepare-all.sh` and then the folder at `HOME_PATH` will be ready for experiments.
 
-2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName]-[N].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`, `N`=1/2/3/4/5 stands for the N-th experiment. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName]-[N].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`/`CQD1`, `N`=1/2/3/4/5 stands for the N-th experiment. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
 3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time for the N-th experiment are in `HOME_PATH/[datasetName]_testspace/exp[N]_res.csv` as follows:
 
@@ -205,24 +212,28 @@ Steps:
 
     In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
 
-4.   For Figures 17~22 in the paper:
+---
 
-     -   Figure 17: (a) run-BallSpeed-1.sh, (b) run-MF03-1.sh, (c) run-Train-1.sh, (d) run-Steel-1.sh
+Summary for Figures 17~22 in the paper:
 
-     -   Figure 18: (a) run-BallSpeed-2.sh, (b) run-MF03-2.sh, (c) run-Train-2.sh, (d) run-Steel-2.sh
+-   Figure 17: (a) run-BallSpeed-1.sh, (b) run-MF03-1.sh, (c) run-Train-1.sh, (d) run-Steel-1.sh
 
-     -   Figure 19: (a) run-BallSpeed-3.sh, (b) run-MF03-3.sh, (c) run-Train-3.sh, (d) run-Steel-3.sh
+-   Figure 18: (a) run-BallSpeed-2.sh, (b) run-MF03-2.sh, (c) run-Train-2.sh, (d) run-Steel-2.sh
 
-     -   Figure 20: (a) run-BallSpeed-4.sh, (b) run-MF03-4.sh, (c) run-Train-4.sh, (d) run-Steel-4.sh
+-   Figure 19: (a) run-BallSpeed-3.sh, (b) run-MF03-3.sh, (c) run-Train-3.sh, (d) run-Steel-3.sh
 
-     -   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
-     -   Figure 22: run-CDQ1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described above.
+-   Figure 20: (a) run-BallSpeed-4.sh, (b) run-MF03-4.sh, (c) run-Train-4.sh, (d) run-Steel-4.sh
+
+-   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
+-   Figure 22: run-CDQ1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described above.
 
 ## 5. Guides to "8.2 Applications to Other Visualizations"
 
 ### 5.1 Apply to MinMax Representation
 
 #### 5.1.1 Query Time Experiment
+
+>   Corresponding to Figure 23(b) in the paper.
 
 Steps:
 
@@ -238,11 +249,14 @@ Steps:
 
     3. Run `prepare-more-baselines.sh` and then the folder at `HOME_PATH` will be ready for experiments.
 2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-more-baselines.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
-3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time are in `HOME_PATH/res.csv`, and the data csv for the DSSIM experiment later are ready in `HOME_PATH`.
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time are in `HOME_PATH/res.csv`. 
+4. In the result csv, counting from 1, the 3,4,5,6,7 columns are the query execution times of M4, M4-LSM, MinMax, MinMax-LSM, LTTB, respectively.
 
 #### 5.1.2 DSSIM Experiment
 
-When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`. Enter the folder at `HOME_PATH`, and then:
+>   Corresponding to Figure 23(a) in the paper.
+
+When the query time experiment in the previous section is done, the data csv for the DSSIM experiment are ready in `HOME_PATH`. After that, enter the folder at `HOME_PATH`, and then:
 
 1.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-2E29/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 2.   Run `runDSSIMexp.sh` to prepare csv and scripts.
@@ -251,26 +265,47 @@ When the query time experiment in the previous section is done, the data csv for
 
 ### 5.2 Apply to DenseLines Visualization
 
+#### 5.2.1 DenseLines Example
 
+>   Corresponding to Figure 24(a) in the paper.
 
+Figure 24(a) is an example of DenseLines using 45 stock exchange time series. 
 
+Steps:
 
-# Deprecated
+1.   Download the stock exchange dataset from https://www.kaggle.com/datasets/dgawlik/nyse.
+2.   Using `parsePrice.py` in the `M4-visualization-exp/tools` folder to extract the closing price time series of each stock from the `prices.csv`. Assume below that these extracted csv are placed under the empty folder `/root/csvDir`.
+3.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+4.   Draw DensLines using the command: `./line-density 45 10 160 100 true /root/csvDir true`, which plots the DenseLines of 45 time series each containing 1600 points from /root/csvDir on a `160*100` canvas, using raw data points and M4 representation points to render `output-i45-k10-w160-h100-utrue-dfalse.png` and `output-i45-k10-w160-h100-utrue-dtrue.png`, respectively. The two pngs are identical thanks to the visual representativeness of M4.
 
-## 4. Guides to "7.3 Ablation Study"
+#### 5.2.2 Cost of Visualizing DenseLines From a Database
 
->   Corresponding to Figure 20 in the paper.
+>   Corresponding to Figure 24(b) in the paper.
+
+Similar to `3. Guides to "1.1 Motivation"`, this experiment measures the end-to-end time of DenseLines visualization, which is decomposed into three components: server computation time, communication time, and client rendering time.
+
+##### Server Computation Time
 
 Steps:
 
 1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
     1. Make all scripts executable by executing `chmod +x *.sh`. If you have done this step before, you can ignore it here.
-    2. Update `prepare-ablation.sh` as follows:
+    2. Update `prepare-multi-series.sh` as follows:
         -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
         -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
-    3. Run `prepare-ablation.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+    3. Run `prepare-multi-series.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+2. Enter the folder at `HOME_PATH`, and then:
+    1. Write 50 test time series into IoTDB using `nohup ./run-write.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. When the experiment script finishes running ("WRITE ALL FINISHED!" appears in nohup.out), data preparations are complete.
+    2. Run the query experiments using `nohup ./run-query.sh 2>&1 &`.
+        The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/res.csv`. In the result csv, counting from 1, the 1,2,3 columns are the query execution times of raw data query, M4, M4-LSM, respectively.
 
-2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-ablation.sh 2>&1 &`.
-    The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
-3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/ablationExp_res.csv`. 
-4. In the result csv, counting from 1, the second column is the query execution time of M4-LSM without index and pruning, and the sum of the third and fourth columns is the total number of traversed points of M4-LSM without index and pruning. By analogy, the fifth to seventh columns are the results of M4-LSM with only time index, and the eighth to tenth columns are the results of M4-LSM with both time index and point pruning.
+##### Communication Time
+
+Communication time is calculated using the empirical bandwith measured in the `3. Guides to "1.1 Motivation"` section.
+
+##### Client Rendering Time
+
+Steps:
+
+1.   Download `line-density` by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
+2.   Test the rendering speed of DenseLines under different number of time series using the command: `./line-density [N] 100000 100 100`, where `N` is the number of time series, N=1/5/10/15/20/25/30/35/40/45. The corresponding rendering time without and with M4 are printed to the console.

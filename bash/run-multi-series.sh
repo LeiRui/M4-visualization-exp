@@ -123,7 +123,7 @@ done
 cd $HOME_PATH/${DATASET}_testspace/O_${overlap_percentage}_D_0_0/vary_ts
 cp $HOME_PATH/SumResultUnifyMultiSeries.* .
 java SumResultUnifyMultiSeries sumResultRAW.csv sumResultMAC.csv sumResultCPV.csv result.csv
-cp result.csv $HOME_PATH/result.csv
+cp result.csv $HOME_PATH/res.csv
 
 echo "ALL FINISHED!"
 echo 3 |sudo tee /proc/sys/vm/drop_caches
