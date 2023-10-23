@@ -82,55 +82,14 @@ unzip exp-datasets.zip
 -   Train dataset, with 127,802,876 points, is a 5-month train monitoring data collected by a vibration sensor at around 20Hz frequency, provided by real customers of Apache IoTDB.
 -   Steel dataset,  with 314,572,100 points, is 7-month steel production monitoring data collected by a vibration sensor at around 20Hz frequency, provided by real customers of Apache IoTDB.
 
-## 3. Guides to "7.2 Experiments with Varying Parameters"
+### 2.3 Real Datasets with Updates
 
->   Corresponding to Figures 15~19 in the paper.
-
-Steps:
-
-1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
-
-    1. Make all scripts executable by executing `chmod +x *.sh`.
-
-    2. Update `prepare-all.sh` as follows:
-
-        -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
-
-        -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
-
-    3. Run `prepare-all.sh` and then the folder at `HOME_PATH` will be ready for experiments.
-
-2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
-
-3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/[datasetName]_testspace` as follows:
-    - `exp1_res.csv` for varying the number of time spans, 
-    - `exp2_res.csv` for varying query time range, 
-    - `exp3_res.csv` for varying chunk overlap percentage, 
-    - `exp4_res.csv` for varying delete percentage, 
-    - `exp5_res.csv` for varying delete time range.
-4. In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
-5. `run-[datasetName].sh` is a script that runs all experiments (from exp1 to exp5). If you want to run a single experiment expN (N=1/2/3/4/5), you can run `run-[datasetName]-[N].sh`. Again, the result csv is `exp[N]_res.csv`.
-
-## 4. Guides to "7.3 Ablation Study"
-
->   Corresponding to Figure 20 in the paper.
-
-Steps:
-
-1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
-    1. Make all scripts executable by executing `chmod +x *.sh`. If you have done this step before, you can ignore it here.
-    2. Update `prepare-ablation.sh` as follows:
-        -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
-        -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
-    3. Run `prepare-ablation.sh` and then the folder at `HOME_PATH` will be ready for experiments.
-
-2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-ablation.sh 2>&1 &`.
-    The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
-3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/ablationExp_res.csv`. 
-4. In the result csv, counting from 1, the second column is the query execution time of M4-LSM without index and pruning, and the sum of the third and fourth columns is the total number of traversed points of M4-LSM without index and pruning. By analogy, the fifth to seventh columns are the results of M4-LSM with only time index, and the eighth to tenth columns are the results of M4-LSM with both time index and point pruning.
+TODO
 
 
-## 5. Guides to "1.1 Motivation"
+
+
+## 3. Guides to "1.1 Motivation"
 
 >   Corresponding to Figure 3 in the paper.
 
@@ -142,7 +101,7 @@ This experiments involves communication between two nodes and is a bit more comp
 | Username   | server               | client                |
 | Password   | x                    | y                     |
 
-### 5.1 Environment Setup for Both Nodes
+### 3.1 Environment Setup for Both Nodes
 
 -   **Download Java** as instructed earlier.
 
@@ -173,7 +132,7 @@ This experiments involves communication between two nodes and is a bit more comp
     cp -r iotdb /usr/local/lib/python3.8/dist-packages/. # this step installs iotdb-python-connector
     ```
 
-### 5.2 Populate the Database Server Node
+### 3.2 Populate the Database Server Node
 
 Before doing experiments, follow the steps below to populate the database server with test data.
 
@@ -196,7 +155,7 @@ Before doing experiments, follow the steps below to populate the database server
 
 4. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), preparations are complete.
 
-### 5.3 Experiments on the Rendering Client Node
+### 3.3 Experiments on the Rendering Client Node
 
 1.   Go to the rendering client node.
 2.   Enter the `python-exp` folder in the `M4-visualization-exp` folder, and then:
@@ -216,5 +175,55 @@ Before doing experiments, follow the steps below to populate the database server
      4.   When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `sumResult-[READ_METHOD].csv`, where `[READ_METHOD]` is `rawQuery`/`mac`/`cpv`. 
      5.   In the result csv, the last four columns are server computation time, communication time, client rendering time, and total response time, and each row corresponds to a different number of raw data points.
 
+## 4. Guides to "8.1 Experiments with Varying Parameters"
+
+>   Corresponding to Figures 17~22 in the paper.
+
+Steps:
+
+1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
+
+    1. Make all scripts executable by executing `chmod +x *.sh`.
+
+    2. Update `prepare-all.sh` as follows:
+
+        -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
+
+        -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
+
+    3. Run `prepare-all.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/[datasetName]_testspace` as follows:
+    - `exp1_res.csv` for varying the number of time spans, 
+    - `exp2_res.csv` for varying query time range, 
+    - `exp3_res.csv` for varying chunk overlap percentage, 
+    - `exp4_res.csv` for varying delete percentage, 
+    - `exp5_res.csv` for varying delete time range.
+4. In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
+5. `run-[datasetName].sh` is a script that runs all experiments (from exp1 to exp5). If you want to run a single experiment expN (N=1/2/3/4/5), you can run `run-[datasetName]-[N].sh`. Again, the result csv is `exp[N]_res.csv`.
+
+## 5. Guides to "8.2 Applications to Other Visualizations"
 
 
+
+# Deprecated
+
+## 4. Guides to "7.3 Ablation Study"
+
+>   Corresponding to Figure 20 in the paper.
+
+Steps:
+
+1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
+    1. Make all scripts executable by executing `chmod +x *.sh`. If you have done this step before, you can ignore it here.
+    2. Update `prepare-ablation.sh` as follows:
+        -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
+        -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
+    3. Run `prepare-ablation.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-ablation.sh 2>&1 &`.
+    The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/ablationExp_res.csv`. 
+4. In the result csv, counting from 1, the second column is the query execution time of M4-LSM without index and pruning, and the sum of the third and fourth columns is the total number of traversed points of M4-LSM without index and pruning. By analogy, the fifth to seventh columns are the results of M4-LSM with only time index, and the eighth to tenth columns are the results of M4-LSM with both time index and point pruning.

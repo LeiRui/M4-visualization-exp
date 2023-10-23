@@ -48,25 +48,7 @@ mv SumResultUnify2.java SumResultUnify.java
 javac SumResultUnify.java
 
 #====prepare run bash for ballspeed====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-all.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-all.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-all.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-all.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-all.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-all.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-all.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-all.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-all.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-all.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
-$HOME_PATH/tool.sh hasHeader false run-all.sh
-cp run-all.sh run-BallSpeed.sh
-
-idArray=("1" "2" "3" "4" "5" "6");
+idArray=("1" "2" "3" "4" "5");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -90,25 +72,7 @@ cp run-single-${value}.sh run-BallSpeed-${value}.sh
 done;
 
 #====prepare run bash for mf03====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-all.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
-$HOME_PATH/tool.sh DATASET MF03 run-all.sh
-$HOME_PATH/tool.sh DEVICE "root.debs2012" run-all.sh
-$HOME_PATH/tool.sh MEASUREMENT "mf03" run-all.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-all.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-all.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-all.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-all.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-all.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-all.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
-$HOME_PATH/tool.sh hasHeader false run-all.sh
-cp run-all.sh run-MF03.sh
-
-idArray=("1" "2" "3" "4" "5" "6");
+idArray=("1" "2" "3" "4" "5");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -132,25 +96,7 @@ cp run-single-${value}.sh run-MF03-${value}.sh
 done;
 
 #====prepare run bash for train====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-all.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
-$HOME_PATH/tool.sh DATASET Train run-all.sh # 
-$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-all.sh # 
-$HOME_PATH/tool.sh MEASUREMENT "Z765" run-all.sh # 
-$HOME_PATH/tool.sh DATA_TYPE long run-all.sh # 
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-all.sh # 
-$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-all.sh # 
-$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-all.sh # 
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-all.sh #  
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-all.sh # 
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh #  
-$HOME_PATH/tool.sh hasHeader true run-all.sh # 
-cp run-all.sh run-Train.sh
-
-idArray=("1" "2" "3" "4" "5" "6");
+idArray=("1" "2" "3" "4" "5");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -174,25 +120,7 @@ cp run-single-${value}.sh run-Train-${value}.sh
 done;
 
 #====prepare run bash for steel====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-all.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-all.sh
-$HOME_PATH/tool.sh DATASET Steel run-all.sh
-$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-all.sh
-$HOME_PATH/tool.sh MEASUREMENT "c60" run-all.sh
-$HOME_PATH/tool.sh DATA_TYPE double run-all.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-all.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-all.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-all.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-all.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-all.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-all.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-all.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-all.sh
-$HOME_PATH/tool.sh hasHeader true run-all.sh
-cp run-all.sh run-Steel.sh
-
-idArray=("1" "2" "3" "4" "5" "6");
+idArray=("1" "2" "3" "4" "5");
 for value in ${idArray[@]};
 do
 cd $HOME_PATH
@@ -215,8 +143,30 @@ cp run-single-${value}.sh run-Steel-${value}.sh
 
 done;
 
+#====prepare run bash for CQD1====
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-update.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-update.sh
+$HOME_PATH/tool.sh DATASET CQD1 run-update.sh
+$HOME_PATH/tool.sh DEVICE "root.ooo" run-update.sh
+$HOME_PATH/tool.sh MEASUREMENT "cq" run-update.sh
+$HOME_PATH/tool.sh DATA_TYPE double run-update.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-update.sh
+# 500ms 5s
+$HOME_PATH/tool.sh DATA_MIN_TIME 1415624020125 run-update.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 1421759019625 run-update.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 121800000 run-update.sh
+$HOME_PATH/tool.sh FIX_W 100 run-update.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-update.sh
+# 500ms 5s
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-update.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-update.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-update.sh
+$HOME_PATH/tool.sh hasHeader false run-update.sh
+mv run-update.sh run-CQD1.sh
+
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed" "MF03" "Train" "Steel");
+datasetArray=("BallSpeed" "MF03" "Train" "Steel" "CQD1");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
@@ -231,6 +181,20 @@ rm OverlapGenerator.java
 mv OverlapGenerator2.java OverlapGenerator.java
 # then javac it
 javac OverlapGenerator.java
+cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' AppendTool.java > AppendTool2.java
+rm AppendTool.java
+mv AppendTool2.java AppendTool.java
+# then javac it
+javac AppendTool.java
+
+if [ $value == "CQD1" ]
+then
+java AppendTool $value.csv $value-cp.csv 10000
+rm $value.csv
+mv $value-cp.csv $value.csv
+fi
 
 echo "prepare ${value}_testspace directory, this is for write and query";
 cd $HOME_PATH

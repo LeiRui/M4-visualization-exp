@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# right now Not added in run-all.sh, but prepared in prepare-all.sh
-# for update exp
+# generate HOME_PATH workspace by running prepare.sh first
 HOME_PATH=/data/v4
 
 # dataset basic info
@@ -24,11 +23,53 @@ IOTDB_CHUNK_POINT_SIZE=100
 # exp controlled parameter design
 FIX_W=1000
 FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
-#FIX_update_percentage=10
-#FIX_DELETE_PERCENTAGE=49
-#FIX_DELETE_RANGE=10
+FIX_OVERLAP_PERCENTAGE=10
+FIX_DELETE_PERCENTAGE=49
+FIX_DELETE_RANGE=10
 
 hasHeader=false # default
+
+############################
+# Experimental parameter design:
+#
+# [EXP5] Varying delete time range
+# (1) w: 1000
+# (2) query range: totalRange
+# (3) overlap percentage: 10%
+# (4) delete percentage: 49%
+# (5) delete time range: 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
+############################
+# O_10_D_0_0
+
+# O_0_D_0_0
+# O_20_D_0_0
+# O_30_D_0_0
+# O_40_D_0_0
+# O_50_D_0_0
+# O_60_D_0_0
+# O_70_D_0_0
+# O_80_D_0_0
+# O_90_D_0_0
+
+# O_10_D_9_10
+# O_10_D_19_10
+# O_10_D_29_10
+# O_10_D_39_10
+# O_10_D_49_10
+# O_10_D_59_10
+# O_10_D_69_10
+# O_10_D_79_10
+# O_10_D_89_10
+
+# O_10_D_49_20
+# O_10_D_49_30
+# O_10_D_49_40
+# O_10_D_49_50
+# O_10_D_49_60
+# O_10_D_49_70
+# O_10_D_49_80
+# O_10_D_49_90
+############################
 
 echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
@@ -36,28 +77,27 @@ echo "Begin experiment!"
 
 ############################
 # prepare out-of-order source data.
+# Vary overlap percentage: 0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%
 ############################
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}
 cp ${DATASET}.csv ${DATASET}-O_0
+# java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
+java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_10 0 1 10 10 ${hasHeader}
+
 
 ############################
-# [EXP6] Varying chunk update percentage
+# [EXP5] Varying delete time range
 # (1) w: 1000
 # (2) query range: totalRange
-# (3) overlap percentage: 0%
-# (4) delete percentage: 0%
-# (5) delete time range: 0
-# (6) update percentage: 0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%
+# (3) overlap percentage: 10%
+# (4) delete percentage: 49%
+# (5) delete time range: 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
 ############################
-############################
-# O_0_D_0_0_U_x
-############################
-
-for update_percentage in 0 10 20 30 40 50 60 70 80 90 100
-#for update_percentage in 0 10 50 90
+# O_10_D_49_30
+for delete_range in 10 20 30 40 50 60 70 80 90
 do
-  workspace="O_0_D_0_0_U_${update_percentage}"
+  workspace="O_10_D_49_${delete_range}"
   cd $HOME_PATH/${DATASET}_testspace
   mkdir ${workspace}
   cd ${workspace}
@@ -91,10 +131,9 @@ do
   cp iotdb-engine-enableCPVfalse.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   cd $HOME_PATH/iotdb-server-0.12.4/sbin
   ./start-server.sh /dev/null 2>&1 &
-  sleep 8s
-  # Usage: java -jar WriteUpdate*.jar device measurement dataType timestamp_precision iotdb_chunk_point_size filePath updatePercentage timeIdx valueIdx VALUE_ENCODING hasHeader
-  # Example: "root.game" "s6" long ns 100 "D:\full-game\tmp.csv" 50 0 1 PLAIN true
-  java -jar $HOME_PATH/WriteUpdate*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_0 ${update_percentage} 0 1 ${VALUE_ENCODING} ${hasHeader}
+  sleep 10s
+  # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_10 ${FIX_DELETE_PERCENTAGE} ${delete_range} 0 1 ${VALUE_ENCODING} ${hasHeader}
   sleep 5s
   ./stop-server.sh
   sleep 5s
@@ -143,52 +182,80 @@ do
 done
 
 # export results
-# [EXP6]
-# (1) w: 1000
-# (2) query range: totalRange
-# (3) overlap percentage: 0%
-# (4) delete percentage: 0%
-# (5) delete time range: 0
-# (6) update percentage: 0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%
+# [EXP5]
+# w: 100
+# query range: totalRange
+# overlap percentage: 10%
+# delete percentage: 49%
+# delete time range: 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% of chunk time interval, that is x%*totalRange/(pointNum/chunkSize)
 
-cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0_U_0
+# delete time range 10% exp result (already done in exp4)
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
 cd fix
-sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp6.csv #only copy header
+sed -n '1,1p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #只是复制表头
 
-## overlap percentage 10% exp result
-## 把exp1.csv里的w=FIX_W那一行复制到exp6.csv里作为overlap percentage 10%的结果
-## append the line starting with FIX_W and without the first two columns in exp1.csv to exp6.csv
-## sed -n '8,8p' $HOME_PATH/${DATASET}_testspace/exp1.csv >> $HOME_PATH/${DATASET}_testspace/exp4.csv
-#sed -n -e "/^${FIX_W},/p" $HOME_PATH/${DATASET}_testspace/exp1.csv > tmp # the line starting with FIX_W
-#cut -d "," -f 3- tmp >> $HOME_PATH/${DATASET}_testspace/exp6.csv # without the first two columns
-#rm tmp
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_10
+cd fix
+#cat result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv #带表头
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
-for update_percentage in 0 10 20 30 40 50 60 70 80 90 100
-#for update_percentage in 0 10 50 90
-do
-  cd $HOME_PATH/${DATASET}_testspace/O_0_D_0_0_U_${update_percentage}
-  cd fix
-  sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp6.csv
-done
+# delete time range 20% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_20
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 30% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_30
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 40% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_40
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 50% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_50
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 60% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_60
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 70% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_70
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 80% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_80
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
+
+# delete time range 90% exp result
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_49_90
+cd fix
+sed -n '2,2p' result.csv >>$HOME_PATH/${DATASET}_testspace/exp5.csv
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-# for exp6, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
-sed -i -e 1's/^/update percentage,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp6.csv
+# for exp4, range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/w
+sed -i -e 1's/^/delete time range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp5.csv
 line=2
-for update_percentage in 0 10 20 30 40 50 60 70 80 90 100
-#for update_percentage in 0 10 50 90
+for dr in 10 20 30 40 50 60 70 80 90
 do
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}) | bc )
-  sed -i -e ${line}"s/^/${update_percentage},${c},/" $HOME_PATH/${DATASET}_testspace/exp6.csv
+  sed -i -e ${line}"s/^/${dr},${c},/" $HOME_PATH/${DATASET}_testspace/exp5.csv
   let line+=1
 done
 
-(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp6.csv) > tmp1.csv
-(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp6.csv| paste -d, tmp1.csv -) > tmp2.csv
-(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp6.csv| paste -d, tmp2.csv -) > tmp3.csv
-echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp6_res.csv
-sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp6_res.csv
+(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp5.csv) > tmp1.csv
+(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp5.csv| paste -d, tmp1.csv -) > tmp2.csv
+(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp5.csv| paste -d, tmp2.csv -) > tmp3.csv
+echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp5_res.csv
+sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp5_res.csv
 rm tmp1.csv
 rm tmp2.csv
 rm tmp3.csv
