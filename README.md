@@ -213,6 +213,24 @@ Steps:
 
 2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName]-[N].sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`/`CQD1`, `N`=1/2/3/4/5 stands for the N-th experiment. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
 
+    -   Summary for Figures 17~22 in the paper:
+
+        -   Figure 17: (a) run-BallSpeed-1.sh, (b) run-MF03-1.sh, (c) run-Train-1.sh, (d) run-Steel-1.sh
+
+
+        -   Figure 18: (a) run-BallSpeed-2.sh, (b) run-MF03-2.sh, (c) run-Train-2.sh, (d) run-Steel-2.sh
+
+
+        -   Figure 19: (a) run-BallSpeed-3.sh, (b) run-MF03-3.sh, (c) run-Train-3.sh, (d) run-Steel-3.sh
+
+
+        -   Figure 20: (a) run-BallSpeed-4.sh, (b) run-MF03-4.sh, (c) run-Train-4.sh, (d) run-Steel-4.sh
+
+
+        -   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
+
+        -   Figure 22: run-CQD1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described below.
+
 3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time for the N-th experiment are in `HOME_PATH/[datasetName]_testspace/exp[N]_res.csv` as follows:
 
     - `exp1_res.csv` for varying the number of time spans, 
@@ -222,21 +240,6 @@ Steps:
     - `exp5_res.csv` for varying update percentage.
 
     In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
-
----
-
-Summary for Figures 17~22 in the paper:
-
--   Figure 17: (a) run-BallSpeed-1.sh, (b) run-MF03-1.sh, (c) run-Train-1.sh, (d) run-Steel-1.sh
-
--   Figure 18: (a) run-BallSpeed-2.sh, (b) run-MF03-2.sh, (c) run-Train-2.sh, (d) run-Steel-2.sh
-
--   Figure 19: (a) run-BallSpeed-3.sh, (b) run-MF03-3.sh, (c) run-Train-3.sh, (d) run-Steel-3.sh
-
--   Figure 20: (a) run-BallSpeed-4.sh, (b) run-MF03-4.sh, (c) run-Train-4.sh, (d) run-Steel-4.sh
-
--   Figure 21: (a) run-BallSpeed-5.sh, (b) run-MF03-5.sh, (c) run-Train-5.sh, (d) run-Steel-5.sh
--   Figure 22: run-CDQ1-2.sh. The update count results of figure (a) are in `nohup.out` (searching the lines containing "Rate of updated points"). The query time results of figure (b) are in `exp2_res.csv` as described above.
 
 ## 5. Guides to "8.2 Applications to Other Visualizations"
 
