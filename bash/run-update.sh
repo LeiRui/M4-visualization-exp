@@ -175,8 +175,8 @@ done
 (cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp.csv) > tmp1.csv
 (cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp.csv| paste -d, tmp1.csv -) > tmp2.csv
 (cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp.csv| paste -d, tmp2.csv -) > tmp3.csv
-echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp_res.csv
-sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp_res.csv
+echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp2_res.csv
+sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp2_res.csv
 rm tmp1.csv
 rm tmp2.csv
 rm tmp3.csv
