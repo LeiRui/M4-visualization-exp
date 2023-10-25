@@ -145,7 +145,8 @@ This experiments involves communication between two nodes and is a bit more comp
     pip show matplotlib # this is to check where python packages are installed. 
     
     cd /root/ubuntu/M4-visualization-exp/python-exp
-    unzip iotdb.zip
+    cd iotdb # If you download M4-visualization-exp from Kaggle as instructed in chapter 2, then this iotdb directory has been unzipped by Kaggle, otherwise use "unzip iotdb.zip" instead of "cd iotdb" here
+    
     # In the following, we assume that python packages are installed in "/usr/local/lib/python3.8/dist-packages"
     cp -r iotdb /usr/local/lib/python3.8/dist-packages/. # this step installs iotdb-python-connector
     ```
