@@ -17,10 +17,16 @@ do
       # arguments: width,height,csv_path,has_header
       echo "${HOME_PATH}/line-density ${w} 100 ${HOME_PATH}/ts-${approach}-${w}.csv true" >> ${HOME_PATH}/rustPlot.sh
 
-      echo "echo w=${w}: ${approach} v.s. rawQuery" >> ${HOME_PATH}/dssimCompare.sh
+      echo "echo \"w=${w}, DSSIM(${approach},rawQuery)=\"" >> ${HOME_PATH}/dssimCompare.sh
       echo "python3 ${HOME_PATH}/calcDSSIM.py -f1 ${HOME_PATH}/ts-${approach}-${w}.csv-${w}.png -f2 ${HOME_PATH}/ts-rawQuery-${w}.csv-${w}.png" >> ${HOME_PATH}/dssimCompare.sh
   done;
 done;
 
+echo "echo \"ALL FINISHED!\"" >> ${HOME_PATH}/rustPlot.sh
+echo "echo \"ALL FINISHED!\"" >> ${HOME_PATH}/dssimCompare.sh
+
 find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
 
+echo "ALL FINISHED!"
+echo 3 |sudo tee /proc/sys/vm/drop_caches
+free -m
