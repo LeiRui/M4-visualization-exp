@@ -303,7 +303,7 @@ Steps:
 2. Enter the folder at `HOME_PATH`, and then:
     1. Write 50 test time series into IoTDB using `nohup ./run-write.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. When the experiment script finishes running ("WRITE ALL FINISHED!" appears in nohup.out), data preparations are complete.
     2. Run the query experiments using `nohup ./run-query.sh 2>&1 &`.
-        The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/res.csv`. In the result csv, counting from 1, the 1,2,3 columns are the query execution times of raw data query, M4, M4-LSM, respectively.
+        The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/res.csv`. In the result csv, counting from 1, the 1,2,3 columns are the query execution times of raw data query, M4, M4-LSM, respectively. The ten rows correspond to the results of querying `N` time series, where N=1/5/10/15/20/25/30/35/40/45.
 
 ##### Communication Time
 
