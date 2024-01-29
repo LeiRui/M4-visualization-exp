@@ -56,8 +56,8 @@ $HOME_PATH/tool.sh DEVICE "root.game" run-efficiency-exp.sh
 $HOME_PATH/tool.sh MEASUREMENT "s6" run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 7193200 run-efficiency-exp.sh  # TODO check this incremental t!!!
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
@@ -74,6 +74,16 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
+#cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
+## remove the line starting with "package" in the java file
+#sed '/^package/d' AppendTool.java > AppendTool2.java
+#rm AppendTool.java
+#mv AppendTool2.java AppendTool.java
+## then javac it
+#javac AppendTool.java
+#java AppendTool $value.csv $value-cp10.csv 10
+#rm $value.csv
+#mv $value-cp10.csv $value.csv
 
 echo "prepare testspace directory";
 cd $HOME_PATH

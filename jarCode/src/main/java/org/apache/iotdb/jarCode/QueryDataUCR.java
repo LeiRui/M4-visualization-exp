@@ -20,6 +20,13 @@ public class QueryDataUCR {
           + "last_value(%1$s) FROM %2$s group by ([%3$d,%4$d),%5$d%6$s)";
   // note the time precision unit is also parameterized
 
+  private static final String M4_UDF = "select M4(%1$s,'tqs'='%3$d','tqe'='%4$d','w'='%5$d') from %2$s where time>=%3$d and time<%4$d";
+
+  private static final String MinMax_UDF = "select MinMax(%1$s,'tqs'='%3$d','tqe'='%4$d','w'='%5$d') from %2$s where time>=%3$d and time<%4$d";
+
+  private static final String LTTB_UDF = "select Sample(%1$s,'method'='triangle','k'='%5$d') from %2$s where time>=%3$d and time<%4$d";
+
+
   public static Session session;
 
   // Usage: java -jar QueryData-0.12.4.jar
@@ -52,21 +59,38 @@ public class QueryDataUCR {
     int m = Integer.parseInt(args[6]);
     System.out.println("[QueryData] m=" + m);
 
+    String approach = args[7]; // case sensitive
+
     long minTime;
     long maxTime;
-    if (range >= (dataMaxTime - dataMinTime)) {
-      minTime = dataMinTime;
-      maxTime = dataMaxTime;
+    if (approach.contains("UDF")) {
+      long interval;
+      if (range >= (dataMaxTime - dataMinTime)) {
+        minTime = dataMinTime;
+        interval = (long) Math.ceil((double) (dataMaxTime - dataMinTime) / (2 * m)) * 2;
+        // note multiple integer of 2w because MinMax need interval/2
+      } else {
+        // randomize between [dataMinTime, dataMaxTime-range]
+        minTime = (long) Math.ceil(
+            dataMinTime + Math.random() * (dataMaxTime - range - dataMinTime + 1));
+        interval = (long) Math.ceil((double) range / (2 * m)) * 2;
+        // note multiple integer of 2w because MinMax need interval/2
+      }
+      maxTime = minTime + interval * m;
     } else {
-      // randomize between [dataMinTime, dataMaxTime-range]
-      minTime = (long) Math.ceil(
-          dataMinTime + Math.random() * (dataMaxTime - range - dataMinTime + 1));
-      maxTime = minTime + range;
+      if (range >= (dataMaxTime - dataMinTime)) {
+        minTime = dataMinTime;
+        maxTime = dataMaxTime;
+      } else {
+        // randomize between [dataMinTime, dataMaxTime-range]
+        minTime = (long) Math.ceil(
+            dataMinTime + Math.random() * (dataMaxTime - range - dataMinTime + 1));
+        maxTime = minTime + range;
+      }
     }
 
     long tri_interval = (long) Math.floor((maxTime - minTime) * 1.0 / m);
 
-    String approach = args[7]; // case sensitive
     String sql;
     switch (approach) {
       case "MinMax":
@@ -90,13 +114,26 @@ public class QueryDataUCR {
         sql = String.format(SQL, measurement, device, minTime, maxTime, minmax_preselect_interval,
             timestamp_precision);
         break;
+      case "MinMax_UDF":
+        sql = String.format(MinMax_UDF, measurement, device, minTime, maxTime, m / 2);
+        break;
+      case "M4_UDF":
+        sql = String.format(M4_UDF, measurement, device, minTime, maxTime, m / 4);
+        break;
+      case "LTTB_UDF":
+        sql = String.format(LTTB_UDF, measurement, device, minTime, maxTime, m); // note 4w
+        break;
+      case "MinMaxLTTB_UDF": // TODO
       default:
         throw new IOException("Approach wrong. Only accepts MinMax/M4/LTTB/MinMaxLTTB/ILTS");
     }
 
     System.out.println("[QueryData] approach=" + approach);
-    System.out.printf("MAKE SURE you have set the enable_tri as %s in `iotdb-engine.properties`!%n",
-        approach);
+    if (!approach.contains("UDF")) {
+      System.out.printf(
+          "MAKE SURE you have set the enable_tri as %s in `iotdb-engine.properties`!%n",
+          approach);
+    }
 
     boolean save_query_result = Boolean.parseBoolean(args[8]);
     System.out.println("[QueryData] save_query_result=" + save_query_result);
