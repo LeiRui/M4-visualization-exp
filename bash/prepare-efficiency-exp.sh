@@ -6,6 +6,7 @@ HOME_PATH=${BASE_PATH}/efficiencyExp
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=UNCOMPRESSED
+DATA_TYPE=double
 
 mkdir -p $HOME_PATH
 
@@ -53,7 +54,7 @@ $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATASET BallSpeed run-efficiency-exp.sh
 $HOME_PATH/tool.sh DEVICE "root.game" run-efficiency-exp.sh
 $HOME_PATH/tool.sh MEASUREMENT "s6" run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 0 run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-efficiency-exp.sh

@@ -2,7 +2,7 @@
 HOME_PATH=/data/rl/v1
 
 IOTDB_SBIN_HOME=$HOME_PATH/iotdb-server-0.12.4/sbin
-QUERY_JAR_PATH=$HOME_PATH/QueryData-0.12.4.jar
+QUERY_JAR_PATH=$HOME_PATH/QueryData*.jar # check TODO
 
 # only true in run-more-baselines.sh for saving query result csv for DSSIM exp
 REP_ONCE_AND_SAVE_QUERY_RESULT=false

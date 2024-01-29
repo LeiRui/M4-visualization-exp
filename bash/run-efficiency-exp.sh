@@ -86,6 +86,7 @@ cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_m
 
 #approachArray=("mac" "cpv" "minmax" "minmax_lsm" "lttb");
+# attention: case sensitive
 approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS");
 # mac/moc/cpv/minmax/lttb/minmax_lsm
 for approach in ${approachArray[@]};
@@ -97,7 +98,8 @@ mkdir $approach
 cd $approach
 cp $HOME_PATH/ProcessResult.* .
 
-$HOME_PATH/tool.sh enable_tri ${approach} $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+# attention: case sensitive enable_Tri
+$HOME_PATH/tool.sh enable_Tri ${approach} $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
 
 #if [ $approach == "minmax_lsm" ]
 #then
@@ -107,7 +109,8 @@ $HOME_PATH/tool.sh enable_tri ${approach} $HOME_PATH/iotdb-server-0.12.4/conf/io
 #fi
 
 i=1
-for m in 100 200 400 600 1200 2000 3000 4000
+# 控制m是4的整数倍
+for m in 100 200 400 # 600 1200 2000 3000 4000
 do
   echo "[[[[[[[[[[[[[m=$m]]]]]]]]]]]]]"
 
