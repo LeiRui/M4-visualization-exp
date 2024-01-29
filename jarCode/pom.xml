@@ -50,14 +50,14 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>QueryDataMultiSeries</finalName>
+    <finalName>QueryDataUCR</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.WriteDataUCR</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.QueryDataUCR</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

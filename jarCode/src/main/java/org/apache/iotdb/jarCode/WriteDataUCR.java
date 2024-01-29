@@ -20,7 +20,7 @@ public class WriteDataUCR {
   /**
    * Before writing data, make sure check the server parameter configurations.
    */
-  // Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx valueEncoding
+  // Usage: java -jar WriteDataUCR.jar device measurement timestamp_precision dataType valueEncoding iotdb_chunk_point_size filePath
   public static void main(String[] args)
       throws IoTDBConnectionException, StatementExecutionException, IOException {
     String device = args[0];

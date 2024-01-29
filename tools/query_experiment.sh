@@ -18,7 +18,7 @@ if $REP_ONCE_AND_SAVE_QUERY_RESULT
 then
   a=1
 else # default
-  a=30
+  a=1
 fi
 echo "rep=$a"
 
@@ -29,6 +29,7 @@ for((i=0;i<a;i++)) do
 
     if ${REP_ONCE_AND_SAVE_QUERY_RESULT}
     then
+      # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
       java -jar $QUERY_JAR_PATH $1 $2 $3 $4 $5 $6 $7 $8 true ${SAVE_QUERY_RESULT_PATH}
     else
       java -jar $QUERY_JAR_PATH $1 $2 $3 $4 $5 $6 $7 $8 false ${SAVE_QUERY_RESULT_PATH}
