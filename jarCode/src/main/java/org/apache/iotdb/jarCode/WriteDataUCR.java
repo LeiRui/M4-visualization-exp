@@ -105,22 +105,35 @@ public class WriteDataUCR {
 
     File f = new File(filePath);
     String line = null;
-    BufferedReader reader = new BufferedReader(new FileReader(f));
+    BufferedReader reader = new BufferedReader(new FileReader(f));// assume no header
     long globalTimestamp = 0;
     while ((line = reader.readLine()) != null) {
-      String[] splitStr = line.split("\\s+");
-      for (int i = 1; i < splitStr.length; i++) { // 从1开始，不要第0个位置那是分类标识
-        int row = tablet.rowSize++;
-        globalTimestamp++;
-        timestamps[row] = globalTimestamp;
-        double double_value = Double.parseDouble(splitStr[i]);
-        double[] double_sensor = (double[]) values[0];
-        double_sensor[row] = double_value;
-        if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
-          session.insertTablet(tablet, false);
-          tablet.reset();
-        }
+      String[] split = line.split(",");
+      globalTimestamp++;
+      //  change to batch mode, iotdb_chunk_point_size
+      int row = tablet.rowSize++;
+      timestamps[row] = globalTimestamp;
+      double double_value = Double.parseDouble(split[1]); // get value from real data
+      double[] double_sensor = (double[]) values[0];
+      double_sensor[row] = double_value;
+      if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
+        session.insertTablet(tablet, false);
+        tablet.reset();
       }
+
+//      String[] splitStr = line.split("\\s+");
+//      for (int i = 1; i < splitStr.length; i++) { // 从1开始，不要第0个位置那是分类标识
+//        int row = tablet.rowSize++;
+//        globalTimestamp++;
+//        timestamps[row] = globalTimestamp;
+//        double double_value = Double.parseDouble(splitStr[i]);
+//        double[] double_sensor = (double[]) values[0];
+//        double_sensor[row] = double_value;
+//        if (tablet.rowSize == tablet.getMaxRowNumber()) { // chunk point size
+//          session.insertTablet(tablet, false);
+//          tablet.reset();
+//        }
+//      }
     }
     // flush the last Tablet
     if (tablet.rowSize != 0) {
