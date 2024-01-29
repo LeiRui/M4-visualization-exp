@@ -85,7 +85,6 @@ echo "Querying data"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
 mkdir vary_m
 
-#approachArray=("mac" "cpv" "minmax" "minmax_lsm" "lttb");
 # attention: case sensitive
 approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
 # mac/moc/cpv/minmax/lttb/minmax_lsm
@@ -138,31 +137,32 @@ done
 
 done;
 
-# approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS");
+# approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
+# 注意要改编号还有csv文件名！
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_m
 (cut -f 2 -d "," sumResult_MinMax.csv) > tmp1.csv
 (cut -f 2 -d "," sumResult_M4.csv| paste -d, tmp1.csv -) > tmp2.csv
 (cut -f 2 -d "," sumResult_LTTB.csv| paste -d, tmp2.csv -) > tmp3.csv
 (cut -f 2 -d "," sumResult_MinMaxLTTB.csv| paste -d, tmp3.csv -) > tmp4.csv
 (cut -f 2 -d "," sumResult_ILTS.csv| paste -d, tmp4.csv -) > tmp5.csv
-(cut -f 2 -d "," sumResult_ILTS.csv| paste -d, tmp5.csv -) > tmp6.csv
-(cut -f 2 -d "," sumResult_ILTS.csv| paste -d, tmp6.csv -) > tmp7.csv
-(cut -f 2 -d "," sumResult_ILTS.csv| paste -d, tmp7.csv -) > tmp8.csv
-echo "MinMax(ns),M4(ns),LTTB(ns),MinMaxLTTB(ns),ILTS(ns),MinMax_UDF(ns),M4_UDF(ns),LTTB_UDF(ns)" > $HOME_PATH/res.csv
-sed '1d' tmp8.csv >> $HOME_PATH/res.csv
+(cut -f 2 -d "," sumResult_MinMax_UDF.csv| paste -d, tmp5.csv -) > tmp6.csv
+(cut -f 2 -d "," sumResult_M4_UDF.csv| paste -d, tmp6.csv -) > tmp7.csv
+(cut -f 2 -d "," sumResult_LTTB_UDF.csv| paste -d, tmp7.csv -) > tmp8.csv
+echo "MinMax(ns),M4(ns),LTTB(ns),MinMaxLTTB(ns),ILTS(ns),MinMax_UDF(ns),M4_UDF(ns),LTTB_UDF(ns)" > $HOME_PATH/res-${DATASET}.csv
+sed '1d' tmp8.csv >> $HOME_PATH/res-${DATASET}.csv
 rm tmp*.csv
 
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/m/(totalRange/(pointNum/chunkSize))
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/m
-sed -i -e 1's/^/m,estimated chunks per interval,/' $HOME_PATH/res.csv
+sed -i -e 1's/^/m,estimated chunks per interval,/' $HOME_PATH/res-${DATASET}.csv
 line=2
 
 for m in 100 # 200 400 # 600 1200 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$m # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$m) | bc )
-  sed -i -e ${line}"s/^/${m},${c},/" $HOME_PATH/res.csv
+  sed -i -e ${line}"s/^/${m},${c},/" $HOME_PATH/res-${DATASET}.csv
   let line+=1
 done
 
