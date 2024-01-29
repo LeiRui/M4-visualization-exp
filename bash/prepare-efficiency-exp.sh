@@ -51,14 +51,14 @@ javac SumResultUnify.java
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-efficiency-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-efficiency-exp.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET Lightning7_TEST run-efficiency-exp.sh
+$HOME_PATH/tool.sh DEVICE "root.ucr" run-more-baselines.sh
+$HOME_PATH/tool.sh MEASUREMENT "lightning7" run-more-baselines.sh
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 0 run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 4259092178974 run-efficiency-exp.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-more-baselines.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 2328700 run-more-baselines.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 2328700 run-more-baselines.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -66,7 +66,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
 $HOME_PATH/tool.sh hasHeader false run-efficiency-exp.sh
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed");
+datasetArray=("Lightning7_TEST");
 for value in ${datasetArray[@]};
 do
 echo "prepare data directory";
@@ -74,13 +74,16 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
-cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator.java .
+cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
 # remove the line starting with "package" in the java file
-sed '/^package/d' OverlapGenerator.java > OverlapGenerator2.java
-rm OverlapGenerator.java
-mv OverlapGenerator2.java OverlapGenerator.java
+sed '/^package/d' AppendTool.java > AppendTool2.java
+rm AppendTool.java
+mv AppendTool2.java AppendTool.java
 # then javac it
-javac OverlapGenerator.java
+javac AppendTool.java
+java AppendTool $value.csv $value-cp.csv 100
+rm $value.csv
+mv $value-cp.csv $value.csv
 
 echo "prepare testspace directory";
 cd $HOME_PATH

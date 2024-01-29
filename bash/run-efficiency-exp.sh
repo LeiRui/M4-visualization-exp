@@ -150,7 +150,7 @@ rm tmp5.csv
 sed -i -e 1's/^/m,estimated chunks per interval,/' $HOME_PATH/res.csv
 line=2
 
-for m in 100 200 400 600 1200 2000 3000 4000
+for m in 100 200 400 # 600 1200 2000 3000 4000
 do
   #let c=${pointNum}/${chunkSize}/$m # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$m) | bc )
