@@ -1,4 +1,4 @@
-BASE_PATH=/root/ubuntu
+BASE_PATH=/root/github
 
 M4_VISUALIZATION_EXP=${BASE_PATH}/lts-exp
 HOME_PATH=${BASE_PATH}/efficiencyExp
@@ -52,13 +52,13 @@ cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATASET Lightning7_TEST run-efficiency-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.ucr" run-more-baselines.sh
-$HOME_PATH/tool.sh MEASUREMENT "lightning7" run-more-baselines.sh
+$HOME_PATH/tool.sh DEVICE "root.ucr" run-efficiency-exp.sh
+$HOME_PATH/tool.sh MEASUREMENT "lightning7" run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-more-baselines.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 2328700 run-more-baselines.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 2328700 run-more-baselines.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 2328700 run-efficiency-exp.sh
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 2328700 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
