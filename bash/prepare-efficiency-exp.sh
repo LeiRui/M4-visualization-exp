@@ -63,6 +63,7 @@ javac SumResultUnify.java
 #$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 #$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 #$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+#cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -79,6 +80,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -95,6 +97,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -111,6 +114,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -127,6 +131,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -143,6 +148,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
@@ -159,6 +165,7 @@ $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+cp run-efficiency-exp.sh run-${DATASET}-efficiency-exp.sh
 
 #====prepare directory for each dataset====
 datasetArray=("Wine_TEST" "OliveOil_TEST" "Mallat_TEST" "Lightning7_TEST" "HouseTwenty_TEST" "FreezerRegularTrain_TEST");
