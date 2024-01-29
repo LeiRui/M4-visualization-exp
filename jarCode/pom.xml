@@ -57,7 +57,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.apache.iotdb.jarCode.QueryDataMultiSeries</mainClass>
+              <mainClass>org.apache.iotdb.jarCode.WriteDataUCR</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
