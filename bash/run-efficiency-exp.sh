@@ -22,7 +22,7 @@ IOTDB_CHUNK_POINT_SIZE=100
 
 FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
 
-hasHeader=false # default
+#hasHeader=false # default
 
 echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
@@ -117,11 +117,20 @@ do
   $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-${approach}-${m}.csv $HOME_PATH/query_experiment.sh
 
   # for query latency exp
-  # Note the following command print info is appended into result_${i}.txt for query latency exp
-  $HOME_PATH/tool.sh REP_ONCE_AND_SAVE_QUERY_RESULT false $HOME_PATH/query_experiment.sh
-  find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
-  # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $m $approach >> result_${i}.txt
+  if [ $approach == "LTTB_UDF" ]
+  then # rep=1 is enough for slow LTTB
+    # Note the following command print info is appended into result_${i}.txt for query latency exp
+    $HOME_PATH/tool.sh REP_ONCE true $HOME_PATH/query_experiment.sh
+    find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+    # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $m $approach >> result_${i}.txt
+  else # default rep
+    # Note the following command print info is appended into result_${i}.txt for query latency exp
+    $HOME_PATH/tool.sh REP_ONCE false $HOME_PATH/query_experiment.sh
+    find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
+    # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $m $approach >> result_${i}.txt
+  fi
 
   java ProcessResult result_${i}.txt result_${i}.out ../sumResult_${approach}.csv
   let i+=1

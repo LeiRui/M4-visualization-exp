@@ -48,25 +48,120 @@ mv SumResultUnify2.java SumResultUnify.java
 javac SumResultUnify.java
 
 #====prepare run bash for query exp====
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+#$HOME_PATH/tool.sh DATASET BallSpeed run-efficiency-exp.sh
+#$HOME_PATH/tool.sh DEVICE "root.game" run-efficiency-exp.sh
+#$HOME_PATH/tool.sh MEASUREMENT "s6" run-efficiency-exp.sh
+#$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-efficiency-exp.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+#$HOME_PATH/tool.sh DATA_MAX_TIME 7193200 run-efficiency-exp.sh  # TODO check this incremental t!!!
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-efficiency-exp.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
-$HOME_PATH/tool.sh DATASET BallSpeed run-efficiency-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.game" run-efficiency-exp.sh
-$HOME_PATH/tool.sh MEASUREMENT "s6" run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET Wine_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.Wine" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 7193200 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7193200 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 7020000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7020000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
-$HOME_PATH/tool.sh hasHeader false run-efficiency-exp.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET OliveOil_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.OliveOil" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 17100000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 17100000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET Mallat_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.Mallat" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 30720000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 30720000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET Lightning7_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.Lightning7" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 9570000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9570000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET HouseTwenty_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.HouseTwenty" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 60000000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 60000000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
+
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-efficiency-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATASET FreezerRegularTrain_TEST run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DEVICE "root.FreezerRegularTrain" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
+$HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
+$HOME_PATH/tool.sh DATA_MAX_TIME 9030000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9030000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
 
 #====prepare directory for each dataset====
-datasetArray=("BallSpeed");
+datasetArray=("Wine_TEST" "OliveOil_TEST" "Mallat_TEST" "Lightning7_TEST" "HouseTwenty_TEST" "FreezerRegularTrain_TEST");
 for value in ${datasetArray[@]};
 do
 echo "prepare data directory";
@@ -74,16 +169,16 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
-#cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
-## remove the line starting with "package" in the java file
-#sed '/^package/d' AppendTool.java > AppendTool2.java
-#rm AppendTool.java
-#mv AppendTool2.java AppendTool.java
-## then javac it
-#javac AppendTool.java
-#java AppendTool $value.csv $value-cp10.csv 10
-#rm $value.csv
-#mv $value-cp10.csv $value.csv
+cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' AppendTool.java > AppendTool2.java
+rm AppendTool.java
+mv AppendTool2.java AppendTool.java
+# then javac it
+javac AppendTool.java
+java AppendTool $value.csv $value-cp.csv 1000
+rm $value.csv
+mv $value-cp.csv $value.csv
 
 echo "prepare testspace directory";
 cd $HOME_PATH
