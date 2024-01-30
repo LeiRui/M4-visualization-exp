@@ -109,7 +109,7 @@ $HOME_PATH/tool.sh enable_Tri ${approach} $HOME_PATH/iotdb-server-0.12.4/conf/io
 
 i=1
 # 控制m是4的整数倍
-for m in 100 # 200 400 # 600 1200 2000 3000 4000
+for m in 320 360 400 440 480 520 560 600 640
 do
   echo "[[[[[[[[[[[[[m=$m]]]]]]]]]]]]]"
 
@@ -158,7 +158,7 @@ rm tmp*.csv
 sed -i -e 1's/^/m,estimated chunks per interval,/' $HOME_PATH/res-${DATASET}.csv
 line=2
 
-for m in 100 # 200 400 # 600 1200 2000 3000 4000
+for m in 320 360 400 440 480 520 560 600 640
 do
   #let c=${pointNum}/${chunkSize}/$m # note bash only does the integer division
   c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$m) | bc )
