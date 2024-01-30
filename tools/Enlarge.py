@@ -16,10 +16,9 @@ config = vars(args)
 inputFile=str(config.get('input'))
 print(inputFile)
 outputFile=str(config.get('output'))
-print(outputFile)
 ratio=int(config.get('ratio'))
 
-df=pd.read_csv(inputFile)
+df=pd.read_csv(inputFile,header=None)
 V = [0] * (len(df)*ratio*2)
 num=0
 for i in range(len(df)-1):

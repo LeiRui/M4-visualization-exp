@@ -74,8 +74,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 7020000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7020000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 7019000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 7019000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -91,8 +91,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 17100000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 17100000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 17099000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 17099000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -108,8 +108,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 30720000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 30720000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 30719000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 30719000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -125,8 +125,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 9570000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9570000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 9569000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9569000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -142,8 +142,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 60000000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 60000000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 59999000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 59999000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -159,8 +159,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 9030000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9030000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 9029000 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 9029000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -181,16 +181,6 @@ python3 Enlarge.py -i $value.csv -o $value-cp.csv -r 1000
 rm $value.csv
 rm Enlarge.py
 mv $value-cp.csv $value.csv
-#cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
-## remove the line starting with "package" in the java file
-#sed '/^package/d' AppendTool.java > AppendTool2.java
-#rm AppendTool.java
-#mv AppendTool2.java AppendTool.java
-## then javac it
-#javac AppendTool.java
-#java AppendTool $value.csv $value-cp.csv 1000
-#rm $value.csv
-#mv $value-cp.csv $value.csv
 
 echo "prepare testspace directory";
 cd $HOME_PATH
