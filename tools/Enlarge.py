@@ -14,9 +14,9 @@ parser.add_argument("-r","--ratio")
 args = parser.parse_args()
 config = vars(args)
 inputFile=str(config.get('input'))
-print(inputFile)
 outputFile=str(config.get('output'))
 ratio=int(config.get('ratio'))
+# (N-1)*r
 
 df=pd.read_csv(inputFile,header=None)
 V = [0] * (len(df)*ratio*2)
@@ -33,7 +33,6 @@ for i in range(len(df)-1):
 
 v1=np.array(V[0:num])
 t1=np.arange(1,len(v1)+1)
-print(len(t1))
 
 t1=t1.reshape(num,1)
 v1=v1.reshape(num,1)
