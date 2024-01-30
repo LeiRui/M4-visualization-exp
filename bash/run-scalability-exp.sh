@@ -20,7 +20,9 @@ COMPRESSOR=UNCOMPRESSED
 # iotdb config info
 IOTDB_CHUNK_POINT_SIZE=100
 
-FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
+#FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
+FIX_M=480
+# 控制m是4的整数倍
 
 #hasHeader=false # default
 
@@ -56,16 +58,6 @@ $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.propertie
 $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 cp ../../iotdb-engine-example.properties iotdb-engine-USE.properties
 
-## properties for cpv
-#$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-#$HOME_PATH/tool.sh enableMinMaxLSM false ../../iotdb-engine-example.properties
-#cp ../../iotdb-engine-example.properties iotdb-engine-enableCPV.properties
-
-## properties for minmax_lsm
-#$HOME_PATH/tool.sh enable_CPV true ../../iotdb-engine-example.properties
-#$HOME_PATH/tool.sh enableMinMaxLSM true ../../iotdb-engine-example.properties
-#cp ../../iotdb-engine-example.properties iotdb-engine-enableMinMaxLSM.properties
-
 # [write data]
 echo "Writing data"
 cp iotdb-engine-USE.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
@@ -83,16 +75,16 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # [query data]
 echo "Querying data"
 cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-mkdir vary_m
+mkdir vary_range
 
 # attention: case sensitive
 approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
-# mac/moc/cpv/minmax/lttb/minmax_lsm
+# TODO MinMaxLTTB_UDF
 for approach in ${approachArray[@]};
 do
 echo "[[[[[[[[[[[[[$approach]]]]]]]]]]]]]"
 
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_m
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_range
 mkdir $approach
 cd $approach
 cp $HOME_PATH/ProcessResult.* .
@@ -109,9 +101,11 @@ $HOME_PATH/tool.sh enable_Tri ${approach} $HOME_PATH/iotdb-server-0.12.4/conf/io
 
 i=1
 # 控制m是4的整数倍
-for m in 100 # 200 400 # 600 1200 2000 3000 4000
+#for m in 100 # 200 400 # 600 1200 2000 3000 4000
+for per in 1 5 10 20 40 60 80 100
 do
-  echo "[[[[[[[[[[[[[m=$m]]]]]]]]]]]]]"
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  echo "per=${per}% of ${TOTAL_TIME_RANGE}, range=${range}"
 
 #  $HOME_PATH/tool.sh SAVE_QUERY_RESULT_PATH ${HOME_PATH}/data-${approach}-${m}.csv $HOME_PATH/query_experiment.sh
 
@@ -122,13 +116,13 @@ do
     $HOME_PATH/tool.sh REP_ONCE true $HOME_PATH/query_experiment.sh
     find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
-    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $m $approach >> result_${i}.txt
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_M} $approach >> result_${i}.txt
   else # default rep
     # Note the following command print info is appended into result_${i}.txt for query latency exp
     $HOME_PATH/tool.sh REP_ONCE false $HOME_PATH/query_experiment.sh
     find $HOME_PATH -type f -iname "*.sh" -exec chmod +x {} \;
     # device measurement timestamp_precision dataMinTime dataMaxTime range m approach save_query_result save_query_path
-    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} $m $approach >> result_${i}.txt
+    $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${range} ${FIX_M} $approach >> result_${i}.txt
   fi
 
   java ProcessResult result_${i}.txt result_${i}.out ../sumResult_${approach}.csv
@@ -137,9 +131,43 @@ done
 
 done;
 
-# approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
+## unify results
+#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
+#cp $HOME_PATH/SumResultUnify.* .
+## java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
+#
+#
+#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+#cd vary_tqe
+#cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
+#
+## add varied parameter value and the corresponding estimated chunks per interval for each line
+## estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
+## for exp2, estimated chunks per interval=k
+#sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
+#line=2
+#for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
+#do
+#  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+#  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
+#  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
+#  let line+=1
+#done
+#
+#(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv) > tmp1.csv
+#(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv| paste -d, tmp1.csv -) > tmp2.csv
+#(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv| paste -d, tmp2.csv -) > tmp3.csv
+#echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp2_res.csv
+#sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp2_res.csv
+#rm tmp1.csv
+#rm tmp2.csv
+#rm tmp3.csv
+
+
+ approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
 # 注意要改编号还有csv文件名！
-cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_m
+cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_range
 (cut -f 2 -d "," sumResult_MinMax.csv) > tmp1.csv
 (cut -f 2 -d "," sumResult_M4.csv| paste -d, tmp1.csv -) > tmp2.csv
 (cut -f 2 -d "," sumResult_LTTB.csv| paste -d, tmp2.csv -) > tmp3.csv
@@ -155,14 +183,13 @@ rm tmp*.csv
 # add varied parameter value and the corresponding estimated chunks per interval for each line
 # estimated chunks per interval = range/m/(totalRange/(pointNum/chunkSize))
 # range=totalRange, estimated chunks per interval=(pointNum/chunkSize)/m
-sed -i -e 1's/^/m,estimated chunks per interval,/' $HOME_PATH/res-${DATASET}.csv
+sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/res-${DATASET}.csv
 line=2
-
-for m in 100 # 200 400 # 600 1200 2000 3000 4000
+for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
 do
-  #let c=${pointNum}/${chunkSize}/$m # note bash only does the integer division
-  c=$((echo scale=3 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/$m) | bc )
-  sed -i -e ${line}"s/^/${m},${c},/" $HOME_PATH/res-${DATASET}.csv
+  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
+  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_M}*${per}/100) | bc )
+  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/res-${DATASET}.csv
   let line+=1
 done
 

@@ -144,7 +144,7 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
 $HOME_PATH/tool.sh DATA_MAX_TIME 59999000 run-efficiency-exp.sh  # TODO check this incremental t!!!
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 59999000 run-efficiency-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
