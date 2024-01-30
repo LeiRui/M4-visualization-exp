@@ -176,16 +176,21 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
-cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
-# remove the line starting with "package" in the java file
-sed '/^package/d' AppendTool.java > AppendTool2.java
-rm AppendTool.java
-mv AppendTool2.java AppendTool.java
-# then javac it
-javac AppendTool.java
-java AppendTool $value.csv $value-cp.csv 1000
+cp $M4_VISUALIZATION_EXP/tools/Enlarge.py .
+python3 Enlarge.py -i $value.csv -o $value-cp.csv -r 1000
 rm $value.csv
+rm Enlarge.py
 mv $value-cp.csv $value.csv
+#cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
+## remove the line starting with "package" in the java file
+#sed '/^package/d' AppendTool.java > AppendTool2.java
+#rm AppendTool.java
+#mv AppendTool2.java AppendTool.java
+## then javac it
+#javac AppendTool.java
+#java AppendTool $value.csv $value-cp.csv 1000
+#rm $value.csv
+#mv $value-cp.csv $value.csv
 
 echo "prepare testspace directory";
 cd $HOME_PATH
