@@ -33,11 +33,16 @@ for i in range(len(df)-1):
     num=num+1
 
 v1=np.array(V[0:num])
-t1=np.arange(1,len(v1)+1)
+# t1=np.arange(1,len(v1)+1)
 
 print(len(v1))
 
-t1=t1.reshape(len(v1),1)
-v1=v1.reshape(len(v1),1)
-arr = np.hstack([t1, v1])
-pd.DataFrame(arr).to_csv(outputFile, index=False, header = False)
+# t1=t1.reshape(len(v1),1)
+# v1=v1.reshape(len(v1),1)
+# arr = np.hstack([t1, v1])
+# pd.DataFrame(arr).to_csv(outputFile, index=False, header = False)
+
+with open(outputFile, 'w', encoding='UTF8', newline='') as f:
+  writer = csv.writer(f)
+  for i in range(len(v1)):
+    writer.writerow([i+1,v1[i]])
