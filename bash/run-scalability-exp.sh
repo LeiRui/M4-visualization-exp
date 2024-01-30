@@ -131,39 +131,6 @@ done
 
 done;
 
-## unify results
-#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/vary_tqe
-#cp $HOME_PATH/SumResultUnify.* .
-## java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
-#java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
-#
-#
-#cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
-#cd vary_tqe
-#cat result.csv >$HOME_PATH/${DATASET}_testspace/exp2.csv
-#
-## add varied parameter value and the corresponding estimated chunks per interval for each line
-## estimated chunks per interval = range/w/(totalRange/(pointNum/chunkSize))
-## for exp2, estimated chunks per interval=k
-#sed -i -e 1's/^/range,estimated chunks per interval,/' $HOME_PATH/${DATASET}_testspace/exp2.csv
-#line=2
-#for per in 1 5 10 20 40 60 80 100 # 100% is already done in exp1
-#do
-#  range=$((echo scale=0 ; echo ${per}*${TOTAL_TIME_RANGE}/100) | bc )
-#  c=$((echo scale=0 ; echo ${TOTAL_POINT_NUMBER}/${IOTDB_CHUNK_POINT_SIZE}/${FIX_W}*${per}/100) | bc )
-#  sed -i -e ${line}"s/^/${range},${c},/" $HOME_PATH/${DATASET}_testspace/exp2.csv
-#  let line+=1
-#done
-#
-#(cut -f 1 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv) > tmp1.csv
-#(cut -f 4 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv| paste -d, tmp1.csv -) > tmp2.csv
-#(cut -f 71 -d "," $HOME_PATH/${DATASET}_testspace/exp2.csv| paste -d, tmp2.csv -) > tmp3.csv
-#echo "param,M4(ns),M4-LSM(ns)" > $HOME_PATH/${DATASET}_testspace/exp2_res.csv
-#sed '1d' tmp3.csv >> $HOME_PATH/${DATASET}_testspace/exp2_res.csv
-#rm tmp1.csv
-#rm tmp2.csv
-#rm tmp3.csv
-
 
  approachArray=("MinMax" "M4" "LTTB" "MinMaxLTTB" "ILTS" "MinMax_UDF" "M4_UDF" "LTTB_UDF");
 # 注意要改编号还有csv文件名！

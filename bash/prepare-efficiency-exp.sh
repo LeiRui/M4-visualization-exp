@@ -108,8 +108,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 30719000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 30719000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 6143800 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 6143800 run-efficiency-exp.sh # 30719*200
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
@@ -142,9 +142,9 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-exp.sh # TODO check this
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 59999000 run-efficiency-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 59999000 run-efficiency-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-efficiency-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 5999900 run-efficiency-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 5999900 run-efficiency-exp.sh # 59999*100
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-efficiency-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
@@ -168,23 +168,27 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-exp.sh
 cp run-efficiency-exp.sh run-FreezerRegularTrain_TEST-efficiency-exp.sh  # TODO check this
 
 #====prepare directory for each dataset====
+r=(1000 1000 200 1000 100 1000)
+i=0
 datasetArray=("Wine_TEST" "OliveOil_TEST" "Mallat_TEST" "Lightning7_TEST" "HouseTwenty_TEST" "FreezerRegularTrain_TEST");
 for value in ${datasetArray[@]};
 do
-echo "prepare data directory";
-cd $HOME_PATH
-mkdir $value
-cd $value
-cp $TRI_VISUALIZATION_EXP/datasets/$value.csv .
-cp $TRI_VISUALIZATION_EXP/tools/Enlarge.py .
-python3 Enlarge.py -i $value.csv -o $value-cp.csv -r 1000
-rm $value.csv
-rm Enlarge.py
-mv $value-cp.csv $value.csv
+  echo "prepare data directory";
+  cd $HOME_PATH
+  mkdir $value
+  cd $value
+  cp $TRI_VISUALIZATION_EXP/datasets/$value.csv .
+  cp $TRI_VISUALIZATION_EXP/tools/Enlarge.py .
+  python3 Enlarge.py -i $value.csv -o $value-cp.csv -r ${r[i]}
+  rm $value.csv
+  rm Enlarge.py
+  mv $value-cp.csv $value.csv
 
-echo "prepare testspace directory";
-cd $HOME_PATH
-mkdir ${value}_testspace
+  echo "prepare testspace directory";
+  cd $HOME_PATH
+  mkdir ${value}_testspace
+
+  let i+=1
 
 done;
 
