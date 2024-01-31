@@ -110,7 +110,7 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-large-exp.sh # TODO check this incremental t!!!
 $HOME_PATH/tool.sh DATA_MAX_TIME 307190000 run-efficiency-large-exp.sh  # TODO check this incremental t!!!
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 307190000 run-efficiency-large-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-efficiency-large-exp.sh
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-efficiency-large-exp.sh #要写半小时
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-large-exp.sh
@@ -142,8 +142,8 @@ $HOME_PATH/tool.sh MEASUREMENT "test" run-efficiency-large-exp.sh # TODO check t
 $HOME_PATH/tool.sh DATA_TYPE ${DATA_TYPE} run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh DATA_MIN_TIME 1 run-efficiency-large-exp.sh # TODO check this incremental t!!!
-$HOME_PATH/tool.sh DATA_MAX_TIME 599990000 run-efficiency-large-exp.sh  # TODO check this incremental t!!!
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 599990000 run-efficiency-large-exp.sh
+$HOME_PATH/tool.sh DATA_MAX_TIME 59999000 run-efficiency-large-exp.sh  # TODO check this incremental t!!!
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 59999000 run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-efficiency-large-exp.sh
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-efficiency-large-exp.sh
@@ -168,7 +168,7 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-efficiency-large-exp.sh
 cp run-efficiency-large-exp.sh run-FreezerRegularTrain_TEST-efficiency-exp.sh  # TODO check this
 
 #====prepare directory for each dataset====
-r=(10000 10000 10000 10000 10000 10000)
+r=(10000 10000 10000 10000 1000 10000)
 i=0
 datasetArray=("Wine_TEST" "OliveOil_TEST" "Mallat_TEST" "Lightning7_TEST" "HouseTwenty_TEST" "FreezerRegularTrain_TEST");
 for value in ${datasetArray[@]};
