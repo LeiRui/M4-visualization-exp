@@ -74,27 +74,28 @@ $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh #
 $HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh #
 cp run-overhead-exp.sh run-Train-overhead.sh
 
-#====prepare run bash for steel====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
-$HOME_PATH/tool.sh DATASET Steel run-overhead-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-overhead-exp.sh
-$HOME_PATH/tool.sh MEASUREMENT "c60" run-overhead-exp.sh
-$HOME_PATH/tool.sh DATA_TYPE double run-overhead-exp.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-overhead-exp.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-overhead-exp.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-overhead-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-overhead-exp.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh
-$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh
-cp run-overhead-exp.sh run-Steel-overhead.sh
+##====prepare run bash for steel====
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATASET Steel run-overhead-exp.sh
+#$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-overhead-exp.sh
+#$HOME_PATH/tool.sh MEASUREMENT "c60" run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_TYPE double run-overhead-exp.sh
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-overhead-exp.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-overhead-exp.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-overhead-exp.sh
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh
+#$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh
+#cp run-overhead-exp.sh run-Steel-overhead.sh
 
 #====prepare directory for each dataset====
-datasetArray=("Train" "Steel");
+#datasetArray=("Train" "Steel");
+datasetArray=("Train");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
