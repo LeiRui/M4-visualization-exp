@@ -37,7 +37,11 @@ echo "Begin experiment!"
 #perlist="20 40 60 80 100"
 perlist="20"
 
+echo "prepare out-of-order source data"
+cd $HOME_PATH/${DATASET}
 #cp ${DATASET}.csv ${DATASET}-O_0
+# java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
+java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 90 50 ${hasHeader}
 
 for per in $perlist
 do
@@ -83,7 +87,7 @@ do
   sleep 8s
   start_time=$(date +%s%N)
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
   echo "write latency of $DATASET (without metadata) for $per is: $duration_ns ns"
@@ -129,7 +133,7 @@ do
   sleep 8s
   start_time=$(date +%s%N)
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
   echo "write latency of $DATASET (with metadata) for $per is: $duration_ns ns"
