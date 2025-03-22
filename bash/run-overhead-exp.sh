@@ -115,7 +115,7 @@ do
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
 
   $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
-  $HOME_PATH/tool.sh error_Param 1 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh error_Param 0.5 ../../iotdb-engine-example.properties
 
   # note
   # enlarge memory allocation for write when writing
