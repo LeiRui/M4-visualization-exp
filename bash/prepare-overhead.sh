@@ -54,25 +54,43 @@ mv SumResultUnifyMultiSeries2.java SumResultUnifyMultiSeries.java
 # then javac it
 javac SumResultUnifyMultiSeries.java
 
+#====prepare run bash for mf03====
+cd $HOME_PATH
+cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp
+$HOME_PATH/tool.sh DATASET MF03 run-overhead-exp
+$HOME_PATH/tool.sh DEVICE "root.debs2012" run-overhead-exp
+$HOME_PATH/tool.sh MEASUREMENT "mf03" run-overhead-exp
+$HOME_PATH/tool.sh DATA_TYPE long run-overhead-exp
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-overhead-exp
+$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-overhead-exp
+$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-overhead-exp
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-overhead-exp
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-overhead-exp
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp
+$HOME_PATH/tool.sh hasHeader false run-overhead-exp
+cp run-overhead-exp run-MF03-overhead.sh
 
 #====prepare run bash for train====
-cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
-$HOME_PATH/tool.sh DATASET Train run-overhead-exp.sh #
-$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-overhead-exp.sh #
-$HOME_PATH/tool.sh MEASUREMENT "Z765" run-overhead-exp.sh #
-$HOME_PATH/tool.sh DATA_TYPE long run-overhead-exp.sh #
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh #
-$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-overhead-exp.sh #
-$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-overhead-exp.sh #
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-overhead-exp.sh #
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-overhead-exp.sh #
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh #
-$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh #
-cp run-overhead-exp.sh run-Train-overhead.sh
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATASET Train run-overhead-exp.sh #
+#$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-overhead-exp.sh #
+#$HOME_PATH/tool.sh MEASUREMENT "Z765" run-overhead-exp.sh #
+#$HOME_PATH/tool.sh DATA_TYPE long run-overhead-exp.sh #
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh #
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-overhead-exp.sh #
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-overhead-exp.sh #
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-overhead-exp.sh #
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-overhead-exp.sh #
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh #
+#$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh #
+#cp run-overhead-exp.sh run-Train-overhead.sh
 
 ##====prepare run bash for steel====
 #cd $HOME_PATH
@@ -95,7 +113,7 @@ cp run-overhead-exp.sh run-Train-overhead.sh
 
 #====prepare directory for each dataset====
 #datasetArray=("Train" "Steel");
-datasetArray=("Train");
+datasetArray=("MF03");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
