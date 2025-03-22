@@ -1,7 +1,7 @@
 BASE_HOME=/root/ubuntu
 
 M4_VISUALIZATION_EXP=${BASE_HOME}/M4-visualization-exp
-HOME_PATH=${BASE_HOME}/ovearheadExp
+HOME_PATH=${BASE_HOME}/overheadExp
 
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
