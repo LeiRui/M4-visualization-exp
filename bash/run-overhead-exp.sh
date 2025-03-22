@@ -171,7 +171,7 @@ do
   $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   i=1
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
   let i+=1
 
@@ -186,7 +186,7 @@ do
   $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   i=1
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV_noIdx.csv
   let i+=1
 
@@ -201,7 +201,7 @@ do
   $HOME_PATH/tool.sh use_ValueIndex true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   i=1
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv >> result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV_allIdx.csv
   let i+=1
 
