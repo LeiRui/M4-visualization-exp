@@ -34,6 +34,7 @@ scp -r $M4_VISUALIZATION_EXP/iotdb-cli-0.12.4 .
 cp $M4_VISUALIZATION_EXP/tools/iotdb-engine-example.properties .
 cp $M4_VISUALIZATION_EXP/tools/ProcessResult.java .
 cp $M4_VISUALIZATION_EXP/tools/SumResultUnify.java .
+cp $M4_VISUALIZATION_EXP/tools/SumResultUnifyMultiSeries.java .
 # remove the line starting with "package" in the java file
 sed '/^package/d' ProcessResult.java > ProcessResult2.java
 rm ProcessResult.java
@@ -46,6 +47,12 @@ rm SumResultUnify.java
 mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
+# remove the line starting with "package" in the java file
+sed '/^package/d' SumResultUnifyMultiSeries.java > SumResultUnifyMultiSeries2.java
+rm SumResultUnifyMultiSeries.java
+mv SumResultUnifyMultiSeries2.java SumResultUnifyMultiSeries.java
+# then javac it
+javac SumResultUnifyMultiSeries.java
 
 
 #====prepare run bash for train====
