@@ -8,7 +8,7 @@ IOTDB_EXPORT_CSV_HOME=$HOME_PATH/iotdb-cli-0.12.4/tools
 echo 3 | sudo tee /proc/sys/vm/drop_caches >>/dev/null
 cd $IOTDB_SBIN_HOME
 
-a=30
+a=1
 #echo "rep=$a"
 
 w=100 # 10 00 0000

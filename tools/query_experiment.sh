@@ -18,7 +18,7 @@ if $REP_ONCE_AND_SAVE_QUERY_RESULT
 then
   a=1
 else # default
-  a=30
+  a=1
 fi
 echo "rep=$a"
 
