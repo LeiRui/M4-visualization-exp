@@ -113,7 +113,8 @@ cp run-overhead-exp.sh run-Train-overhead.sh
 
 #====prepare directory for each dataset====
 #datasetArray=("Train" "Steel");
-datasetArray=("MF03");
+#datasetArray=("MF03");
+datasetArray=("Train");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";
