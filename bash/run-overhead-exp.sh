@@ -21,7 +21,7 @@ COMPRESSOR=UNCOMPRESSED
 IOTDB_CHUNK_POINT_SIZE=100
 
 # exp controlled parameter design
-FIX_W=1000
+FIX_W=100
 FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
 FIX_OVERLAP_PERCENTAGE=10
 FIX_DELETE_PERCENTAGE=49
@@ -34,8 +34,8 @@ echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
 echo "Begin experiment!"
 
-#perlist="20 40 60 80 100"
-perlist="20"
+perlist="20 40 60 80 100"
+#perlist="20"
 
 echo "prepare out-of-order source data"
 cd $HOME_PATH/${DATASET}

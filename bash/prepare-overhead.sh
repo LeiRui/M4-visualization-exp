@@ -85,7 +85,7 @@ $HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh #
 $HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-overhead-exp.sh #
 $HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-overhead-exp.sh #
 $HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-overhead-exp.sh #
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 100000 run-overhead-exp.sh #
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-overhead-exp.sh #
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh #
