@@ -148,33 +148,31 @@ do
   cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
   mkdir ablation
 
-#  echo "mac"
-#  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
-#  mkdir mac
-#  cd mac
-#  cp $HOME_PATH/ProcessResult.* .
-##  $HOME_PATH/tool.sh enable_CPV false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-##  $HOME_PATH/tool.sh use_Statistics false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-#  i=1
-#  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-#  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_${i}.txt
-#  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
-#  let i+=1
-
   echo "mac"
   cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
   mkdir mac
   cd mac
   cp $HOME_PATH/ProcessResult.* .
-  $HOME_PATH/tool.sh enable_CPV false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  $HOME_PATH/tool.sh use_Statistics false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  $HOME_PATH/tool.sh use_TimeIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   i=1
   # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
-  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_${i}.txt
   java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
   let i+=1
+
+#  echo "mac"
+#  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+#  mkdir mac
+#  cd mac
+#  cp $HOME_PATH/ProcessResult.* .
+#  $HOME_PATH/tool.sh enable_CPV false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_Statistics false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_TimeIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  i=1
+#  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
+#  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
+#  let i+=1
 
   echo "cpv_without_index"
   cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
