@@ -1,10 +1,11 @@
-M4_VISUALIZATION_EXP=/root/ubuntu/M4-visualization-exp
-HOME_PATH=/root/ubuntu/ablationExp
+BASE_HOME=/root/ubuntu
+
+M4_VISUALIZATION_EXP=${BASE_HOME}/M4-visualization-exp
+HOME_PATH=${BASE_HOME}/overheadExp
 
 VALUE_ENCODING=PLAIN # RLE for int/long, GORILLA for float/double
 TIME_ENCODING=PLAIN # TS_2DIFF
 COMPRESSOR=UNCOMPRESSED
-use_Mad=true
 
 mkdir -p $HOME_PATH
 
@@ -24,6 +25,7 @@ fi
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/tools/tool.sh .
 cp $M4_VISUALIZATION_EXP/jars/WriteData-*.jar .
+cp $M4_VISUALIZATION_EXP/jars/WriteUpdateData-*.jar .
 cp $M4_VISUALIZATION_EXP/jars/QueryData-*.jar .
 cp $M4_VISUALIZATION_EXP/tools/query_experiment.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH $HOME_PATH/query_experiment.sh
@@ -32,6 +34,7 @@ scp -r $M4_VISUALIZATION_EXP/iotdb-cli-0.12.4 .
 cp $M4_VISUALIZATION_EXP/tools/iotdb-engine-example.properties .
 cp $M4_VISUALIZATION_EXP/tools/ProcessResult.java .
 cp $M4_VISUALIZATION_EXP/tools/SumResultUnify.java .
+cp $M4_VISUALIZATION_EXP/tools/SumResultUnifyMultiSeries.java .
 # remove the line starting with "package" in the java file
 sed '/^package/d' ProcessResult.java > ProcessResult2.java
 rm ProcessResult.java
@@ -44,45 +47,107 @@ rm SumResultUnify.java
 mv SumResultUnify2.java SumResultUnify.java
 # then javac it
 javac SumResultUnify.java
+# remove the line starting with "package" in the java file
+sed '/^package/d' SumResultUnifyMultiSeries.java > SumResultUnifyMultiSeries2.java
+rm SumResultUnifyMultiSeries.java
+mv SumResultUnifyMultiSeries2.java SumResultUnifyMultiSeries.java
+# then javac it
+javac SumResultUnifyMultiSeries.java
 
-#====prepare run bash for test dataset====
+##====prepare run bash for mf03====
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATASET MF03 run-overhead-exp.sh
+#$HOME_PATH/tool.sh DEVICE "root.debs2012" run-overhead-exp.sh
+#$HOME_PATH/tool.sh MEASUREMENT "mf03" run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_TYPE long run-overhead-exp.sh
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-overhead-exp.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-overhead-exp.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000 run-overhead-exp.sh
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh
+#$HOME_PATH/tool.sh hasHeader false run-overhead-exp.sh
+#cp run-overhead-exp.sh run-MF03-overhead.sh
+
+# ====prepare run bash for train====
 cd $HOME_PATH
-cp $M4_VISUALIZATION_EXP/bash/run-ablation.sh .
-$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-ablation.sh
-$HOME_PATH/tool.sh DATASET MF03 run-ablation.sh
-$HOME_PATH/tool.sh DEVICE "root.debs2012" run-ablation.sh
-$HOME_PATH/tool.sh MEASUREMENT "mf03" run-ablation.sh
-$HOME_PATH/tool.sh DATA_TYPE long run-ablation.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ns run-ablation.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1329929188967032000 run-ablation.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647703290700 run-ablation.sh
-#$HOME_PATH/tool.sh DATA_MAX_TIME 1330029647713284600 run-ablation.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 10000000 run-ablation.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 1000000 run-ablation.sh
-$HOME_PATH/tool.sh FIX_W 1 run-ablation.sh
-$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation.sh # four dataset value types are the same, so can assign the same encodingType
-$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation.sh
-$HOME_PATH/tool.sh use_Mad ${use_Mad} run-ablation.sh
+cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
+$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
+$HOME_PATH/tool.sh DATASET Train run-overhead-exp.sh #
+$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-overhead-exp.sh #
+$HOME_PATH/tool.sh MEASUREMENT "Z765" run-overhead-exp.sh #
+$HOME_PATH/tool.sh DATA_TYPE long run-overhead-exp.sh #
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh #
+$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-overhead-exp.sh #
+$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-overhead-exp.sh #
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-overhead-exp.sh #
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-overhead-exp.sh #
+$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
+$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh #
+$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh #
+cp run-overhead-exp.sh run-Train-overhead.sh
+
+##====prepare run bash for steel====
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-overhead-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATASET Steel run-overhead-exp.sh
+#$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-overhead-exp.sh
+#$HOME_PATH/tool.sh MEASUREMENT "c60" run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_TYPE double run-overhead-exp.sh
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-overhead-exp.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-overhead-exp.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-overhead-exp.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 10000 run-overhead-exp.sh
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-overhead-exp.sh # four dataset value types are the same, so can assign the same encodingType
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-overhead-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-overhead-exp.sh
+#$HOME_PATH/tool.sh hasHeader true run-overhead-exp.sh
+#cp run-overhead-exp.sh run-Steel-overhead.sh
 
 #====prepare directory for each dataset====
-datasetArray=("MF03");
+#datasetArray=("Train" "Steel");
+#datasetArray=("MF03");
+datasetArray=("Train");
 for value in ${datasetArray[@]};
 do
-echo "prepare data directory";
+echo "prepare $value directory, this is for data";
 cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
-cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator2.java .
-# remove the line starting with "package" in the java file
-sed '/^package/d' OverlapGenerator2.java > OverlapGeneratorTmp.java
-rm OverlapGenerator2.java
-mv OverlapGeneratorTmp.java OverlapGenerator2.java
-# then javac it
-javac OverlapGenerator2.java
 
-echo "prepare testspace directory";
+cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' OverlapGenerator.java > OverlapGenerator2.java
+rm OverlapGenerator.java
+mv OverlapGenerator2.java OverlapGenerator.java
+# then javac it
+javac OverlapGenerator.java
+
+cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' AppendTool.java > AppendTool2.java
+rm AppendTool.java
+mv AppendTool2.java AppendTool.java
+# then javac it
+javac AppendTool.java
+
+#cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator2.java .
+## remove the line starting with "package" in the java file
+#sed '/^package/d' OverlapGenerator2.java > OverlapGeneratorTmp.java
+#rm OverlapGenerator2.java
+#mv OverlapGeneratorTmp.java OverlapGenerator2.java
+## then javac it
+#javac OverlapGenerator2.java
+
+echo "prepare ${value}_testspace directory, this is for write and query";
 cd $HOME_PATH
 mkdir ${value}_testspace
 

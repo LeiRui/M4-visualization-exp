@@ -37,11 +37,11 @@ echo "Begin experiment!"
 perlist="20 40 60 80 100"
 #perlist="20"
 
-#echo "prepare out-of-order source data"
-#cd $HOME_PATH/${DATASET}
+echo "prepare out-of-order source data"
+cd $HOME_PATH/${DATASET}
 #cp ${DATASET}.csv ${DATASET}-O_0
 # java OverlapGenerator iotdb_chunk_point_size dataType inPath outPath timeIdx valueIdx overlapPercentage overlapDepth
-#java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 90 50 ${hasHeader}
+java OverlapGenerator ${IOTDB_CHUNK_POINT_SIZE} ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 90 50 ${hasHeader}
 #java OverlapGenerator2 ${DATA_TYPE} ${DATASET}.csv ${DATASET}-O_90 0 1 ${TOTAL_POINT_NUMBER} 10000 1878 true
 
 for per in $perlist
@@ -69,7 +69,6 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 
   $HOME_PATH/tool.sh write_m4_lsm false ../../iotdb-engine-example.properties # note this!
 
@@ -88,7 +87,7 @@ do
   sleep 8s
   start_time=$(date +%s%N)
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
   echo "write latency of $DATASET (without metadata) for $per is: $duration_ns ns"
@@ -115,9 +114,9 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 
   $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
+  $HOME_PATH/tool.sh error_Param 0.5 ../../iotdb-engine-example.properties
 
   # note
   # enlarge memory allocation for write when writing
@@ -134,7 +133,7 @@ do
   sleep 8s
   start_time=$(date +%s%N)
   # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
+  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
   echo "write latency of $DATASET (with metadata) for $per is: $duration_ns ns"
@@ -142,6 +141,75 @@ do
   ./stop-server.sh
   sleep 5s
   echo 3 | sudo tee /proc/sys/vm/drop_caches
+
+
+  # [query data]
+  echo "Querying O_10_D_0_0 with varied w"
+  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0
+  mkdir ablation
+
+  echo "mac"
+  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+  mkdir mac
+  cd mac
+  cp $HOME_PATH/ProcessResult.* .
+  i=1
+  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} mac >> result_${i}.txt
+  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
+  let i+=1
+
+#  echo "mac"
+#  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+#  mkdir mac
+#  cd mac
+#  cp $HOME_PATH/ProcessResult.* .
+#  $HOME_PATH/tool.sh enable_CPV false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_Statistics false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_TimeIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  i=1
+#  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+#  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
+#  java ProcessResult result_${i}.txt result_${i}.out ../sumResultMAC.csv
+#  let i+=1
+
+  echo "cpv_without_index"
+  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+  mkdir cpv_noIdx
+  cd cpv_noIdx
+  cp $HOME_PATH/ProcessResult.* .
+  $HOME_PATH/tool.sh enable_CPV true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_Statistics true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_TimeIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_ValueIndex false $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  i=1
+  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
+  java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV_noIdx.csv
+  let i+=1
+
+  echo "cpv_with_all_index"
+  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+  mkdir cpv_allIdx
+  cd cpv_allIdx
+  cp $HOME_PATH/ProcessResult.* .
+  $HOME_PATH/tool.sh enable_CPV true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_Statistics true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_TimeIndex true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  $HOME_PATH/tool.sh use_ValueIndex true $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+  i=1
+  # Usage: ./query_experiment.sh device measurement timestamp_precision dataMinTime dataMaxTime range w approach
+  $HOME_PATH/query_experiment.sh ${DEVICE} ${MEASUREMENT} ${TIMESTAMP_PRECISION} ${DATA_MIN_TIME} ${DATA_MAX_TIME} ${FIX_QUERY_RANGE} ${FIX_W} cpv > result_${i}.txt
+  java ProcessResult result_${i}.txt result_${i}.out ../sumResultCPV_allIdx.csv
+  let i+=1
+
+  # unify results
+  cd $HOME_PATH/${DATASET}_testspace/O_10_D_0_0/ablation
+  cp $HOME_PATH/SumResultUnifyMultiSeries.* .
+  java SumResultUnifyMultiSeries sumResultMAC.csv sumResultCPV_noIdx.csv sumResultCPV_allIdx.csv result.csv
+  # java SumResultUnify sumResultMOC.csv sumResultMAC.csv sumResultCPV.csv result.csv
+  #  java SumResultUnify sumResultMAC.csv sumResultCPV.csv result.csv
 
 done
 
