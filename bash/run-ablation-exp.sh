@@ -21,7 +21,7 @@ COMPRESSOR=UNCOMPRESSED
 IOTDB_CHUNK_POINT_SIZE=100
 
 # exp controlled parameter design
-FIX_W=100
+FIX_W=150
 FIX_QUERY_RANGE=$TOTAL_TIME_RANGE
 FIX_OVERLAP_PERCENTAGE=10
 FIX_DELETE_PERCENTAGE=49
@@ -114,9 +114,9 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-
-  $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
   $HOME_PATH/tool.sh error_Param 0.5 ../../iotdb-engine-example.properties
+  
+  $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
 
   # note
   # enlarge memory allocation for write when writing
