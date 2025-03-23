@@ -122,6 +122,7 @@ cd $HOME_PATH
 mkdir $value
 cd $value
 cp $M4_VISUALIZATION_EXP/datasets/$value.csv .
+
 cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator.java .
 # remove the line starting with "package" in the java file
 sed '/^package/d' OverlapGenerator.java > OverlapGenerator2.java
@@ -129,6 +130,7 @@ rm OverlapGenerator.java
 mv OverlapGenerator2.java OverlapGenerator.java
 # then javac it
 javac OverlapGenerator.java
+
 cp $M4_VISUALIZATION_EXP/tools/AppendTool.java .
 # remove the line starting with "package" in the java file
 sed '/^package/d' AppendTool.java > AppendTool2.java
@@ -137,6 +139,13 @@ mv AppendTool2.java AppendTool.java
 # then javac it
 javac AppendTool.java
 
+cp $M4_VISUALIZATION_EXP/tools/OverlapGenerator2.java .
+# remove the line starting with "package" in the java file
+sed '/^package/d' OverlapGenerator2.java > OverlapGeneratorTmp.java
+rm OverlapGenerator2.java
+mv OverlapGeneratorTmp.java OverlapGenerator2.java
+# then javac it
+javac OverlapGenerator2.java
 
 echo "prepare ${value}_testspace directory, this is for write and query";
 cd $HOME_PATH
