@@ -115,7 +115,7 @@ do
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh error_Param 0.5 ../../iotdb-engine-example.properties
-  
+
   $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
 
   # note
