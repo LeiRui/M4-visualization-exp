@@ -32,10 +32,18 @@ public class OverlapGenerator2 {
             overwrite = Integer.parseInt(args[7]);
         }
 
+        boolean hasHeader = false;
+        if (args.length >= 9) {
+            hasHeader = Boolean.parseBoolean(args[8]);
+        }
+
         File f = new File(inPath);
         FileWriter fileWriter = new FileWriter(outPath);
         String line;
         BufferedReader reader = new BufferedReader(new FileReader(f));
+        if (hasHeader) {
+            reader.readLine(); // read header
+        }
         PrintWriter printWriter = new PrintWriter(fileWriter);
         List<Integer> idx = new ArrayList<>();
         for (int i = 0; i < pointNum; i++) {
