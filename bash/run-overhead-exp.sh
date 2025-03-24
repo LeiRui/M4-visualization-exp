@@ -34,7 +34,7 @@ echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
 echo "Begin experiment!"
 
-perlist="20 40 60 80 100"
+perlist="100"
 #perlist="20"
 
 #echo "prepare out-of-order source data"
@@ -69,7 +69,6 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
 
   $HOME_PATH/tool.sh write_m4_lsm false ../../iotdb-engine-example.properties # note this!
 
@@ -115,7 +114,7 @@ do
   $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
   $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh error_Param 50 ../../iotdb-engine-example.properties
+  $HOME_PATH/tool.sh error_Param 0.5 ../../iotdb-engine-example.properties
 
   $HOME_PATH/tool.sh write_m4_lsm true ../../iotdb-engine-example.properties # note this!
 
