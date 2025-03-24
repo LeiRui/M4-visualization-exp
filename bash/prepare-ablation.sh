@@ -93,49 +93,49 @@ javac SumResultUnifyMultiSeries.java
 #$HOME_PATH/tool.sh hasHeader false run-ablation-exp.sh
 #cp run-ablation-exp.sh run-MF03-overhead.sh
 
-## ====prepare run bash for train====
-#cd $HOME_PATH
-#cp $M4_VISUALIZATION_EXP/bash/run-ablation-exp.sh .
-#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-ablation-exp.sh
-#$HOME_PATH/tool.sh DATASET Train run-ablation-exp.sh #
-#$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-ablation-exp.sh #
-#$HOME_PATH/tool.sh MEASUREMENT "Z765" run-ablation-exp.sh #
-#$HOME_PATH/tool.sh DATA_TYPE long run-ablation-exp.sh #
-#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-ablation-exp.sh #
-#$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-ablation-exp.sh #
-#$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-ablation-exp.sh #
-#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-ablation-exp.sh #
-#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-ablation-exp.sh # 255个chunks
-#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation-exp.sh # four dataset value types are the same, so can assign the same encodingType
-#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation-exp.sh
-#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation-exp.sh #
-#$HOME_PATH/tool.sh hasHeader true run-ablation-exp.sh #
-#cp run-ablation-exp.sh run-Train-overhead.sh
-
-#====prepare run bash for steel====
+# ====prepare run bash for train====
 cd $HOME_PATH
 cp $M4_VISUALIZATION_EXP/bash/run-ablation-exp.sh .
 $HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-ablation-exp.sh
-$HOME_PATH/tool.sh DATASET Steel run-ablation-exp.sh
-$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-ablation-exp.sh
-$HOME_PATH/tool.sh MEASUREMENT "c60" run-ablation-exp.sh
-$HOME_PATH/tool.sh DATA_TYPE double run-ablation-exp.sh
-$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-ablation-exp.sh
-$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-ablation-exp.sh
-$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-ablation-exp.sh
-$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-ablation-exp.sh
-$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-ablation-exp.sh # 629 chunks
+$HOME_PATH/tool.sh DATASET Train run-ablation-exp.sh #
+$HOME_PATH/tool.sh DEVICE "root.group6.d17" run-ablation-exp.sh #
+$HOME_PATH/tool.sh MEASUREMENT "Z765" run-ablation-exp.sh #
+$HOME_PATH/tool.sh DATA_TYPE long run-ablation-exp.sh #
+$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-ablation-exp.sh #
+$HOME_PATH/tool.sh DATA_MIN_TIME 1591717867194 run-ablation-exp.sh #
+$HOME_PATH/tool.sh DATA_MAX_TIME 1605706903793 run-ablation-exp.sh #
+$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 127802876 run-ablation-exp.sh #
+$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-ablation-exp.sh # 255个chunks
 $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation-exp.sh # four dataset value types are the same, so can assign the same encodingType
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation-exp.sh
-$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation-exp.sh
-$HOME_PATH/tool.sh hasHeader true run-ablation-exp.sh
-cp run-ablation-exp.sh run-Steel-ablation.sh
+$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation-exp.sh #
+$HOME_PATH/tool.sh hasHeader true run-ablation-exp.sh #
+cp run-ablation-exp.sh run-Train-overhead.sh
+
+##====prepare run bash for steel====
+#cd $HOME_PATH
+#cp $M4_VISUALIZATION_EXP/bash/run-ablation-exp.sh .
+#$HOME_PATH/tool.sh HOME_PATH $HOME_PATH run-ablation-exp.sh
+#$HOME_PATH/tool.sh DATASET Steel run-ablation-exp.sh
+#$HOME_PATH/tool.sh DEVICE "root.group2.d7" run-ablation-exp.sh
+#$HOME_PATH/tool.sh MEASUREMENT "c60" run-ablation-exp.sh
+#$HOME_PATH/tool.sh DATA_TYPE double run-ablation-exp.sh
+#$HOME_PATH/tool.sh TIMESTAMP_PRECISION ms run-ablation-exp.sh
+#$HOME_PATH/tool.sh DATA_MIN_TIME 1664062557838 run-ablation-exp.sh
+#$HOME_PATH/tool.sh DATA_MAX_TIME 1683566109697 run-ablation-exp.sh
+#$HOME_PATH/tool.sh TOTAL_POINT_NUMBER 314572100 run-ablation-exp.sh
+#$HOME_PATH/tool.sh IOTDB_CHUNK_POINT_SIZE 500000 run-ablation-exp.sh # 629 chunks
+#$HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation-exp.sh # four dataset value types are the same, so can assign the same encodingType
+#$HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation-exp.sh
+#$HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation-exp.sh
+#$HOME_PATH/tool.sh hasHeader true run-ablation-exp.sh
+#cp run-ablation-exp.sh run-Steel-ablation.sh
 
 #====prepare directory for each dataset====
 #datasetArray=("BallSpeed" "MF03" "Train" "Steel" "CQD1");
 #datasetArray=("MF03");
-#datasetArray=("Train");
-datasetArray=("Steel");
+datasetArray=("Train");
+#datasetArray=("Steel");
 for value in ${datasetArray[@]};
 do
 echo "prepare $value directory, this is for data";

@@ -34,7 +34,7 @@ echo 3 |sudo tee /proc/sys/vm/drop_cache
 free -m
 echo "Begin experiment!"
 
-perlist="20 40 60 80 100"
+perlist="100"
 #perlist="20"
 
 echo "prepare out-of-order source data"
@@ -53,48 +53,48 @@ do
   mkdir O_10_D_0_0
   cd O_10_D_0_0
 
-  # prepare IoTDB config properties
-  $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
-
-  $HOME_PATH/tool.sh write_m4_lsm false ../../iotdb-engine-example.properties # note this!
-
-  # note
-  # enlarge memory allocation for write when writing
-  $HOME_PATH/tool.sh write_read_schema_free_memory_proportion 6:1:1:2 ../../iotdb-engine-example.properties
-  $HOME_PATH/tool.sh MAX_HEAP_SIZE \"12G\" $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-env.sh
-
-  cp ../../iotdb-engine-example.properties iotdb-engine-noMetadata.properties
-
-  # [write data]
-  echo "Writing data $DATASET (without metadata)"
-  cp iotdb-engine-noMetadata.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
-  cd $HOME_PATH/iotdb-server-0.12.4/sbin
-  ./start-server.sh /dev/null 2>&1 &
-  sleep 8s
-  start_time=$(date +%s%N)
-  # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
-  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
-  end_time=$(date +%s%N)
-  duration_ns=$((end_time - start_time))
-  echo "write latency of $DATASET (without metadata) for $per is: $duration_ns ns"
-  sleep 5s
-  ./stop-server.sh
-  sleep 5s
-  echo 3 | sudo tee /proc/sys/vm/drop_caches
+#  # prepare IoTDB config properties
+#  $HOME_PATH/tool.sh system_dir $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/system ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh data_dirs $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/data ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh wal_dir $HOME_PATH/dataSpace_noMetadata_${per}/${DATASET}_O_10_D_0_0/wal ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh timestamp_precision ${TIMESTAMP_PRECISION} ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh unseq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh seq_tsfile_size 1073741824 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh avg_series_point_number_threshold ${IOTDB_CHUNK_POINT_SIZE} ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh compaction_strategy NO_COMPACTION ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh enable_unseq_compaction false ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh group_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh page_size_in_byte 1073741824 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh rpc_address 0.0.0.0 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh rpc_port 6667 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh time_encoder ${TIME_ENCODING} ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh compressor ${COMPRESSOR} ../../iotdb-engine-example.properties
+#
+#  $HOME_PATH/tool.sh write_m4_lsm false ../../iotdb-engine-example.properties # note this!
+#
+#  # note
+#  # enlarge memory allocation for write when writing
+#  $HOME_PATH/tool.sh write_read_schema_free_memory_proportion 6:1:1:2 ../../iotdb-engine-example.properties
+#  $HOME_PATH/tool.sh MAX_HEAP_SIZE \"12G\" $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-env.sh
+#
+#  cp ../../iotdb-engine-example.properties iotdb-engine-noMetadata.properties
+#
+#  # [write data]
+#  echo "Writing data $DATASET (without metadata)"
+#  cp iotdb-engine-noMetadata.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
+#  cd $HOME_PATH/iotdb-server-0.12.4/sbin
+#  ./start-server.sh /dev/null 2>&1 &
+#  sleep 8s
+#  start_time=$(date +%s%N)
+#  # Usage: java -jar WriteData-0.12.4.jar device measurement dataType timestamp_precision total_time_length total_point_number iotdb_chunk_point_size filePath deleteFreq deleteLen timeIdx valueIdx VALUE_ENCODING
+#  java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}-O_90 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
+#  end_time=$(date +%s%N)
+#  duration_ns=$((end_time - start_time))
+#  echo "write latency of $DATASET (without metadata) for $per is: $duration_ns ns"
+#  sleep 5s
+#  ./stop-server.sh
+#  sleep 5s
+#  echo 3 | sudo tee /proc/sys/vm/drop_caches
 
   ######################################################################
 
