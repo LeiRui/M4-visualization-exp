@@ -110,7 +110,7 @@ $HOME_PATH/tool.sh VALUE_ENCODING ${VALUE_ENCODING} run-ablation-exp.sh # four d
 $HOME_PATH/tool.sh TIME_ENCODING ${TIME_ENCODING} run-ablation-exp.sh
 $HOME_PATH/tool.sh COMPRESSOR ${COMPRESSOR} run-ablation-exp.sh #
 $HOME_PATH/tool.sh hasHeader true run-ablation-exp.sh #
-cp run-ablation-exp.sh run-Train-overhead.sh
+cp run-ablation-exp.sh run-Train-ablation.sh
 
 ##====prepare run bash for steel====
 #cd $HOME_PATH
