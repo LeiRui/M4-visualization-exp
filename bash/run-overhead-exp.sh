@@ -80,7 +80,7 @@ do
   cp ../../iotdb-engine-example.properties iotdb-engine-noMetadata.properties
 
   # [write data]
-  echo "Writing data $DATASET (without metadata)"
+  echo "Writing data $DATASET (without precomputation)"
   cp iotdb-engine-noMetadata.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   cd $HOME_PATH/iotdb-server-0.12.4/sbin
   ./start-server.sh /dev/null 2>&1 &
@@ -90,7 +90,7 @@ do
   java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
-  echo "write latency of $DATASET (without metadata) for $per is: $duration_ns ns"
+  echo "write latency of $DATASET (without precomputation) for $per is: $duration_ns ns"
   sleep 5s
   ./stop-server.sh
   sleep 5s
@@ -126,7 +126,7 @@ do
   cp ../../iotdb-engine-example.properties iotdb-engine-Metadata.properties
 
   # [write data]
-  echo "Writing data $DATASET (without metadata)"
+  echo "Writing data $DATASET (with precomputation)"
   cp iotdb-engine-Metadata.properties $HOME_PATH/iotdb-server-0.12.4/conf/iotdb-engine.properties
   cd $HOME_PATH/iotdb-server-0.12.4/sbin
   ./start-server.sh /dev/null 2>&1 &
@@ -136,7 +136,7 @@ do
   java -jar $HOME_PATH/WriteData*.jar ${DEVICE} ${MEASUREMENT} ${DATA_TYPE} ${TIMESTAMP_PRECISION} ${TOTAL_TIME_RANGE} ${TOTAL_POINT_NUMBER} ${IOTDB_CHUNK_POINT_SIZE} $HOME_PATH/${DATASET}/${DATASET}.csv 0 0 0 1 ${VALUE_ENCODING} ${hasHeader} ${MAX_POINTS_WRITE}
   end_time=$(date +%s%N)
   duration_ns=$((end_time - start_time))
-  echo "write latency of $DATASET (with metadata) for $per is: $duration_ns ns"
+  echo "write latency of $DATASET (with precomputation) for $per is: $duration_ns ns"
   sleep 5s
   ./stop-server.sh
   sleep 5s

@@ -107,7 +107,7 @@ wget https://anonymous.4open.science/r/dataset_with_updates-E014/CQD1.csv
 For more details of CQD1, please see https://anonymous.4open.science/r/dataset_with_updates-E014.
 
 
-## 3. Guides to "1.1 Motivation"
+## 3. Guides to "Motivation"
 
 >   Corresponding to Figure 3 in the paper.
 
@@ -194,7 +194,7 @@ Before doing experiments, follow the steps below to populate the database server
      4.   When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `sumResult-[READ_METHOD].csv`, where `[READ_METHOD]` is `rawQuery`/`mac`/`cpv`. 
      5.   In the result csv, the last four columns are server computation time, communication time, client rendering time, and total response time, and each row corresponds to a different number of raw data points.
 
-## 4. Guides to "8.1 Experiments with Varying Parameters"
+## 4. Guides to "Experiments with Varying Parameters"
 
 >   Corresponding to Figures 17~22 in the paper.
 
@@ -233,11 +233,53 @@ Steps:
 
     In the result csv, counting from 1, the second column is the query execution time of M4, and the third column is the query execution time of M4-LSM.
 
-## 5. Guides to "8.2 Applications to Other Visualizations"
+## 5. Guides to Ablation Experiment
 
-### 5.1 Apply to MinMax Representation
+Steps:
 
-#### 5.1.1 Query Time Experiment
+1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
+
+   1. Make all scripts executable by executing `chmod +x *.sh`.
+
+   2. Update `prepare-ablation.sh` as follows:
+
+      -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
+
+      -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
+
+   3. Run `prepare-ablation.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-ablation-exp.sh 2>&1 &`. The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in `HOME_PATH/Train_testspace/O_10_D_0_0/ablation/result.csv`. In the result csv, counting from 1, the 2/28/35 columns are the query execution time/number of chunks loaded/number of points traversed of M4 respectively, the 69/95/103-104 columns are the query execution time/number of chunks loaded/number of points traversed of M4-LSM (only using inter-chunk pruning) respectively, and the 136/162/170-171 columns are the query execution time/number of chunks loaded/number of points traversed of M4-LSM respectively.
+
+## 6. Guides to Overhead Experiment
+
+Steps:
+
+1. Enter the `bash` folder in the `M4-visualization-exp` folder, and then:
+
+   1. Make all scripts executable by executing `chmod +x *.sh`.
+
+   2. Update `prepare-overhead.sh` as follows:
+
+      -   Update `M4_VISUALIZATION_EXP` as the downloaded path of the `M4-visualization-exp` folder.
+
+      -   Update `HOME_PATH` as an **empty** folder where you want the experiments to be executed.
+
+   3. Run `prepare-overhead.sh` and then the folder at `HOME_PATH` will be ready for experiments.
+
+2. Enter the folder at `HOME_PATH`, and run experiments using `nohup ./run-[datasetName]-overhead.sh 2>&1 &`, where `[datasetName]` is `BallSpeed`/`MF03`/`Train`/`Steel`.  The running logs are saved in nohup.out, which can be checked by the command: `tail nohup.out`.
+
+3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results are in running logs:
+   - "write latency of [datasetName] (without precomputation) for 100 is: `y1` ns": means that the write latency **without** precomputation is y1 ns.
+   - "write latency of [datasetName] (with precomputation) for 100 is: `y2` ns": means that the write latency **with** precomputation is y2 ns.
+
+## 7. Guides to "Applications to Other Visualizations"
+
+### 7.1 Apply to MinMax Representation
+
+#### 7.1.1 Query Time Experiment
 
 >   Corresponding to Figure 23(b) in the paper.
 
@@ -258,7 +300,7 @@ Steps:
 3. When the experiment script finishes running ("ALL FINISHED!" appears in nohup.out), the corresponding experimental results of query time are in `HOME_PATH/res.csv`. 
 4. In the result csv, counting from 1, the 3,4,5,6,7 columns are the query execution times of M4, M4-LSM, MinMax, MinMax-LSM, LTTB, respectively.
 
-#### 5.1.2 DSSIM Experiment
+#### 7.1.2 DSSIM Experiment
 
 >   Corresponding to Figure 23(a) in the paper.
 
@@ -269,9 +311,9 @@ When the query time experiment in the previous section is done, the data csv for
 3.   Run `rustPlot.sh` to render line charts. When "ALL FINISHED!" appears in the console, this script has finished running.
 4.   Run `dssimCompare.sh` to calculate DSSIM. When "ALL FINISHED!" appears in the console, this script has finished running. The corresponding experimental results of DSSIM have been printed to the console.
 
-### 5.2 Apply to DenseLines Visualization
+### 7.2 Apply to DenseLines Visualization
 
-#### 5.2.1 DenseLines Example
+#### 7.2.1 DenseLines Example
 
 >   Corresponding to Figure 24(a) in the paper.
 
@@ -284,7 +326,7 @@ Steps:
 3.   Download DenseLines plot tool by the command: `wget https://anonymous.4open.science/r/line-density-rust-A320/line-density`. After downloading, make it executable by executing `chmod +x line-density`.
 4.   Draw DensLines using the command: `./line-density 45 10 160 100 true /root/csvDir true`, which plots the DenseLines of 45 time series each containing 1600 points from /root/csvDir on a `160*100` canvas, using raw data points and M4 representation points to render `output-i45-k10-w160-h100-utrue-dfalse.png` and `output-i45-k10-w160-h100-utrue-dtrue.png`, respectively. The two pngs are identical thanks to the visual representativeness of M4.
 
-#### 5.2.2 Cost of Visualizing DenseLines From a Database
+#### 7.2.2 Cost of Visualizing DenseLines From a Database
 
 >   Corresponding to Figure 24(b) in the paper.
 
